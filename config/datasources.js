@@ -2,7 +2,8 @@ module.exports = {
     database: "rfa_tracker",
     username: "root",
     password: "R0OtH0ld3n",
-    host: "localhost",
+    host: "127.0.0.1",
+    port: 3306,
     dialect: "mysql",
     logging: false,
     pool: {

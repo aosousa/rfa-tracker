@@ -3,6 +3,7 @@ const http = require('http');
 const cors = require('cors');
 
 const indexRouter = require('./routes/index');
+const apiRouter = require('./routes/api');
 
 const app = express();
 app.use(express.json());
@@ -10,6 +11,7 @@ app.use(express.json());
 app.use(cors());
 
 app.use('/', indexRouter);
+app.use('/rfa-tracker-api', apiRouter);
 
 const port = process.env.PORT || 4000;
 app.set('port', port);

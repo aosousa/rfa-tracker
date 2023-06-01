@@ -41,9 +41,9 @@ module.exports = function(sequelize, DataTypes) {
             foreignKeyConstraint: true
         });
 
-        models.Move_bodypart.belongsTo(models.Move_category, {
+        models.Move.belongsTo(models.Move_category, {
             as: 'move_category_move',
-            foreignKey: 'move_id',
+            foreignKey: 'category_id',
             foreignKeyConstraint: true
         });
     }

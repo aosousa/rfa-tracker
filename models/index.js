@@ -14,6 +14,7 @@ const sequelize = new Sequelize(
     {
         host: config.host,
         dialect: config.dialect,
+        port: config.port,
         logging: lodash.has(config, 'logging') ? config.logging : console.log,
         pool: config.pool
     }
@@ -24,7 +25,7 @@ fs.readdirSync(__dirname)
         return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js');
     })
     .forEach(function (file) {
-        var model = sequelize['import'](path.join(__dirname, file));
+        const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes)
         db[model.name] = model;
     });
 
