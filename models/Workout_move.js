@@ -34,13 +34,13 @@ module.exports = function(sequelize, DataTypes) {
 
     Workout_move.associate = function(models) {
         models.Workout_move.belongsTo(models.Workout, {
-            as: 'workout_move_workout',
+            as: 'moves',
             foreignKey: 'workout_id',
             foreignKeyConstraint: true
         });
 
         models.Workout_move.belongsTo(models.Move, {
-            as: 'workout_move_move',
+            as: 'move',
             foreignKey: 'move_id',
             foreignKeyConstraint: true
         });

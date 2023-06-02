@@ -38,7 +38,7 @@ module.exports = function(sequelize, DataTypes) {
 
     Workout.associate = function(models) {
         models.Workout.hasMany(models.Workout_move, {
-            as: 'workout_move_workout',
+            as: 'moves',
             foreignKey: 'workout_id',
             foreignKeyConstraint: true
         });

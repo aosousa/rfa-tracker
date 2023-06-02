@@ -36,7 +36,7 @@ module.exports = function(sequelize, DataTypes) {
         });
 
         models.Move.hasMany(models.Workout_move, {
-            as: 'workout_move_move',
+            as: 'move',
             foreignKey: 'move_id',
             foreignKeyConstraint: true
         });

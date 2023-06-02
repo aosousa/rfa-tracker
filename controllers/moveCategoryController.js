@@ -5,10 +5,18 @@ const moveCategoryService = require('../services/moveCategoryService');
 const getMoveCategories = (request, response) => {
     moveCategoryService.getList(request, (error, list) => {
         if (error) {
-            response.status(500).send(error);
+            response.status(500).send({
+                status: false,
+                data: null,
+                error
+            });
         }
 
-        response.status(200).send(list);
+        response.status(200).send({
+            status: true,
+            data: list,
+            error: null
+        });
     });
 }
 
