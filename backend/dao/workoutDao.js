@@ -1,5 +1,5 @@
 const models = require('../models/index');
-const { Op } = require("sequelize");
+const { Op } = require('sequelize');
 const workoutDao = {};
 
 /**
@@ -82,7 +82,17 @@ workoutDao.getByID = (request, getDataCB) => {
     );
 }
 
-// TODO: create workout
+/**
+ * Create a workout
+ * @param {Object} request Request data
+ * @param {Function} createCB Callback method
+ */
+workoutDao.create = (request, createCB) => {
+    models.Workout.create(request.body)
+        .then((workout) => createCB(null, workout),
+            ((error) => createCB({ error, message: error.parent })
+        ));
+}
 
 /**
  * Update a workout by ID
@@ -99,6 +109,20 @@ workoutDao.update = (request, updateCB) => {
     );
 }
 
-// TODO: delete workout by ID
+/**
+ * Delete a workout row
+ * @param {Object} request Request data
+ * @param {Function} deleteCB Callback method
+ */
+workoutDao.delete = (request, deleteCB) => {
+    models.Workout.destroy({
+        where: {
+            id: request.params.id
+        },
+        cascade: true
+    }).then(() => deleteCB(null, true),
+        ((error) => deleteCB({ error, message: error.parent }))
+    );
+}
 
 module.exports = workoutDao;

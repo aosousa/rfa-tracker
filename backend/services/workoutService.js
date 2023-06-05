@@ -1,5 +1,5 @@
 const workoutDao = require('../dao/workoutDao');
-const async = require('async');
+const workoutMoveDao = require('../dao/workoutMoveDao');
 const workoutService = {};
 
 /**
@@ -47,6 +47,30 @@ workoutService.getOne = (request, getDataCB) => {
 }
 
 /**
+ * Service layer to call the Data Access Object to
+ * create a workout (and workout_move rows linked to it)
+ * @param {Object} request Request data
+ * @param {Function} createCB Callback method
+ */
+workoutService.create = (request, createCB) => {
+    workoutDao.create(request, (error, result) => {
+        if (error) {
+            return createCB(error);
+        }
+
+        request.body.moves.forEach((move) => {
+            move.workout_id = result.id;
+
+            move.body = move;
+
+            workoutMoveDao.create(move, () => {});
+        });
+
+        return createCB(null, result);
+    });
+}
+
+/**
  * Service layer to call the Data Access Object to 
  * update one workout
  * @param {Object} request Request data
@@ -59,6 +83,23 @@ workoutService.update = (request, updateCB) => {
         }
 
         return updateCB(null, result);
+    });
+}
+
+/**
+ * Service layer to call the Data Access Object to
+ * delete a workout (and its workout_move rows
+ * through cascading)
+ * @param {Object} request Request data
+ * @param {Function} deleteCB Callback method
+ */
+workoutService.delete = (request, deleteCB) => {
+    workoutDao.delete(request, (error, result) => {
+        if (error) {
+            return deleteCB(error);
+        }
+
+        return deleteCB(null, result);
     });
 }
 

@@ -51,6 +51,29 @@ const getOneWorkout = (request, response) => {
 }
 
 /**
+ * Controller method to create a workout row
+ * @param {Object} request Request data
+ * @param {Object} response Response object
+ */
+const createWorkout = (request, response) => {
+    workoutService.create(request, (error, result) => {
+        if (error) {
+            response.status(500).send({
+                status: false,
+                data: null,
+                error
+            });
+        }
+
+        response.status(200).send({
+            status: true,
+            data: result,
+            error: null
+        });
+    });
+}
+
+/**
  * Controller method to create a workout_move row
  * @param {Object} request Request data
  * @param {Object} response Response object
@@ -91,7 +114,7 @@ const updateWorkout = (request, response) => {
         }
 
         if (count === 0) {
-            response.staus(200).send({ 
+            response.status(500).send({ 
                 status: false,
                 data: null,
                 error: null
@@ -106,9 +129,92 @@ const updateWorkout = (request, response) => {
     });
 }
 
+/**
+ * Controller method to delete a workout move
+ * @param {Object} request Request data
+ * @param {Object} response Response object
+ */
+const updateWorkoutMove = (request, response) => {
+    workoutMoveService.update(request, (error, count) => {
+        if (error) {
+            response.status(500).send({
+                status: false,
+                data: null,
+                error
+            });
+        }
+
+        if (count === 0) {
+            response.status(500).send({
+                status: false,
+                data: null,
+                error: null
+            });
+        }
+
+        response.status(200).send({
+            status: true,
+            data: null,
+            error: null
+        });
+    });
+}
+
+/**
+ * Controller method to delete a workout row
+ * @param {Object} request Request data
+ * @param {Object} response Response object
+ */
+const deleteWorkout = (request, response) => {
+    workoutService.delete(request, (error, result) => {
+        if (error) {
+            console.log(error);
+
+            response.status(500).send({
+                status: false,
+                data: null,
+                error
+            });
+        }
+
+        response.status(200).send({
+            status: true,
+            data: result,
+            error: null
+        });
+    });
+}
+
+/**
+ * Controller method to delete a workout_move row
+ * @param {Object} request Request data
+ * @param {Object} response Response object
+ */
+const deleteWorkoutMove = (request, response) => {
+    workoutMoveService.delete(request, (error, result) => {
+        if (error)  {
+            response.status(500).send({
+                status: false,
+                data: null,
+                error
+            });
+        }
+
+        response.status(200).send({
+            status: true,
+            data: result,
+            error: null
+        });
+    });
+}
+
 workoutController.get('/', getWorkouts);
 workoutController.get('/:id', getOneWorkout);
+workoutController.post('/', createWorkout);
 workoutController.post('/:id/move', createWorkoutMove);
 workoutController.put('/:id', updateWorkout);
+workoutController.put('/:workout_id/move/:move_id', updateWorkoutMove);
+workoutController.delete('/:id', deleteWorkout);
+workoutController.delete('/move/:move_id', deleteWorkoutMove);
 
 module.exports = workoutController;

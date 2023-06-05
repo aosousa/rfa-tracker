@@ -24,14 +24,7 @@ module.exports = function(sequelize, DataTypes) {
     }, {
         freezeTableName: true,
         tableName: 'user',
-        timestamps: false,
-        hooks: {
-            beforeCreate: (user, options) => {
-                {
-                    user.password = user.password && user.password != "" ? bcrypt.hashSync(user.password, 10) : "";
-                }
-            }
-        }
+        timestamps: false
     });
 
     return User;
