@@ -22,7 +22,7 @@ workoutDao.getList = (request, getListCB) => {
             }
         ]
     }).then((workouts) => getListCB(null, workouts),
-        (error) => getListCB({ error, message: error.parent })
+        (error) => getListCB(error.parent)
     );
 }
 
@@ -51,7 +51,7 @@ workoutDao.filterByDate = (request, getListCB) => {
             }
         ]
     }).then((workouts) => getListCB(null, workouts),
-        (error) => getListCB({ error, message: error.parent })
+        (error) => getListCB(error.parent)
     );
 }
 
@@ -78,7 +78,7 @@ workoutDao.getByID = (request, getDataCB) => {
             }
         ]
     }).then((workout) => getDataCB(null, workout),
-        (error) => getDataCB({ error, message: error.parent })
+        (error) => getDataCB(error.parent)
     );
 }
 
@@ -90,8 +90,8 @@ workoutDao.getByID = (request, getDataCB) => {
 workoutDao.create = (request, createCB) => {
     models.Workout.create(request.body)
         .then((workout) => createCB(null, workout),
-            ((error) => createCB({ error, message: error.parent })
-        ));
+            (error) => createCB(error.parent)
+        );
 }
 
 /**
@@ -105,7 +105,7 @@ workoutDao.update = (request, updateCB) => {
             id: request.params.id
         }
     }).then((count) => updateCB(count),
-        (error) => updateCB({ error, message: error.parent })
+        (error) => updateCB(error.parent)
     );
 }
 
@@ -121,7 +121,7 @@ workoutDao.delete = (request, deleteCB) => {
         },
         cascade: true
     }).then(() => deleteCB(null, true),
-        ((error) => deleteCB({ error, message: error.parent }))
+        (error) => deleteCB(error.parent)
     );
 }
 

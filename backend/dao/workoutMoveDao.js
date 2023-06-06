@@ -9,8 +9,8 @@ const workoutMoveDao = {};
 workoutMoveDao.create = (request, createCB) => {
     models.Workout_move.create(request.body)
         .then((workoutMove) => createCB(null, workoutMove),
-            ((error) => createCB({ error, message: error.parent })
-        ));
+            (error) => createCB(error.parent)
+        );
 }
 
 /**
@@ -25,7 +25,7 @@ workoutMoveDao.update = (request, updateCB) => {
             move_id: request.params.move_id
         }
     }).then((count) => updateCB(null, count),
-        ((error) => updateCB({ error, message: error.parent }))
+        (error) => updateCB(error.parent)
     );
 }
 
@@ -40,7 +40,7 @@ workoutMoveDao.delete = (request, deleteCB) => {
             id: request.params.move_id
         }
     }).then(() => deleteCB(null, true),
-        ((error) => deleteCB({ error, message: error.parent }))
+        (error) => deleteCB(error.parent)
     );
 }
 

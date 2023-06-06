@@ -16,8 +16,8 @@ moveDao.getList = (request, getListCB) => {
             }
         ]
     }).then((moves) => getListCB(null, moves), 
-        (error) => getListCB({ error, message: error.parent }
-    ));
+        (error) => getListCB(error.parent)
+    );
 }
 
 module.exports = moveDao;

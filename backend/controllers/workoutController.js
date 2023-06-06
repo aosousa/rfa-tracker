@@ -1,8 +1,8 @@
 const express = require('express');
 const workoutController = express.Router();
-
 const workoutService = require('../services/workoutService');
 const workoutMoveService = require('../services/workoutMoveService');
+const authMiddleware = require('../middleware/auth');
 
 /**
  * Controller method to get a list of workouts
@@ -210,11 +210,11 @@ const deleteWorkoutMove = (request, response) => {
 
 workoutController.get('/', getWorkouts);
 workoutController.get('/:id', getOneWorkout);
-workoutController.post('/', createWorkout);
-workoutController.post('/:id/move', createWorkoutMove);
-workoutController.put('/:id', updateWorkout);
-workoutController.put('/:workout_id/move/:move_id', updateWorkoutMove);
-workoutController.delete('/:id', deleteWorkout);
-workoutController.delete('/move/:move_id', deleteWorkoutMove);
+workoutController.post('/', authMiddleware.authenticateToken, createWorkout);
+workoutController.post('/:id/move', authMiddleware.authenticateToken, createWorkoutMove);
+workoutController.put('/:id', authMiddleware.authenticateToken, updateWorkout);
+workoutController.put('/:workout_id/move/:move_id', authMiddleware.authenticateToken, updateWorkoutMove);
+workoutController.delete('/:id', authMiddleware.authenticateToken, deleteWorkout);
+workoutController.delete('/move/:move_id', authMiddleware.authenticateToken, deleteWorkoutMove);
 
 module.exports = workoutController;
