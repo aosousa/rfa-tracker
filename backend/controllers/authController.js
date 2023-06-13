@@ -16,13 +16,13 @@ const login = (request, response) => {
                 data: null,
                 error
             });
+        } else {
+            response.status(200).send({
+                status: true,
+                data: authMiddleware.generateToken(request.body.username),
+                error: null
+            });
         }
-
-        response.status(200).send({
-            status: true,
-            data: authMiddleware.generateToken(request.body.username),
-            error: null
-        });
     });
 }
 

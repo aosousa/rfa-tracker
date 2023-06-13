@@ -17,13 +17,13 @@ const getWorkouts = (request, response) => {
                 data: null, 
                 error 
             });
+        } else {
+            response.status(200).send({ 
+                status: true, 
+                data: list, 
+                error: null
+            });
         }
-
-        response.status(200).send({ 
-            status: true, 
-            data: list, 
-            error: null
-        });
     });
 }
 
@@ -40,13 +40,13 @@ const getOneWorkout = (request, response) => {
                 data: null, 
                 error 
             });
+        } else {
+            response.status(200).send({ 
+                status: true, 
+                data: workout,
+                error: null 
+            });
         }
-
-        response.status(200).send({ 
-            status: true, 
-            data: workout,
-            error: null 
-        });
     });
 }
 
@@ -63,13 +63,13 @@ const createWorkout = (request, response) => {
                 data: null,
                 error
             });
+        } else {
+            response.status(200).send({
+                status: true,
+                data: result,
+                error: null
+            });
         }
-
-        response.status(200).send({
-            status: true,
-            data: result,
-            error: null
-        });
     });
 }
 
@@ -88,13 +88,13 @@ const createWorkoutMove = (request, response) => {
                 data: null,
                 error
             });
+        } else {
+            response.status(200).send({
+                status: true,
+                data: result,
+                error: null
+            });
         }
-
-        response.status(200).send({
-            status: true,
-            data: result,
-            error: null
-        });
     });
 }
 
@@ -111,21 +111,21 @@ const updateWorkout = (request, response) => {
                 data: null,
                 error
             });
+        } else {
+            if (count === 0) {
+                response.status(500).send({ 
+                    status: false,
+                    data: null,
+                    error: null
+                });
+            } else {
+                response.status(200).send({ 
+                    status: true,
+                    data: null,
+                    error: null
+                });
+            }
         }
-
-        if (count === 0) {
-            response.status(500).send({ 
-                status: false,
-                data: null,
-                error: null
-            });
-        }
-
-        response.status(200).send({ 
-            status: true,
-            data: null,
-            error: null
-        });
     });
 }
 
@@ -142,21 +142,21 @@ const updateWorkoutMove = (request, response) => {
                 data: null,
                 error
             });
+        } else {
+            if (count === 0) {
+                response.status(500).send({
+                    status: false,
+                    data: null,
+                    error: null
+                });
+            } else {
+                response.status(200).send({
+                    status: true,
+                    data: null,
+                    error: null
+                });
+            }
         }
-
-        if (count === 0) {
-            response.status(500).send({
-                status: false,
-                data: null,
-                error: null
-            });
-        }
-
-        response.status(200).send({
-            status: true,
-            data: null,
-            error: null
-        });
     });
 }
 
@@ -175,13 +175,13 @@ const deleteWorkout = (request, response) => {
                 data: null,
                 error
             });
+        } else {
+            response.status(200).send({
+                status: true,
+                data: result,
+                error: null
+            });
         }
-
-        response.status(200).send({
-            status: true,
-            data: result,
-            error: null
-        });
     });
 }
 

@@ -10,13 +10,13 @@ const getMoveCategories = (request, response) => {
                 data: null,
                 error
             });
+        } else {
+            response.status(200).send({
+                status: true,
+                data: list,
+                error: null
+            });
         }
-
-        response.status(200).send({
-            status: true,
-            data: list,
-            error: null
-        });
     });
 }
 
