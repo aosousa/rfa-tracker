@@ -1,5 +1,5 @@
-const models = require('../models/index');
-const { Op } = require('sequelize');
+const models = require("../models/index");
+const { Op } = require("sequelize");
 const workoutDao = {};
 
 /**
@@ -8,23 +8,24 @@ const workoutDao = {};
  * @param {Function} getListCB Callback method
  */
 workoutDao.getList = (request, getListCB) => {
-    models.Workout.findAll({
+  models.Workout.findAll({
+    include: [
+      {
+        model: models.Workout_move,
+        as: "moves",
         include: [
-            {
-                model: models.Workout_move,
-                as: 'moves',
-                include: [
-                    {
-                        model: models.Move,
-                        as: 'move'
-                    }
-                ]
-            }
-        ]
-    }).then((workouts) => getListCB(null, workouts),
-        (error) => getListCB(error.parent)
-    );
-}
+          {
+            model: models.Move,
+            as: "move",
+          },
+        ],
+      },
+    ],
+  }).then(
+    (workouts) => getListCB(null, workouts),
+    (error) => getListCB(error.parent)
+  );
+};
 
 /**
  * Filter workouts by date
@@ -32,28 +33,29 @@ workoutDao.getList = (request, getListCB) => {
  * @param {Function} getListCB Callback method
  */
 workoutDao.filterByDate = (request, getListCB) => {
-    models.Workout.findAll({
-        where: {
-            start_at: {
-                [Op.between]: [request.query.start_at, request.query.end_at]
-            }
-        },
+  models.Workout.findAll({
+    where: {
+      start_at: {
+        [Op.between]: [request.query.start_at, request.query.end_at],
+      },
+    },
+    include: [
+      {
+        model: models.Workout_move,
+        as: "moves",
         include: [
-            {
-                model: models.Workout_move,
-                as: 'moves',
-                include: [
-                    {
-                        model: models.Move,
-                        as: 'move'
-                    }
-                ]
-            }
-        ]
-    }).then((workouts) => getListCB(null, workouts),
-        (error) => getListCB(error.parent)
-    );
-}
+          {
+            model: models.Move,
+            as: "move",
+          },
+        ],
+      },
+    ],
+  }).then(
+    (workouts) => getListCB(null, workouts),
+    (error) => getListCB(error.parent)
+  );
+};
 
 /**
  * Get a workout by ID
@@ -61,26 +63,27 @@ workoutDao.filterByDate = (request, getListCB) => {
  * @param {Function} getDataCB Callback method
  */
 workoutDao.getByID = (request, getDataCB) => {
-    models.Workout.findOne({
-        where: {
-            id: request.params.id
-        },
+  models.Workout.findOne({
+    where: {
+      id: request.params.id,
+    },
+    include: [
+      {
+        model: models.Workout_move,
+        as: "moves",
         include: [
-            {
-                model: models.Workout_move,
-                as: 'moves',
-                include: [
-                    {
-                        model: models.Move,
-                        as: 'move'
-                    }
-                ]
-            }
-        ]
-    }).then((workout) => getDataCB(null, workout),
-        (error) => getDataCB(error.parent)
-    );
-}
+          {
+            model: models.Move,
+            as: "move",
+          },
+        ],
+      },
+    ],
+  }).then(
+    (workout) => getDataCB(null, workout),
+    (error) => getDataCB(error.parent)
+  );
+};
 
 /**
  * Create a workout
@@ -88,11 +91,11 @@ workoutDao.getByID = (request, getDataCB) => {
  * @param {Function} createCB Callback method
  */
 workoutDao.create = (request, createCB) => {
-    models.Workout.create(request.body)
-        .then((workout) => createCB(null, workout),
-            (error) => createCB(error.parent)
-        );
-}
+  models.Workout.create(request.body).then(
+    (workout) => createCB(null, workout),
+    (error) => createCB(error.parent)
+  );
+};
 
 /**
  * Update a workout by ID
@@ -100,14 +103,15 @@ workoutDao.create = (request, createCB) => {
  * @param {Function} updateCB Callback method
  */
 workoutDao.update = (request, updateCB) => {
-    models.Workout.update(request.body, {
-        where: {
-            id: request.params.id
-        }
-    }).then((count) => updateCB(count),
-        (error) => updateCB(error.parent)
-    );
-}
+  models.Workout.update(request.body, {
+    where: {
+      id: request.params.id,
+    },
+  }).then(
+    (count) => updateCB(null, count),
+    (error) => updateCB(error.parent)
+  );
+};
 
 /**
  * Delete a workout row
@@ -115,14 +119,15 @@ workoutDao.update = (request, updateCB) => {
  * @param {Function} deleteCB Callback method
  */
 workoutDao.delete = (request, deleteCB) => {
-    models.Workout.destroy({
-        where: {
-            id: request.params.id
-        },
-        cascade: true
-    }).then(() => deleteCB(null, true),
-        (error) => deleteCB(error.parent)
-    );
-}
+  models.Workout.destroy({
+    where: {
+      id: request.params.id,
+    },
+    cascade: true,
+  }).then(
+    () => deleteCB(null, true),
+    (error) => deleteCB(error.parent)
+  );
+};
 
 module.exports = workoutDao;

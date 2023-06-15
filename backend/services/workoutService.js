@@ -1,5 +1,5 @@
-const workoutDao = require('../dao/workoutDao');
-const workoutMoveDao = require('../dao/workoutMoveDao');
+const workoutDao = require("../dao/workoutDao");
+const workoutMoveDao = require("../dao/workoutMoveDao");
 const workoutService = {};
 
 /**
@@ -8,43 +8,43 @@ const workoutService = {};
  * @param {Function} getListCB Callback method
  */
 workoutService.getList = (request, getListCB) => {
-    // if start_at and end_at params are set, filter workouts by date
-    if (request.query.start_at && request.query.end_at) {
-        workoutDao.filterByDate(request, (error, result) => {
-            if (error) {
-                return getListCB(error);
-            }
+  // if start_at and end_at params are set, filter workouts by date
+  if (request.query.start_at && request.query.end_at) {
+    workoutDao.filterByDate(request, (error, result) => {
+      if (error) {
+        return getListCB(error);
+      }
 
-            return getListCB(null, result);
-        });
-    } else {
-        workoutDao.getList(request, (error, result) => {
-            workoutDao.getList(request, (error, result) => {
-                if (error) {
-                    return getListCB(error);
-                }
+      return getListCB(null, result);
+    });
+  } else {
+    workoutDao.getList(request, (error, result) => {
+      workoutDao.getList(request, (error, result) => {
+        if (error) {
+          return getListCB(error);
+        }
 
-                return getListCB(null, result);
-            });
-        });
-    }
-}
+        return getListCB(null, result);
+      });
+    });
+  }
+};
 
 /**
- * Service layer to call the Data Access Object to get 
+ * Service layer to call the Data Access Object to get
  * one workout
  * @param {Object} request Request data
  * @param {Function} getDataCB Callback method
  */
 workoutService.getOne = (request, getDataCB) => {
-    workoutDao.getByID(request, (error, result) => {
-        if (error) {
-            return getDataCB(error);
-        }
+  workoutDao.getByID(request, (error, result) => {
+    if (error) {
+      return getDataCB(error);
+    }
 
-        return getDataCB(null, result);
-    });
-}
+    return getDataCB(null, result);
+  });
+};
 
 /**
  * Service layer to call the Data Access Object to
@@ -53,38 +53,38 @@ workoutService.getOne = (request, getDataCB) => {
  * @param {Function} createCB Callback method
  */
 workoutService.create = (request, createCB) => {
-    workoutDao.create(request, (error, result) => {
-        if (error) {
-            return createCB(error);
-        }
+  workoutDao.create(request, (error, result) => {
+    if (error) {
+      return createCB(error);
+    }
 
-        request.body.moves.forEach((move) => {
-            move.workout_id = result.id;
+    request.body.moves.forEach((move) => {
+      move.workout_id = result.id;
 
-            move.body = move;
+      move.body = move;
 
-            workoutMoveDao.create(move, () => {});
-        });
-
-        return createCB(null, result);
+      workoutMoveDao.create(move, () => {});
     });
-}
+
+    return createCB(null, result);
+  });
+};
 
 /**
- * Service layer to call the Data Access Object to 
+ * Service layer to call the Data Access Object to
  * update one workout
  * @param {Object} request Request data
  * @param {Function} updateCB Callback method
  */
 workoutService.update = (request, updateCB) => {
-    workoutDao.update(request, (error, result) => {
-        if (error) {
-            return updateCB(error);
-        }
+  workoutDao.update(request, (error, result) => {
+    if (error) {
+      return updateCB(error);
+    }
 
-        return updateCB(null, result);
-    });
-}
+    return updateCB(null, result);
+  });
+};
 
 /**
  * Service layer to call the Data Access Object to
@@ -94,13 +94,13 @@ workoutService.update = (request, updateCB) => {
  * @param {Function} deleteCB Callback method
  */
 workoutService.delete = (request, deleteCB) => {
-    workoutDao.delete(request, (error, result) => {
-        if (error) {
-            return deleteCB(error);
-        }
+  workoutDao.delete(request, (error, result) => {
+    if (error) {
+      return deleteCB(error);
+    }
 
-        return deleteCB(null, result);
-    });
-}
+    return deleteCB(null, result);
+  });
+};
 
 module.exports = workoutService;

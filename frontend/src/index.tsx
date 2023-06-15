@@ -5,18 +5,28 @@ import { store } from "./app/store";
 import { App } from "./App";
 import "./index.css";
 
+import { setAuthData } from "./features/auth/authSlice";
 import { fetchBodyparts } from "./features/bodyparts/bodypartsSlice";
 import { fetchMoves } from "./features/moves/movesSlice";
 import { fetchMoveCategories } from "./features/moveCategories/moveCategoriesSlice";
+import { fetchWorkouts } from "./features/workouts/workoutsSlice";
+
+import { CookieUtils } from "./utils/cookieUtils";
 
 const start = async () => {
   const container = document.getElementById("root")!;
   const root = createRoot(container);
 
+  const sessionCookie = CookieUtils.getCookie("rfa-t_session");
+  if (sessionCookie) {
+    store.dispatch(setAuthData(sessionCookie));
+  }
+
   // load all needed data at the start
   store.dispatch(fetchBodyparts());
   store.dispatch(fetchMoves());
   store.dispatch(fetchMoveCategories());
+  store.dispatch(fetchWorkouts());
 
   root.render(
     <React.StrictMode>

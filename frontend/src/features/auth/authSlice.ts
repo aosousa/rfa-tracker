@@ -14,23 +14,26 @@ export const login = createAsyncThunk('auth/login',
 
 const initialState = {
     status: 'idle',
-    data: false,
+    data: '',
     error: null
 }
 
 const authSlice = createSlice({
     name: 'auth',
     initialState,
-    reducers: { },
+    reducers: { 
+        setAuthData: (state, action) => {
+            state.data = action.payload
+        },
+    },
     extraReducers: (builder: any) => {
         builder.addCase(login.pending, (state: any, action: any) => {
             state.status = 'loading'
         })
         .addCase(login.fulfilled, (state: any, action: any) => {
-            console.log(action)
             state.status = 'succeeded'
-            state.data = true
-            // TODO: set auth cookie
+            state.data = action.payload
+            document.cookie = `rfa-t_session=${action.payload}; Max-Age=${60 * 60 * 31 *24}; SameSite=None; Secure`
         })
         .addCase(login.rejected, (state: any, action: any) => {
             state.status = 'failed'
@@ -38,5 +41,7 @@ const authSlice = createSlice({
         })
     }
 })
+
+export const { setAuthData } = authSlice.actions
 
 export default authSlice.reducer
