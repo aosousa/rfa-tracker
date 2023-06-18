@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { store } from "../app/store";
 
 export const TopBar = () => {
-  const authStatus = useSelector((state) => store.getState().auth.status);
+  const authData = useSelector((state) => store.getState().auth.data);
 
   return (
     <div className="h-12 flex flex-row items-center bg-white shadow-sm border-b">
@@ -25,7 +25,7 @@ export const TopBar = () => {
         </NavLink>
       </div>
 
-      {authStatus !== "" && (
+      {authData !== "" && (
         <div className="flex flex-shrink-0 ml-2">
           <NavLink
             exact
