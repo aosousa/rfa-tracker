@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 
 import { TopBar } from "./components/TopBar";
+import { WorkoutsList } from "./features/workouts/WorkoutsList";
 
 export const App = () => {
   return (
@@ -14,7 +15,7 @@ export const App = () => {
       <div className="App">
         <TopBar />
         <Switch>
-          <Route exact path="/" />
+          <Route exact path="/" component={WorkoutsList} />
         </Switch>
       </div>
     </Router>

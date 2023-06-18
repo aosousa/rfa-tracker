@@ -1,8 +1,11 @@
 import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import { store } from "../app/store";
 
 export const TopBar = () => {
+  const authStatus = useSelector((state) => store.getState().auth.status);
+
   return (
     <div className="h-12 flex flex-row items-center bg-white shadow-sm border-b">
       <div className="flex font-semibold flex-shrink-0 ml-4 pr-4 border-r">
@@ -22,7 +25,7 @@ export const TopBar = () => {
         </NavLink>
       </div>
 
-      {store.getState().auth.data !== "" && (
+      {authStatus !== "" && (
         <div className="flex flex-shrink-0 ml-2">
           <NavLink
             exact
