@@ -15,7 +15,7 @@ export const fetchWorkouts = createAsyncThunk('workouts/fetchWorkouts', async ()
 export const createWorkout = createAsyncThunk('workouts/createWorkout', 
     async (requestBody, { getState }) => {
         const state: any = getState()
-        const response = await client.post('/workouts', requestBody, { 'Authorization': `Bearer ${state.auth.data}` })
+        const response = await client.post('/workouts', requestBody, { headers: { Authorization: `Bearer ${state.auth.data}` }})
 
         return response.data.data
     }
@@ -24,7 +24,7 @@ export const createWorkout = createAsyncThunk('workouts/createWorkout',
 export const updateWorkout = createAsyncThunk('workouts/updateWorkout',
     async (requestBody: any , { getState }) => {
         const state: any = getState()
-        await client.put(`/workouts/${requestBody.id}`, requestBody, { 'Authorization': `Bearer ${state.auth.data}` })
+        await client.put(`/workouts/${requestBody.id}`, requestBody, { headers: { Authorization: `Bearer ${state.auth.data}` }})
     
         return {
             id: requestBody.id,
@@ -41,9 +41,9 @@ export const updateWorkout = createAsyncThunk('workouts/updateWorkout',
 export const deleteWorkout = createAsyncThunk('workouts/deleteWorkout', 
     async (id: number, { getState }) => {
         const state: any = getState()
-        const response = await client.delete(`/workouts/${id}`, { 'Authorization': `Bearer ${state.auth.data}` })
+        await client.delete(`/workouts/${id}`, { headers: { Authorization: `Bearer ${state.auth.data}` }})
 
-        return response.data.data
+        return id
     }
 )
 

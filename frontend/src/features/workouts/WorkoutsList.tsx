@@ -1,24 +1,29 @@
+// Core
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { store, AppDispatch } from "../../app/store";
 
-import { login } from "../auth/authSlice";
-import { WorkoutItem } from "./WorkoutItem";
+// Components
 import { Modal } from "../../components/Modal";
+
+// Features
+import { login } from "../auth/authSlice";
+import { selectAllWorkouts } from "./workoutsSlice";
+
+// Interfaces
+import { WorkoutItem } from "./WorkoutItem";
 
 export const WorkoutsList = () => {
   const [loginModalIsOpen, setLoginModalIsOpen] = useState(false);
-  const [deleteWorkoutModalIsOpen, setDeleteWorkoutModalIsOpen] =
-    useState(false);
   const [loginError, setLoginError] = useState(false);
-
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const dispatch = useDispatch<AppDispatch>();
   const auth = useSelector((state) => store.getState().auth.data);
   const authStatus = useSelector((state) => store.getState().auth.status);
+  const workouts = useSelector(selectAllWorkouts);
 
   const onUsernameChanged = (e: any) => setUsername(e.target.value);
   const onPasswordChanged = (e: any) => setPassword(e.target.value);
@@ -49,18 +54,21 @@ export const WorkoutsList = () => {
     }
   }, [authStatus]);
 
-  const contentTest = [1, 2, 3, 4, 5].map((value) => {
-    return <WorkoutItem key={value} />;
+  let workoutItems = workouts.map((workout) => {
+    return <WorkoutItem key={workout.id} workout={workout} />;
   });
 
   return (
-    <div className="flex flex-col py-2">
-      <div className="flex w-2/5 mx-auto">
+    <div className="flex flex-col py-2 w-2/3 mx-auto">
+      <div className="flex">
         <p className="font-bold text-xl">Workouts</p>
         {auth !== "" ? (
-          <button className="bg-green-600 hover:bg-green-700 focus:bg-green-700 font-semibold text-white rounded-md hover:shadow-md focus:shadow-md outline-none px-4 py-1 ml-auto">
-            Add Workout
-          </button>
+          <NavLink
+            to="/add-workout"
+            className="bg-green-600 hover:bg-green-700 focus:bg-green-700 font-semibold text-white rounded-md hover:shadow-md focus:shadow-md outline-none px-4 py-1 ml-auto"
+          >
+            <button>Add Workout</button>
+          </NavLink>
         ) : (
           <button
             className="bg-sky-600 hover:bg-sky-700 focus:bg-sky-700 font-semibold text-white rounded-md hover:shadow-md focus:shadow-md outline-none px-4 py-1 ml-auto"
@@ -70,11 +78,21 @@ export const WorkoutsList = () => {
           </button>
         )}
       </div>
-      {contentTest}
+
+      <div className="flex bg-white rounded-md p-2 my-2 border-2 border-gray-300">
+        <div className="w-full grid grid-cols-4 gap-4 font-semibold">
+          <div className="flex flex-col">Date</div>
+          <div className="flex flex-col">kcal burned (tracked / in game)</div>
+          <div className="flex flex-col">Duration (tracked / in game)</div>
+          <div className="flex flex-col">Actions</div>
+        </div>
+      </div>
+
+      {workoutItems}
 
       {loginModalIsOpen && (
         <Modal title="Login" closeModal={() => setLoginModalIsOpen(false)}>
-          <form className="flex flex-col">
+          <form className="flex flex-col mx-auto">
             <div className="flex flex-col">
               <label htmlFor="username" className="font-semibold">
                 Username

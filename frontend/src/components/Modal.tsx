@@ -29,7 +29,7 @@ export const Modal = (props: any) => {
           </button>
         </div>
 
-        <div className="flex flex-col items-center bg-white rounded-md p-4">
+        <div className="flex flex-col bg-white rounded-md p-4">
           {props.children}
         </div>
       </div>

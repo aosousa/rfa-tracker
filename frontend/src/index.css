@@ -113,5 +113,9 @@ code {
 }
 
 .active-link {
-  @apply font-semibold bg-orange-700 text-white rounded-md;
+  @apply font-semibold bg-orange-700 text-white rounded-md p-1.5;
+}
+
+.inactive-link { 
+  @apply font-semibold bg-white text-gray-700 rounded-md p-1.5;
 }

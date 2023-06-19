@@ -16,10 +16,10 @@ export const TopBar = () => {
 
       <div className="flex flex-shrink-0 ml-2">
         <NavLink
-          exact
           to="/"
-          className="font-semibold text-gray-700 p-1.5"
-          activeClassName="active-link"
+          className={({ isActive }) =>
+            isActive ? "active-link" : "inactive-link"
+          }
         >
           Workouts
         </NavLink>
@@ -28,10 +28,10 @@ export const TopBar = () => {
       {authData !== "" && (
         <div className="flex flex-shrink-0 ml-2">
           <NavLink
-            exact
             to="/add-workout"
-            className="font-semibold text-gray-700 p-1.5"
-            activeClassName="active-link"
+            className={({ isActive }) =>
+              isActive ? "active-link" : "inactive-link"
+            }
           >
             Add Workout
           </NavLink>
