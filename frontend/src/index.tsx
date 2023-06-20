@@ -6,7 +6,12 @@ import { App } from "./App";
 import "./index.css";
 import { BrowserRouter } from "react-router-dom";
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { faEye, faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
+import {
+  faEye,
+  faPencil,
+  faSquareMinus,
+  faTrash,
+} from "@fortawesome/free-solid-svg-icons";
 
 import { setAuthData } from "./features/auth/authSlice";
 import { fetchBodyparts } from "./features/bodyparts/bodypartsSlice";
@@ -20,7 +25,7 @@ const start = async () => {
   const container = document.getElementById("root")!;
   const root = createRoot(container);
 
-  library.add(faEye, faPencil, faTrash);
+  library.add(faEye, faPencil, faSquareMinus, faTrash);
 
   const sessionCookie = CookieUtils.getCookie("rfa-t_session");
   if (sessionCookie) {

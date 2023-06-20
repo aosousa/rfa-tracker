@@ -64,11 +64,19 @@ const createWorkout = (request, response) => {
         error,
       });
     } else {
-      response.status(200).send({
-        status: true,
-        data: result,
-        error: null,
-      });
+      if (result) {
+        response.status(200).send({
+          status: true,
+          data: result,
+          error: null,
+        });
+      } else {
+        response.status(500).send({
+          status: false,
+          data: null,
+          error,
+        });
+      }
     }
   });
 };

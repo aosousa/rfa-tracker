@@ -82,7 +82,7 @@ export const WorkoutsList = () => {
       <div className="flex bg-white rounded-md p-2 my-2 border-2 border-gray-300">
         <div className="w-full grid grid-cols-4 gap-4 font-semibold">
           <div className="flex flex-col">Date</div>
-          <div className="flex flex-col">kcal burned (tracked / in game)</div>
+          <div className="flex flex-col">Kcal burned (tracked / in game)</div>
           <div className="flex flex-col">Duration (tracked / in game)</div>
           <div className="flex flex-col">Actions</div>
         </div>
@@ -101,7 +101,7 @@ export const WorkoutsList = () => {
                 id="username"
                 type="text"
                 placeholder="Username"
-                className=" bg-white text-gray-700 border border-gray-200 rounded-md p-1"
+                className=" rfa-input"
                 onChange={onUsernameChanged}
               />
             </div>
@@ -114,7 +114,7 @@ export const WorkoutsList = () => {
                 id="password"
                 type="password"
                 placeholder="Password"
-                className="bg-white text-gray-700 border border-gray-200 rounded-md p-1"
+                className="rfa-input"
                 onChange={onPasswordChanged}
               />
             </div>

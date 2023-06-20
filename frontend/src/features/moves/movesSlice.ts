@@ -14,7 +14,7 @@ const movesAdapter = createEntityAdapter({})
 export const {
     selectAll: selectAllMoves,
     selectById: selectMoveById
-} = movesAdapter.getSelectors((state: any) => state.bodyparts)
+} = movesAdapter.getSelectors((state: any) => state.moves)
 
 const initialState = movesAdapter.getInitialState({
     status: 'idle',

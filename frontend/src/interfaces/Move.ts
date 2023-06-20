@@ -1,5 +1,5 @@
 export interface Move {
-    ID: number
+    id: number
     name: string
     category_id: number
     unit: string

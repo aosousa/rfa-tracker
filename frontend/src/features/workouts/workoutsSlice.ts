@@ -13,7 +13,7 @@ export const fetchWorkouts = createAsyncThunk('workouts/fetchWorkouts', async ()
 })
 
 export const createWorkout = createAsyncThunk('workouts/createWorkout', 
-    async (requestBody, { getState }) => {
+    async (requestBody: any, { getState }) => {
         const state: any = getState()
         const response = await client.post('/workouts', requestBody, { headers: { Authorization: `Bearer ${state.auth.data}` }})
 
@@ -22,7 +22,7 @@ export const createWorkout = createAsyncThunk('workouts/createWorkout',
 )
 
 export const updateWorkout = createAsyncThunk('workouts/updateWorkout',
-    async (requestBody: any , { getState }) => {
+    async (requestBody: any, { getState }) => {
         const state: any = getState()
         await client.put(`/workouts/${requestBody.id}`, requestBody, { headers: { Authorization: `Bearer ${state.auth.data}` }})
     
@@ -47,7 +47,7 @@ export const deleteWorkout = createAsyncThunk('workouts/deleteWorkout',
     }
 )
 
-// these next 3 should just be updated to a workout's moves array
+// these next 3 should just be updates to a workout's moves array
 
 // export const addMoveToWorkout
 

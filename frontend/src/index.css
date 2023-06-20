@@ -119,3 +119,7 @@ code {
 .inactive-link { 
   @apply font-semibold bg-white text-gray-700 rounded-md p-1.5;
 }
+
+.rfa-input {
+  @apply bg-white text-gray-700 border border-gray-200 rounded-md p-1;
+} 
