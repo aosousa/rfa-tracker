@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { store, AppDispatch } from "../../app/store";
+import { NavLink } from "react-router-dom";
 
 // Components
 import { Modal } from "../../components/Modal";
@@ -62,8 +63,8 @@ export const WorkoutItem = ({ workout }: any) => {
     <div className="flex bg-white rounded-md p-2 my-2 border-2 border-gray-300">
       <div className="w-full grid grid-cols-4 gap-4">
         <div className="flex flex-col mt-1">{workoutStartParsed}</div>
-        <div className="flex flex-col mt-1">{`${workout.kcal_real} / ${workout.kcal_ingame} kcal`}</div>
         <div className="flex flex-col mt-1">{`${realDurationParsed} / ${inGameDurationParsed}`}</div>
+        <div className="flex flex-col mt-1">{`${workout.kcal_real} / ${workout.kcal_ingame} kcal`}</div>
         <div className="flex ml-auto">
           <button
             type="button"
@@ -74,13 +75,15 @@ export const WorkoutItem = ({ workout }: any) => {
           </button>
 
           {auth !== "" && (
-            <button
-              type="button"
-              title="Edit Workout"
-              className="w-8 h-8 rounded-md border-2 bg-transparent hover:bg-sky-100 focus:bg-sky-100 text-sky-500 border-sky-500 outline-none ml-2"
-            >
-              <FontAwesomeIcon icon="pencil" />
-            </button>
+            <NavLink to={`/edit-workout/${workout.id}`}>
+              <button
+                type="button"
+                title="Edit Workout"
+                className="w-8 h-8 rounded-md border-2 bg-transparent hover:bg-sky-100 focus:bg-sky-100 text-sky-500 border-sky-500 outline-none ml-2"
+              >
+                <FontAwesomeIcon icon="pencil" />
+              </button>
+            </NavLink>
           )}
 
           {auth !== "" && (

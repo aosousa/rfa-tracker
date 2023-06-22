@@ -33,7 +33,8 @@ export const updateWorkout = createAsyncThunk('workouts/updateWorkout',
             kcal_ingame: requestBody.kcal_ingame,
             kcal_real: requestBody.kcal_real,
             start_at: requestBody.start_at,
-            end_at: requestBody.end_at
+            end_at: requestBody.end_at,
+            moves: requestBody.moves
         }
     }
 )
@@ -46,14 +47,6 @@ export const deleteWorkout = createAsyncThunk('workouts/deleteWorkout',
         return id
     }
 )
-
-// these next 3 should just be updates to a workout's moves array
-
-// export const addMoveToWorkout
-
-// export const updateMoveInWorkout
-
-// export const deleteMoveInWorkout
 
 const workoutsAdapter = createEntityAdapter({
     sortComparer: (a: Workout, b: Workout) => b.start_at.localeCompare(a.start_at)

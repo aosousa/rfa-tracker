@@ -82,6 +82,21 @@ workoutService.update = (request, updateCB) => {
       return updateCB(error);
     }
 
+    request.body.moves.forEach((move) => {
+      move.body = {
+        ...move,
+        workout_id: Number(request.params.id),
+      };
+
+      move.params = {
+        move_id: move.move_id,
+        amount: move.amount,
+        workout_id: request.params.id,
+      };
+
+      workoutMoveDao.createOrUpdate(move, () => {});
+    });
+
     return updateCB(null, result);
   });
 };

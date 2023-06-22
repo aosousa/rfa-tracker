@@ -176,8 +176,6 @@ const updateWorkoutMove = (request, response) => {
 const deleteWorkout = (request, response) => {
   workoutService.delete(request, (error, result) => {
     if (error) {
-      console.log(error);
-
       response.status(500).send({
         status: false,
         data: null,

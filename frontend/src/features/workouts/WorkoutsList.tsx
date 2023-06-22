@@ -82,8 +82,8 @@ export const WorkoutsList = () => {
       <div className="flex bg-white rounded-md p-2 my-2 border-2 border-gray-300">
         <div className="w-full grid grid-cols-4 gap-4 font-semibold">
           <div className="flex flex-col">Date</div>
-          <div className="flex flex-col">Kcal burned (tracked / in game)</div>
           <div className="flex flex-col">Duration (tracked / in game)</div>
+          <div className="flex flex-col">Kcal burned (tracked / in game)</div>
           <div className="flex flex-col">Actions</div>
         </div>
       </div>

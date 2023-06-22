@@ -7,15 +7,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 // Features
 import { createWorkout } from "./workoutsSlice";
+import { selectAllMoveCategories } from "../moveCategories/moveCategoriesSlice";
 import { selectAllMoves } from "../moves/movesSlice";
+
+// Interfaces
+import { MoveAmount } from "../../interfaces/MoveAmount";
 
 // Utils
 import { DateUtils } from "../../utils/dateUtils";
-
-interface MoveAmount {
-  move_id: number;
-  amount: number;
-}
 
 export const AddWorkoutForm = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -23,10 +22,15 @@ export const AddWorkoutForm = () => {
 
   const [submitError, setSubmitError] = useState(false);
 
+  const moveCategories: any[] = useSelector(selectAllMoveCategories);
+
   const moves: any[] = useSelector(selectAllMoves);
   const workoutsSliceStatus = useSelector(
     (state) => store.getState().workouts.status
   );
+
+  const movesByCategory = (categoryID: number) =>
+    moves.filter((move) => move.category_id === categoryID);
 
   const [trackedDuration, setTrackedDuration] = useState("");
   const onTrackedDurationChange = (e: any) =>
@@ -87,10 +91,14 @@ export const AddWorkoutForm = () => {
           className="rfa-input w-56"
           onChange={(e) => onWorkoutMoveChange(idx, e)}
         >
-          {moves.map((move: any) => (
-            <option key={move.id} value={move.id}>
-              {move.name}
-            </option>
+          {moveCategories.map((moveCategory: any) => (
+            <optgroup key={moveCategory.id} label={moveCategory.name}>
+              {movesByCategory(moveCategory.id).map((move) => (
+                <option key={move.id} value={move.id}>
+                  {move.name}
+                </option>
+              ))}
+            </optgroup>
           ))}
         </select>
 
@@ -98,12 +106,22 @@ export const AddWorkoutForm = () => {
           type="number"
           name={`amount-${idx}`}
           id={`amount-${idx}`}
+          min="0"
           className="rfa-input w-24 ml-2"
           onChange={(e) => onWorkoutMoveAmountChange(idx, e)}
         />
       </div>
     );
   });
+
+  const canSave = [
+    trackedDuration,
+    ingameDuration,
+    trackedKcal,
+    ingameKcal,
+    start,
+    end,
+  ].every(Boolean);
 
   const onSubmitButtonClicked = async () => {
     try {
@@ -145,68 +163,11 @@ export const AddWorkoutForm = () => {
           <div className="font-bold text-xl text-orange-500 border-b px-2 mb-2 pb-2">
             Workout Details
           </div>
+
           <div className="grid grid-cols-4 gap-4">
-            <div className="mx-2">
-              <label htmlFor="duration-real" className="font-semibold">
-                Duration (tracked)
-              </label>
-              <input
-                type="time"
-                name="duration-real"
-                id="duration-real"
-                className="rfa-input w-40"
-                step="1"
-                onChange={onTrackedDurationChange}
-              />
-            </div>
-
-            <div className="mx-2">
-              <label htmlFor="duration-ingame" className="font-semibold">
-                Duration (in game)
-              </label>
-              <input
-                type="time"
-                name="duration-ingame"
-                id="duration-ingame"
-                className="rfa-input w-40"
-                step="1"
-                onChange={onIngameDurationChange}
-              />
-            </div>
-
-            <div className="mx-2">
-              <label htmlFor="kcal-real" className="font-semibold">
-                Kcal burned (tracked)
-              </label>
-              <input
-                type="number"
-                name="kcal-real"
-                id="kcal-real"
-                className="rfa-input w-40"
-                min="0"
-                onChange={onTrackedKcalChange}
-              />
-            </div>
-
-            <div className="mx-2">
-              <label htmlFor="kcal-ingame" className="font-semibold">
-                Kcal burned (in game)
-              </label>
-              <input
-                type="number"
-                name="kcal-ingame"
-                id="kcal-ingame"
-                className="rfa-input w-40"
-                min="0"
-                onChange={onIngameKcalChange}
-              />
-            </div>
-          </div>
-
-          <div className="grid grid-cols-4 gap-4 mt-4">
             <div className="grid mx-2">
               <label htmlFor="start" className="font-semibold">
-                Start
+                Start <span className="text-red-600">*</span>
               </label>
               <input
                 type="datetime-local"
@@ -220,7 +181,7 @@ export const AddWorkoutForm = () => {
 
             <div className="grid mx-2">
               <label htmlFor="end" className="font-semibold">
-                End
+                End <span className="text-red-600">*</span>
               </label>
               <input
                 type="datetime-local"
@@ -229,6 +190,64 @@ export const AddWorkoutForm = () => {
                 className="rfa-input w-56"
                 step="1"
                 onChange={onEndChange}
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-4 gap-4 mt-4">
+            <div className="mx-2">
+              <label htmlFor="duration-real" className="font-semibold">
+                Duration (tracked) <span className="text-red-600">*</span>
+              </label>
+              <input
+                type="time"
+                name="duration-real"
+                id="duration-real"
+                className="rfa-input w-40"
+                step="1"
+                onChange={onTrackedDurationChange}
+              />
+            </div>
+
+            <div className="mx-2">
+              <label htmlFor="duration-ingame" className="font-semibold">
+                Duration (in game) <span className="text-red-600">*</span>
+              </label>
+              <input
+                type="time"
+                name="duration-ingame"
+                id="duration-ingame"
+                className="rfa-input w-40"
+                step="1"
+                onChange={onIngameDurationChange}
+              />
+            </div>
+
+            <div className="mx-2">
+              <label htmlFor="kcal-real" className="font-semibold">
+                Kcal burned (tracked) <span className="text-red-600">*</span>
+              </label>
+              <input
+                type="number"
+                name="kcal-real"
+                id="kcal-real"
+                className="rfa-input w-40"
+                min="0"
+                onChange={onTrackedKcalChange}
+              />
+            </div>
+
+            <div className="mx-2">
+              <label htmlFor="kcal-ingame" className="font-semibold">
+                Kcal burned (in game) <span className="text-red-600">*</span>
+              </label>
+              <input
+                type="number"
+                name="kcal-ingame"
+                id="kcal-ingame"
+                className="rfa-input w-40"
+                min="0"
+                onChange={onIngameKcalChange}
               />
             </div>
           </div>
@@ -261,8 +280,9 @@ export const AddWorkoutForm = () => {
             )}
 
             <button
-              className="bg-green-600 hover:bg-green-700 focus:bg-green-700 hover:shadow-md font-semibold text-sm text-white outline-none rounded-md px-4 py-1 mr-2"
+              className="bg-green-600 hover:bg-green-700 focus:bg-green-700 hover:shadow-md disabled:bg-green-300 disabled:pointer-events-none font-semibold text-sm text-white outline-none rounded-md px-4 py-1 mr-2"
               onClick={onSubmitButtonClicked}
+              disabled={!canSave}
             >
               Submit
             </button>
