@@ -4,8 +4,8 @@ export class DateUtils {
      * @param {number} seconds Number of seconds
      * @returns Seconds in HH:mm:ss format
      */
-    static secondsToReadableFormat(seconds: number): string {
-        return new Date(seconds * 1000).toISOString().slice(11, 19);
+    static secondsToReadableFormat(seconds: number | undefined): string {
+        return seconds ? new Date(seconds * 1000).toISOString().slice(11, 19) : '';
     }
 
     /**

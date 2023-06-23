@@ -9,8 +9,11 @@ export const TopBar = () => {
   return (
     <div className="h-12 flex flex-row items-center bg-white shadow-sm border-b">
       <div className="flex font-semibold flex-shrink-0 ml-4 pr-4 border-r">
-        <div className="bg-orange-500 text-white text-lg rounded-md p-1.5">
+        <div className="sm:hidden md:block bg-orange-500 text-white text-lg rounded-md p-1.5">
           Ring Fit Adventure Tracker
+        </div>
+        <div className="sm:block md:hidden bg-orange-500 text-white text-lg rounded-md p-1.5">
+          RFA Tracker
         </div>
       </div>
 

@@ -48,6 +48,17 @@ export const deleteWorkout = createAsyncThunk('workouts/deleteWorkout',
     }
 )
 
+export const deleteWorkoutMove = createAsyncThunk('workouts/deleteWorkoutMove', 
+    async (requestBody: any, { getState }) => {
+    const state: any = getState()
+    await client.delete(`/workouts/move/${requestBody.move_id}`, { headers: { Authorization: `Bearer ${state.auth.data}` }})
+
+    return {
+        id: requestBody.id,
+        moves: requestBody.moves
+    }
+})
+
 const workoutsAdapter = createEntityAdapter({
     sortComparer: (a: Workout, b: Workout) => b.start_at.localeCompare(a.start_at)
 })
@@ -107,6 +118,20 @@ const workoutsSlice = createSlice({
             workoutsAdapter.removeOne(state, action.payload)
         })
         .addCase(deleteWorkout.rejected, (state: any, action: any) => {
+            state.status = 'failed'
+            state.error = action.error.message
+        })
+        .addCase(deleteWorkoutMove.pending, (state: any, action: any) => {
+            state.status = 'loading'
+        })
+        .addCase(deleteWorkoutMove.fulfilled, (state: any, { payload }: any) => {
+            state.status = 'succeeded'
+
+            const { id, ...changes } = payload
+
+            workoutsAdapter.updateOne(state, { id, changes })
+        })
+        .addCase(deleteWorkoutMove.rejected, (state: any, action: any) => {
             state.status = 'failed'
             state.error = action.error.message
         })
