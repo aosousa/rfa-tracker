@@ -61,25 +61,27 @@ export const WorkoutItem = ({ workout }: any) => {
 
   return (
     <div className="flex bg-white rounded-md p-2 my-2 border-2 border-gray-300">
-      <div className="w-full grid grid-cols-4 gap-4">
+      <div className="w-full grid sm:grid-cols-3 md:grid-cols-4 gap-4">
         <div className="flex flex-col mt-1">{workoutStartParsed}</div>
         <div className="flex flex-col mt-1">{`${realDurationParsed} / ${inGameDurationParsed}`}</div>
-        <div className="flex flex-col mt-1">{`${workout.kcal_real} / ${workout.kcal_ingame} kcal`}</div>
+        <div className="sm:hidden md:flex flex-col mt-1">{`${workout.kcal_real} / ${workout.kcal_ingame} kcal`}</div>
         <div className="flex ml-auto">
-          <button
-            type="button"
-            title="Workout Details"
-            className="w-8 h-8 rounded-md border-2 bg-transparent hover:bg-gray-100 focus:bg-gray-100 text-gray-500 border-gray-500 outline-none"
-          >
-            <FontAwesomeIcon icon="eye" />
-          </button>
+          <NavLink to={`/workout/${workout.id}`}>
+            <button
+              type="button"
+              title="Workout Details"
+              className="sm:w-6 md:w-8 sm:h-6 md:h-8 rounded-md border-2 bg-transparent hover:bg-gray-100 focus:bg-gray-100 text-gray-500 border-gray-500 outline-none sm:pb-6 md:pb-0"
+            >
+              <FontAwesomeIcon icon="eye" />
+            </button>
+          </NavLink>
 
           {auth !== "" && (
             <NavLink to={`/edit-workout/${workout.id}`}>
               <button
                 type="button"
                 title="Edit Workout"
-                className="w-8 h-8 rounded-md border-2 bg-transparent hover:bg-sky-100 focus:bg-sky-100 text-sky-500 border-sky-500 outline-none ml-2"
+                className="sm:w-6 md:w-8 sm:h-6 md:h-8 rounded-md border-2 bg-transparent hover:bg-sky-100 focus:bg-sky-100 text-sky-500 border-sky-500 outline-none ml-2 sm:pb-6 md:pb-0"
               >
                 <FontAwesomeIcon icon="pencil" />
               </button>
@@ -90,7 +92,7 @@ export const WorkoutItem = ({ workout }: any) => {
             <button
               type="button"
               title="Delete Workout"
-              className="w-8 h-8 rounded-md border-2 bg-transparent hover:bg-red-100 focus:bg-red-100 text-red-500 border-red-500 outline-none ml-2"
+              className="sm:w-6 md:w-8 sm:h-6 md:h-8 rounded-md border-2 bg-transparent hover:bg-red-100 focus:bg-red-100 text-red-500 border-red-500 outline-none ml-2 sm:pb-6 md:pb-0"
               onClick={() => setDeleteWorkoutModalIsOpen(true)}
             >
               <FontAwesomeIcon icon="trash" />

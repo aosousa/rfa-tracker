@@ -59,7 +59,7 @@ export const WorkoutsList = () => {
   });
 
   return (
-    <div className="flex flex-col py-2 w-2/3 mx-auto">
+    <div className="flex flex-col py-2 lg:w-2/3 md:w-5/6 sm:px-2 mx-auto">
       <div className="flex">
         <p className="font-bold text-xl">Workouts</p>
         {auth !== "" ? (
@@ -80,10 +80,12 @@ export const WorkoutsList = () => {
       </div>
 
       <div className="flex bg-white rounded-md p-2 my-2 border-2 border-gray-300">
-        <div className="w-full grid grid-cols-4 gap-4 font-semibold">
+        <div className="w-full grid sm:grid-cols-3 md:grid-cols-4 gap-4 font-semibold">
           <div className="flex flex-col">Date</div>
           <div className="flex flex-col">Duration (tracked / in game)</div>
-          <div className="flex flex-col">Kcal burned (tracked / in game)</div>
+          <div className="sm:hidden md:flex flex-col">
+            Kcal burned (tracked / in game)
+          </div>
           <div className="flex flex-col ml-auto">Actions</div>
         </div>
       </div>

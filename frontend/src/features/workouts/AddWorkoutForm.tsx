@@ -156,7 +156,7 @@ export const AddWorkoutForm = () => {
   }, [navigate, workoutsSliceStatus]);
 
   return (
-    <div className="flex flex-col py-2 xl:w-2/3 sm:w-5/6 sm:px-2 mx-auto">
+    <div className="flex flex-col py-2 xl:w-2/3 sm:w-5/6 mx-auto">
       <div className="flex flex-col">
         <p className="font-bold text-xl">Add Workout</p>
         <div className="flex flex-col bg-white rounded-md mt-4 p-2">
