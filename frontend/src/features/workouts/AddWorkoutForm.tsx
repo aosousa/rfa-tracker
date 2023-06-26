@@ -88,7 +88,7 @@ export const AddWorkoutForm = () => {
         <select
           name={`workout-move-${idx}`}
           id={`workout-move-${idx}`}
-          className="rfa-input sm:w-36 w-56"
+          className="rfa-input sm:w-36 md:w-56"
           onChange={(e) => onWorkoutMoveChange(idx, e)}
         >
           {moveCategories.map((moveCategory: any) => (
@@ -107,7 +107,7 @@ export const AddWorkoutForm = () => {
           name={`amount-${idx}`}
           id={`amount-${idx}`}
           min="0"
-          className="rfa-input sm:w-12 w-24 ml-2"
+          className="rfa-input sm:w-12 md:w-24 ml-2"
           onChange={(e) => onWorkoutMoveAmountChange(idx, e)}
         />
       </div>
@@ -158,7 +158,7 @@ export const AddWorkoutForm = () => {
   return (
     <div className="flex flex-col py-2 xl:w-2/3 sm:w-5/6 mx-auto">
       <div className="flex flex-col">
-        <p className="font-bold text-xl">Add Workout</p>
+        <div className="font-bold text-xl">Add Workout</div>
         <div className="flex flex-col bg-white rounded-md mt-4 p-2">
           <div className="font-bold text-xl text-orange-500 border-b px-2 mb-2 pb-2">
             Workout Details
@@ -166,7 +166,7 @@ export const AddWorkoutForm = () => {
 
           <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-4 lg:gap-2">
             <div className="grid mx-2">
-              <label htmlFor="start" className="font-semibold">
+              <label htmlFor="start" className="font-semibold text-orange-600">
                 Start <span className="text-red-600">*</span>
               </label>
               <input
@@ -180,7 +180,7 @@ export const AddWorkoutForm = () => {
             </div>
 
             <div className="grid mx-2">
-              <label htmlFor="end" className="font-semibold">
+              <label htmlFor="end" className="font-semibold text-orange-600">
                 End <span className="text-red-600">*</span>
               </label>
               <input
@@ -196,7 +196,10 @@ export const AddWorkoutForm = () => {
 
           <div className="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-4 mt-4">
             <div className="grid mx-2">
-              <label htmlFor="duration-real" className="font-semibold">
+              <label
+                htmlFor="duration-real"
+                className="font-semibold text-orange-600"
+              >
                 Duration (tracked) <span className="text-red-600">*</span>
               </label>
               <input
@@ -210,7 +213,10 @@ export const AddWorkoutForm = () => {
             </div>
 
             <div className="grid mx-2">
-              <label htmlFor="duration-ingame" className="font-semibold">
+              <label
+                htmlFor="duration-ingame"
+                className="font-semibold text-orange-600"
+              >
                 Duration (in game) <span className="text-red-600">*</span>
               </label>
               <input
@@ -224,7 +230,10 @@ export const AddWorkoutForm = () => {
             </div>
 
             <div className="grid mx-2">
-              <label htmlFor="kcal-real" className="font-semibold">
+              <label
+                htmlFor="kcal-real"
+                className="font-semibold text-orange-600"
+              >
                 Kcal burned (tracked) <span className="text-red-600">*</span>
               </label>
               <input
@@ -238,7 +247,10 @@ export const AddWorkoutForm = () => {
             </div>
 
             <div className="grid mx-2">
-              <label htmlFor="kcal-ingame" className="font-semibold">
+              <label
+                htmlFor="kcal-ingame"
+                className="font-semibold text-orange-600"
+              >
                 Kcal burned (in game) <span className="text-red-600">*</span>
               </label>
               <input
@@ -264,9 +276,13 @@ export const AddWorkoutForm = () => {
 
           {workoutMoves.length > 0 && (
             <div className="flex flex-row font-semibold mt-2">
-              <div className="ml-9">Move</div>
-              <div className="sm:hidden md:block ml-48">Amount / Duration</div>
-              <div className="sm:block md:hidden sm:ml-28 ml-48">Amount</div>
+              <div className="ml-9 text-orange-600">Move</div>
+              <div className="sm:hidden md:block text-orange-600 ml-48">
+                Amount / Duration
+              </div>
+              <div className="sm:block md:hidden sm:ml-28 text-orange-600 ml-48">
+                Amount
+              </div>
             </div>
           )}
           {workoutMovesContent}

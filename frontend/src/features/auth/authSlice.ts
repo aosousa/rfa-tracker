@@ -25,6 +25,10 @@ const authSlice = createSlice({
         setAuthData: (state, action) => {
             state.data = action.payload
         },
+        logout: (state) => {
+            state.data = ''
+            document.cookie = `rfa-t_session=''; Max-Age=0;`
+        }
     },
     extraReducers: (builder: any) => {
         builder.addCase(login.pending, (state: any, action: any) => {
@@ -42,6 +46,6 @@ const authSlice = createSlice({
     }
 })
 
-export const { setAuthData } = authSlice.actions
+export const { setAuthData, logout } = authSlice.actions
 
 export default authSlice.reducer

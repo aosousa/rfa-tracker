@@ -8,7 +8,7 @@ import { store, AppDispatch } from "../../app/store";
 import { Modal } from "../../components/Modal";
 
 // Features
-import { login } from "../auth/authSlice";
+import { login, logout } from "../auth/authSlice";
 import { selectAllWorkouts } from "./workoutsSlice";
 
 // Interfaces
@@ -42,6 +42,10 @@ export const WorkoutsList = () => {
     }
   };
 
+  const onLogoutButtonClicked = async () => {
+    store.dispatch(logout());
+  };
+
   useEffect(() => {
     if (authStatus === "failed") {
       setLoginError(true);
@@ -63,18 +67,26 @@ export const WorkoutsList = () => {
       <div className="flex">
         <p className="font-bold text-xl">Workouts</p>
         {auth !== "" ? (
-          <NavLink
-            to="/add-workout"
-            className="bg-green-600 hover:bg-green-700 focus:bg-green-700 font-semibold text-white rounded-md hover:shadow-md focus:shadow-md outline-none px-4 py-1 ml-auto"
-          >
-            <button>Add Workout</button>
-          </NavLink>
+          <div className="ml-auto">
+            <NavLink
+              to="/add-workout"
+              className="bg-green-600 hover:bg-green-700 focus:bg-green-700 font-semibold text-white rounded-md hover:shadow-md focus:shadow-md outline-none sm:px-2 md:px-4 py-1"
+            >
+              <button>Add Workout</button>
+            </NavLink>
+            <button
+              className="bg-sky-600 hover:bg-sky-700 focus:bg-sky-700 font-semibold text-white rounded-md hover:shadow-md focus:shadow-md outline-none px-4 py-0.5 ml-2"
+              onClick={onLogoutButtonClicked}
+            >
+              View Mode
+            </button>
+          </div>
         ) : (
           <button
-            className="bg-sky-600 hover:bg-sky-700 focus:bg-sky-700 font-semibold text-white rounded-md hover:shadow-md focus:shadow-md outline-none px-4 py-1 ml-auto"
+            className="bg-sky-600 hover:bg-sky-700 focus:bg-sky-700 font-semibold text-white rounded-md hover:shadow-md focus:shadow-md outline-none px-4 py-0.5 ml-auto"
             onClick={() => setLoginModalIsOpen(true)}
           >
-            Login
+            Edit Mode
           </button>
         )}
       </div>
