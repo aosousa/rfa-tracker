@@ -1,7 +1,3 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 .App {
   @apply min-h-screen h-auto bg-gray-200 items-center justify-center;
 }
