@@ -204,13 +204,13 @@ const deleteWorkoutMove = (request, response) => {
         data: null,
         error,
       });
+    } else {
+      response.status(200).send({
+        status: true,
+        data: result,
+        error: null,
+      });
     }
-
-    response.status(200).send({
-      status: true,
-      data: result,
-      error: null,
-    });
   });
 };
 
