@@ -1,8 +1,8 @@
 // Core
-import { createSlice, createAsyncThunk, createEntityAdapter } from "@reduxjs/toolkit"
+import { createSlice, createAsyncThunk, createEntityAdapter } from '@reduxjs/toolkit'
 
 // Utils
-import { client } from "../../utils/apiClient"
+import { client } from '../../utils/apiClient'
 
 export const fetchMoves = createAsyncThunk('moves/fetchMoves', async () => {
     const response = await client.get('/moves')
@@ -24,16 +24,14 @@ const initialState = movesAdapter.getInitialState({
 const movesSlice = createSlice({
     name: 'moves',
     initialState,
-    reducers: { },
+    reducers: {},
     extraReducers: (builder: any) => {
-        builder.addCase(fetchMoves.pending, (state: any, action: any) => {
+        builder.addCase(fetchMoves.pending, (state: any) => {
             state.status = 'loading'
-        })
-        .addCase(fetchMoves.fulfilled, (state: any, action: any) => {
+        }).addCase(fetchMoves.fulfilled, (state: any, action: any) => {
             state.status = 'succeeded'
             movesAdapter.upsertMany(state, action.payload)
-        })
-        .addCase(fetchMoves.rejected, (state: any, action: any) => {
+        }).addCase(fetchMoves.rejected, (state: any, action: any) => {
             state.status = 'failed'
             state.error = action.error.message
         })

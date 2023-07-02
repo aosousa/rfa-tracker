@@ -1,10 +1,10 @@
-import { NavLink } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { NavLink } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
-import { store } from "../app/store";
+import { store } from '../app/store';
 
 export const TopBar = () => {
-  const authData = useSelector((state) => store.getState().auth.data);
+  const authData = useSelector(() => store.getState().auth.data);
 
   return (
     <div className="h-12 flex flex-row items-center bg-white shadow-sm border-b">
@@ -21,19 +21,19 @@ export const TopBar = () => {
         <NavLink
           to="/"
           className={({ isActive }) =>
-            isActive ? "active-link" : "inactive-link"
+            (isActive ? 'active-link' : 'inactive-link')
           }
         >
           Workouts
         </NavLink>
       </div>
 
-      {authData !== "" && (
+      {authData !== '' && (
         <div className="flex flex-shrink-0 ml-2">
           <NavLink
             to="/add-workout"
             className={({ isActive }) =>
-              isActive ? "active-link" : "inactive-link"
+              (isActive ? 'active-link' : 'inactive-link')
             }
           >
             Add Workout

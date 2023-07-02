@@ -1,41 +1,32 @@
 // Core
-import dayjs from "dayjs";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { store, AppDispatch } from "../../app/store";
-import { NavLink } from "react-router-dom";
+import dayjs from 'dayjs';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { store, AppDispatch } from '../../app/store';
+import { NavLink } from 'react-router-dom';
 
 // Components
-import { Modal } from "../../components/Modal";
+import { Modal } from '../../components/Modal';
 
 // Features
-import { deleteWorkout } from "./workoutsSlice";
+import { deleteWorkout } from './workoutsSlice';
 
 // Utils
-import { DateUtils } from "../../utils/dateUtils";
+import { DateUtils } from '../../utils/dateUtils';
 
 export const WorkoutItem = ({ workout }: any) => {
-  const workoutStartParsed = dayjs(workout.start_at).format(
-    "YYYY-MM-DD HH:mm:ss"
-  );
+  const workoutStartParsed = dayjs(workout.start_at).format('YYYY-MM-DD HH:mm:ss');
 
-  const realDurationParsed = DateUtils.secondsToReadableFormat(
-    workout.duration_real
-  );
-  const inGameDurationParsed = DateUtils.secondsToReadableFormat(
-    workout.duration_ingame
-  );
+  const realDurationParsed = DateUtils.secondsToReadableFormat(workout.duration_real);
+  const inGameDurationParsed = DateUtils.secondsToReadableFormat(workout.duration_ingame);
 
-  const [deleteWorkoutModalIsOpen, setDeleteWorkoutModalIsOpen] =
-    useState(false);
+  const [deleteWorkoutModalIsOpen, setDeleteWorkoutModalIsOpen] = useState(false);
   const [deleteWorkoutError, setDeleteWorkoutError] = useState(false);
 
   const dispatch = useDispatch<AppDispatch>();
-  const auth = useSelector((state) => store.getState().auth.data);
-  const workoutSliceStatus = useSelector(
-    (state) => store.getState().workouts.status
-  );
+  const auth = useSelector(() => store.getState().auth.data);
+  const workoutSliceStatus = useSelector(() => store.getState().workouts.status);
 
   const onDeleteWorkoutButtonClicked = async () => {
     try {
@@ -48,12 +39,12 @@ export const WorkoutItem = ({ workout }: any) => {
   };
 
   useEffect(() => {
-    if (workoutSliceStatus === "failed") {
+    if (workoutSliceStatus === 'failed') {
       setDeleteWorkoutError(true);
     } else {
       setDeleteWorkoutError(false);
 
-      if (workoutSliceStatus === "succeeded") {
+      if (workoutSliceStatus === 'succeeded') {
         setDeleteWorkoutModalIsOpen(false);
       }
     }
@@ -76,7 +67,7 @@ export const WorkoutItem = ({ workout }: any) => {
             </button>
           </NavLink>
 
-          {auth !== "" && (
+          {auth !== '' && (
             <NavLink to={`/edit-workout/${workout.id}`}>
               <button
                 type="button"
@@ -88,7 +79,7 @@ export const WorkoutItem = ({ workout }: any) => {
             </NavLink>
           )}
 
-          {auth !== "" && (
+          {auth !== '' && (
             <button
               type="button"
               title="Delete Workout"

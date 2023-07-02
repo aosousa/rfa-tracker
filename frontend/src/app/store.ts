@@ -1,4 +1,4 @@
-import { configureStore, } from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
 
 import authReducer from '../features/auth/authSlice';
 import bodypartsReducer from '../features/bodyparts/bodypartsSlice';
@@ -7,7 +7,7 @@ import moveCategoriesReducer from '../features/moveCategories/moveCategoriesSlic
 import workoutsReducer from '../features/workouts/workoutsSlice';
 
 export const store = configureStore({
-  reducer: { 
+  reducer: {
     auth: authReducer,
     bodyparts: bodypartsReducer,
     moves: movesReducer,

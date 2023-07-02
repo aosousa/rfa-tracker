@@ -14,7 +14,7 @@ export class DateUtils {
      * @returns Hms equivalent in number of seconds
      */
     static hmsToSeconds(hms: string): number {
-        const splitHms = hms.split(":");
+        const splitHms = hms.split(':');
         return Number(splitHms[0]) * 3600 + Number(splitHms[1]) * 60 + Number(splitHms[2]);
     }
 }

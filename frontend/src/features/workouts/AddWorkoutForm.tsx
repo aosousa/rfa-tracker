@@ -1,20 +1,20 @@
 // Core
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { store, AppDispatch } from "../../app/store";
-import { useNavigate } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { store, AppDispatch } from '../../app/store';
+import { useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 // Features
-import { createWorkout } from "./workoutsSlice";
-import { selectAllMoveCategories } from "../moveCategories/moveCategoriesSlice";
-import { selectAllMoves } from "../moves/movesSlice";
+import { createWorkout } from './workoutsSlice';
+import { selectAllMoveCategories } from '../moveCategories/moveCategoriesSlice';
+import { selectAllMoves } from '../moves/movesSlice';
 
 // Interfaces
-import { MoveAmount } from "../../interfaces/MoveAmount";
+import { MoveAmount } from '../../interfaces/MoveAmount';
 
 // Utils
-import { DateUtils } from "../../utils/dateUtils";
+import { DateUtils } from '../../utils/dateUtils';
 
 export const AddWorkoutForm = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -25,18 +25,15 @@ export const AddWorkoutForm = () => {
   const moveCategories: any[] = useSelector(selectAllMoveCategories);
 
   const moves: any[] = useSelector(selectAllMoves);
-  const workoutsSliceStatus = useSelector(
-    (state) => store.getState().workouts.status
-  );
+  const workoutsSliceStatus = useSelector(() => store.getState().workouts.status);
 
   const movesByCategory = (categoryID: number) =>
     moves.filter((move) => move.category_id === categoryID);
 
-  const [trackedDuration, setTrackedDuration] = useState("");
-  const onTrackedDurationChange = (e: any) =>
-    setTrackedDuration(e.target.value);
+  const [trackedDuration, setTrackedDuration] = useState('');
+  const onTrackedDurationChange = (e: any) => setTrackedDuration(e.target.value);
 
-  const [ingameDuration, setIngameDuration] = useState("");
+  const [ingameDuration, setIngameDuration] = useState('');
   const onIngameDurationChange = (e: any) => setIngameDuration(e.target.value);
 
   const [trackedKcal, setTrackedKcal] = useState(0);
@@ -45,10 +42,10 @@ export const AddWorkoutForm = () => {
   const [ingameKcal, setIngameKcal] = useState(0);
   const onIngameKcalChange = (e: any) => setIngameKcal(e.target.value);
 
-  const [start, setStart] = useState("");
+  const [start, setStart] = useState('');
   const onStartChange = (e: any) => setStart(e.target.value);
 
-  const [end, setEnd] = useState("");
+  const [end, setEnd] = useState('');
   const onEndChange = (e: any) => setEnd(e.target.value);
 
   const [workoutMoves, setWorkoutMoves] = useState<MoveAmount[]>([]);
@@ -70,49 +67,47 @@ export const AddWorkoutForm = () => {
     setWorkoutMoves([...updatedWorkoutMoves]);
   };
 
-  let workoutMovesContent = workoutMoves.map((workoutMove, idx) => {
-    return (
-      <div className="ml-2 mt-2" key={idx}>
-        <button
-          title="Remove Move"
-          className="text-red-600 hover:text-red-700 focus:text-red-700 outline-none mr-2"
-          onClick={() => onRemoveMoveButtonClicked(idx)}
-        >
-          <FontAwesomeIcon
-            icon="square-minus"
-            className="h-5"
-            style={{ marginBottom: "-.2em" }}
-          />
-        </button>
-
-        <select
-          name={`workout-move-${idx}`}
-          id={`workout-move-${idx}`}
-          className="rfa-input sm:w-36 md:w-56"
-          onChange={(e) => onWorkoutMoveChange(idx, e)}
-        >
-          {moveCategories.map((moveCategory: any) => (
-            <optgroup key={moveCategory.id} label={moveCategory.name}>
-              {movesByCategory(moveCategory.id).map((move) => (
-                <option key={move.id} value={move.id}>
-                  {move.name}
-                </option>
-              ))}
-            </optgroup>
-          ))}
-        </select>
-
-        <input
-          type="number"
-          name={`amount-${idx}`}
-          id={`amount-${idx}`}
-          min="0"
-          className="rfa-input sm:w-12 md:w-24 ml-2"
-          onChange={(e) => onWorkoutMoveAmountChange(idx, e)}
+  const workoutMovesContent = workoutMoves.map((workoutMove, idx) => (
+    <div className="ml-2 mt-2" key={idx}>
+      <button
+        title="Remove Move"
+        className="text-red-600 hover:text-red-700 focus:text-red-700 outline-none mr-2"
+        onClick={() => onRemoveMoveButtonClicked(idx)}
+      >
+        <FontAwesomeIcon
+          icon="square-minus"
+          className="h-5"
+          style={{ marginBottom: '-.2em' }}
         />
-      </div>
-    );
-  });
+      </button>
+
+      <select
+        name={`workout-move-${idx}`}
+        id={`workout-move-${idx}`}
+        className="rfa-input sm:w-36 md:w-56"
+        onChange={(e) => onWorkoutMoveChange(idx, e)}
+      >
+        {moveCategories.map((moveCategory: any) => (
+          <optgroup key={moveCategory.id} label={moveCategory.name}>
+            {movesByCategory(moveCategory.id).map((move) => (
+              <option key={move.id} value={move.id}>
+                {move.name}
+              </option>
+            ))}
+          </optgroup>
+        ))}
+      </select>
+
+      <input
+        type="number"
+        name={`amount-${idx}`}
+        id={`amount-${idx}`}
+        min="0"
+        className="rfa-input sm:w-12 md:w-24 ml-2"
+        onChange={(e) => onWorkoutMoveAmountChange(idx, e)}
+      />
+    </div>
+  ));
 
   const canSave = [
     trackedDuration,
@@ -141,14 +136,14 @@ export const AddWorkoutForm = () => {
       setSubmitError(true);
       console.error(`Failed to add workout: ${error}`);
     } finally {
-      if (workoutsSliceStatus === "succeeded") {
-        navigate("/");
+      if (workoutsSliceStatus === 'succeeded') {
+        navigate('/');
       }
     }
   };
 
   useEffect(() => {
-    if (workoutsSliceStatus === "failed") {
+    if (workoutsSliceStatus === 'failed') {
       setSubmitError(true);
     } else {
       setSubmitError(false);

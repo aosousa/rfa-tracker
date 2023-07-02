@@ -1,4 +1,4 @@
-import { WorkoutMove } from "./WorkoutMove"
+import { WorkoutMove } from './WorkoutMove'
 
 export interface Workout {
     id: number

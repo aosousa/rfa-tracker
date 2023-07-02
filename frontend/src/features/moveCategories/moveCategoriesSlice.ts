@@ -1,8 +1,8 @@
 // Core
-import { createSlice, createAsyncThunk, createEntityAdapter } from "@reduxjs/toolkit"
+import { createSlice, createAsyncThunk, createEntityAdapter } from '@reduxjs/toolkit'
 
 // Utils
-import { client } from "../../utils/apiClient"
+import { client } from '../../utils/apiClient'
 
 export const fetchMoveCategories = createAsyncThunk('moveCategories/fetchMoveCategories', async () => {
     const response = await client.get('/move_categories')
@@ -24,16 +24,14 @@ const initialState = moveCategoriesAdapter.getInitialState({
 const moveCategoriesSlice = createSlice({
     name: 'moveCategories',
     initialState,
-    reducers: { },
+    reducers: {},
     extraReducers: (builder: any) => {
-        builder.addCase(fetchMoveCategories.pending, (state: any, action: any) => {
+        builder.addCase(fetchMoveCategories.pending, (state: any) => {
             state.status = 'loading'
-        })
-        .addCase(fetchMoveCategories.fulfilled, (state: any, action: any) => {
+        }).addCase(fetchMoveCategories.fulfilled, (state: any, action: any) => {
             state.status = 'succeeded'
             moveCategoriesAdapter.upsertMany(state, action.payload)
-        })
-        .addCase(fetchMoveCategories.rejected, (state: any, action: any) => {
+        }).addCase(fetchMoveCategories.rejected, (state: any, action: any) => {
             state.status = 'failed'
             state.error = action.error.message
         })

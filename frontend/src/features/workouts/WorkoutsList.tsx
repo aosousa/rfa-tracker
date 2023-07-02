@@ -1,28 +1,28 @@
 // Core
-import { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { store, AppDispatch } from "../../app/store";
+import { useEffect, useState } from 'react';
+import { NavLink } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { store, AppDispatch } from '../../app/store';
 
 // Components
-import { Modal } from "../../components/Modal";
+import { Modal } from '../../components/Modal';
 
 // Features
-import { login, logout } from "../auth/authSlice";
-import { selectAllWorkouts } from "./workoutsSlice";
+import { login, logout } from '../auth/authSlice';
+import { selectAllWorkouts } from './workoutsSlice';
 
 // Interfaces
-import { WorkoutItem } from "./WorkoutItem";
+import { WorkoutItem } from './WorkoutItem';
 
 export const WorkoutsList = () => {
   const [loginModalIsOpen, setLoginModalIsOpen] = useState(false);
   const [loginError, setLoginError] = useState(false);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
   const dispatch = useDispatch<AppDispatch>();
-  const auth = useSelector((state) => store.getState().auth.data);
-  const authStatus = useSelector((state) => store.getState().auth.status);
+  const auth = useSelector(() => store.getState().auth.data);
+  const authStatus = useSelector(() => store.getState().auth.status);
   const workouts = useSelector(selectAllWorkouts);
 
   const onUsernameChanged = (e: any) => setUsername(e.target.value);
@@ -32,8 +32,8 @@ export const WorkoutsList = () => {
       setLoginError(false);
       await dispatch(
         login({
-          username: username,
-          password: password,
+          username,
+          password,
         })
       );
     } catch (error) {
@@ -47,26 +47,24 @@ export const WorkoutsList = () => {
   };
 
   useEffect(() => {
-    if (authStatus === "failed") {
+    if (authStatus === 'failed') {
       setLoginError(true);
     } else {
       setLoginError(false);
 
-      if (authStatus === "succeeded") {
+      if (authStatus === 'succeeded') {
         setLoginModalIsOpen(false);
       }
     }
   }, [authStatus]);
 
-  let workoutItems = workouts.map((workout) => {
-    return <WorkoutItem key={workout.id} workout={workout} />;
-  });
+  const workoutItems = workouts.map((workout) => <WorkoutItem key={workout.id} workout={workout} />);
 
   return (
     <div className="flex flex-col py-2 lg:w-2/3 md:w-5/6 sm:px-2 mx-auto">
       <div className="flex">
         <p className="font-bold text-xl">Workouts</p>
-        {auth !== "" ? (
+        {auth !== '' ? (
           <div className="ml-auto">
             <NavLink
               to="/add-workout"
@@ -136,7 +134,7 @@ export const WorkoutsList = () => {
             <button
               type="submit"
               className="flex justify-center items-center bg-sky-500 hover:bg-sky-600 disabled:bg-sky-300 hover:shadow-md text-white font-bold rounded-md disabled:pointer-events-none select-none p-1 mt-4"
-              disabled={authStatus === "loading"}
+              disabled={authStatus === 'loading'}
               onClick={onLoginButtonClicked}
             >
               Login

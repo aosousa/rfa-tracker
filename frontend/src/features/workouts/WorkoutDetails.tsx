@@ -1,73 +1,60 @@
 // Core
-import { useEffect } from "react";
-import { useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
-import dayjs from "dayjs";
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { NavLink, useNavigate, useParams } from 'react-router-dom';
+import dayjs from 'dayjs';
 
 // Features
-import { selectAllMoveCategories } from "../moveCategories/moveCategoriesSlice";
-import { selectWorkoutById } from "./workoutsSlice";
+import { selectAllMoveCategories } from '../moveCategories/moveCategoriesSlice';
+import { selectWorkoutById } from './workoutsSlice';
 
 // Interfaces
-import { WorkoutMove } from "../../interfaces/WorkoutMove";
+import { WorkoutMove } from '../../interfaces/WorkoutMove';
 
 // Utils
-import { DateUtils } from "../../utils/dateUtils";
-import { NavLink } from "react-router-dom";
+import { DateUtils } from '../../utils/dateUtils';
 
 export const WorkoutDetails = () => {
   const navigate = useNavigate();
 
   const params = useParams();
-  const workout = useSelector((state) =>
-    selectWorkoutById(state, String(params.id))
-  );
+  const workout = useSelector((state) => selectWorkoutById(state, String(params.id)));
 
-  const movesByCategory = (categoryID: number): WorkoutMove[] | undefined => {
-    return workout?.moves.filter(
-      (workoutMove: WorkoutMove) => workoutMove.move.category_id === categoryID
-    );
-  };
+  const movesByCategory = (categoryID: number): WorkoutMove[] | undefined => workout?.moves.filter(
+    (workoutMove: WorkoutMove) => workoutMove.move.category_id === categoryID
+  );
 
   const moveCategories = useSelector(selectAllMoveCategories);
-  const moveCategoriesContent = moveCategories.map((moveCategory: any) => {
-    return (
-      <div className="grid" key={moveCategory.id}>
-        <div
-          className="font-semibold rounded-md mt-2"
-          style={{
-            backgroundColor: moveCategory.background,
-            color: moveCategory.color,
-          }}
-        >
-          <div className="border-b border-white text-xl px-2 py-1 mb-1">
-            {moveCategory.name}
-          </div>
-          {movesByCategory(moveCategory.id)?.map((workoutMove: WorkoutMove) => {
-            return (
-              <div className="px-1 py-0.5" key={workoutMove.id}>
-                {workoutMove.move.name} ({workoutMove.amount}{" "}
-                {workoutMove.move.unit})
-              </div>
-            );
-          })}
+  const moveCategoriesContent = moveCategories.map((moveCategory: any) => (
+    <div className="grid" key={moveCategory.id}>
+      <div
+        className="font-semibold rounded-md mt-2"
+        style={{
+          backgroundColor: moveCategory.background,
+          color: moveCategory.color,
+        }}
+      >
+        <div className="border-b border-white text-xl px-2 py-1 mb-1">
+          {moveCategory.name}
         </div>
+        {movesByCategory(moveCategory.id)?.map((workoutMove: WorkoutMove) => (
+          <div className="px-1 py-0.5" key={workoutMove.id}>
+            {workoutMove.move.name} ({workoutMove.amount}{' '}
+            {workoutMove.move.unit})
+          </div>
+        ))}
       </div>
-    );
-  });
+    </div>
+  ));
 
-  const trackedDuration = DateUtils.secondsToReadableFormat(
-    workout?.duration_real
-  );
-  const ingameDuration = DateUtils.secondsToReadableFormat(
-    workout?.duration_ingame
-  );
-  const start = dayjs(workout?.start_at).format("YYYY-MM-DD HH:mm:ss");
-  const end = dayjs(workout?.end_at).format("YYYY-MM-DD HH:mm:ss");
+  const trackedDuration = DateUtils.secondsToReadableFormat(workout?.duration_real);
+  const ingameDuration = DateUtils.secondsToReadableFormat(workout?.duration_ingame);
+  const start = dayjs(workout?.start_at).format('YYYY-MM-DD HH:mm:ss');
+  const end = dayjs(workout?.end_at).format('YYYY-MM-DD HH:mm:ss');
 
   useEffect(() => {
     if (workout === undefined) {
-      navigate("/");
+      navigate('/');
     }
   }, [navigate, workout]);
 
@@ -76,7 +63,7 @@ export const WorkoutDetails = () => {
       <div className="flex flex-col">
         <div className="flex">
           <span className="font-bold text-xl">
-            Workout {workout ? workout.id : ""}
+            Workout {workout ? workout.id : ''}
           </span>
           <NavLink
             to={`/edit-workout/${workout?.id}`}

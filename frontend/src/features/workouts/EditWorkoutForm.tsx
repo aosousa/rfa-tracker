@@ -1,26 +1,25 @@
 // Core
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { store, AppDispatch } from "../../app/store";
-import { useNavigate } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useParams } from "react-router-dom";
-import dayjs from "dayjs";
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { store, AppDispatch } from '../../app/store';
+import { useNavigate, useParams } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import dayjs from 'dayjs';
 
 // Features
 import {
   updateWorkout,
   selectWorkoutById,
   deleteWorkoutMove,
-} from "./workoutsSlice";
-import { selectAllMoveCategories } from "../moveCategories/moveCategoriesSlice";
-import { selectAllMoves } from "../moves/movesSlice";
+} from './workoutsSlice';
+import { selectAllMoveCategories } from '../moveCategories/moveCategoriesSlice';
+import { selectAllMoves } from '../moves/movesSlice';
 
 // Interfaces
-import { MoveAmount } from "../../interfaces/MoveAmount";
+import { MoveAmount } from '../../interfaces/MoveAmount';
 
 // Utils
-import { DateUtils } from "../../utils/dateUtils";
+import { DateUtils } from '../../utils/dateUtils';
 
 export const EditWorkoutForm = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -29,20 +28,16 @@ export const EditWorkoutForm = () => {
   const [submitError, setSubmitError] = useState(false);
 
   const params = useParams();
-  const workout = useSelector((state) =>
-    selectWorkoutById(state, String(params.id))
-  );
+  const workout = useSelector((state) => selectWorkoutById(state, String(params.id)));
 
-  const workoutsSliceStatus = useSelector(
-    (state) => store.getState().workouts.status
-  );
+  const workoutsSliceStatus = useSelector(() => store.getState().workouts.status);
 
   useEffect(() => {
     if (workout === undefined) {
-      navigate("/");
+      navigate('/');
     }
 
-    if (workoutsSliceStatus === "failed") {
+    if (workoutsSliceStatus === 'failed') {
       setSubmitError(true);
     } else {
       setSubmitError(false);
@@ -50,21 +45,15 @@ export const EditWorkoutForm = () => {
   }, [navigate, workout, workoutsSliceStatus]);
 
   const moveCategories: any[] = useSelector(selectAllMoveCategories);
-
   const moves: any[] = useSelector(selectAllMoves);
 
   const movesByCategory = (categoryID: number) =>
     moves.filter((move) => move.category_id === categoryID);
 
-  const [trackedDuration, setTrackedDuration] = useState(
-    DateUtils.secondsToReadableFormat(workout?.duration_real)
-  );
-  const onTrackedDurationChange = (e: any) =>
-    setTrackedDuration(e.target.value);
+  const [trackedDuration, setTrackedDuration] = useState(DateUtils.secondsToReadableFormat(workout?.duration_real));
+  const onTrackedDurationChange = (e: any) => setTrackedDuration(e.target.value);
 
-  const [ingameDuration, setIngameDuration] = useState(
-    DateUtils.secondsToReadableFormat(workout?.duration_ingame)
-  );
+  const [ingameDuration, setIngameDuration] = useState(DateUtils.secondsToReadableFormat(workout?.duration_ingame));
   const onIngameDurationChange = (e: any) => setIngameDuration(e.target.value);
 
   const [trackedKcal, setTrackedKcal] = useState(workout?.kcal_real);
@@ -73,25 +62,19 @@ export const EditWorkoutForm = () => {
   const [ingameKcal, setIngameKcal] = useState(workout?.kcal_ingame);
   const onIngameKcalChange = (e: any) => setIngameKcal(e.target.value);
 
-  const [start, setStart] = useState(
-    dayjs(workout?.start_at).format("YYYY-MM-DDTHH:mm:ss")
-  );
+  const [start, setStart] = useState(dayjs(workout?.start_at).format('YYYY-MM-DDTHH:mm:ss'));
   const onStartChange = (e: any) => setStart(e.target.value);
 
-  const [end, setEnd] = useState(
-    dayjs(workout?.end_at).format("YYYY-MM-DDTHH:mm:ss")
-  );
+  const [end, setEnd] = useState(dayjs(workout?.end_at).format('YYYY-MM-DDTHH:mm:ss'));
   const onEndChange = (e: any) => setEnd(e.target.value);
 
   const [workoutMoves, setWorkoutMoves] = useState<MoveAmount[]>(
     workout
-      ? workout!.moves.map((move) => {
-          return {
-            id: move.id,
-            move_id: move.move_id,
-            amount: move.amount,
-          };
-        })
+      ? workout!.moves.map((move) => ({
+        id: move.id,
+        move_id: move.move_id,
+        amount: move.amount,
+      }))
       : []
   );
   const onWorkoutMoveChange = (index: number, e: any) => {
@@ -117,12 +100,10 @@ export const EditWorkoutForm = () => {
         deleteWorkoutMove({
           id: params.id,
           move_id: moveToRemove,
-          moves: workoutMoves.map((move) => {
-            return {
-              move_id: Number(move.move_id),
-              amount: Number(move.amount),
-            };
-          }),
+          moves: workoutMoves.map((move) => ({
+            move_id: Number(move.move_id),
+            amount: Number(move.amount),
+          })),
         })
       );
     } catch (error) {
@@ -130,54 +111,52 @@ export const EditWorkoutForm = () => {
     }
   };
 
-  let workoutMovesContent = workoutMoves.map((workoutMove, idx) => {
-    return (
-      <div className="ml-2 mt-2" key={idx}>
-        <button
-          title="Remove Move"
-          className="text-red-600 hover:text-red-700 focus:text-red-700 outline-none mr-2"
-          onClick={() => onRemoveMoveButtonClicked(idx)}
-        >
-          <FontAwesomeIcon
-            icon="square-minus"
-            className="h-5"
-            style={{ marginBottom: "-.2em" }}
-          />
-        </button>
-
-        <select
-          name={`workout-move-${idx}`}
-          id={`workout-move-${idx}`}
-          className="rfa-input sm:w-36 md:w-56"
-          onChange={(e) => onWorkoutMoveChange(idx, e)}
-        >
-          {moveCategories.map((moveCategory: any) => (
-            <optgroup key={moveCategory.id} label={moveCategory.name}>
-              {movesByCategory(moveCategory.id).map((move) => (
-                <option
-                  key={move.id}
-                  value={move.id}
-                  selected={move.id === workoutMoves[idx].move_id}
-                >
-                  {move.name}
-                </option>
-              ))}
-            </optgroup>
-          ))}
-        </select>
-
-        <input
-          type="number"
-          name={`amount-${idx}`}
-          id={`amount-${idx}`}
-          className="rfa-input sm:w-12 md:w-24 ml-2"
-          min="0"
-          defaultValue={workoutMoves[idx].amount}
-          onChange={(e) => onWorkoutMoveAmountChange(idx, e)}
+  const workoutMovesContent = workoutMoves.map((workoutMove, idx) => (
+    <div className="ml-2 mt-2" key={idx}>
+      <button
+        title="Remove Move"
+        className="text-red-600 hover:text-red-700 focus:text-red-700 outline-none mr-2"
+        onClick={() => onRemoveMoveButtonClicked(idx)}
+      >
+        <FontAwesomeIcon
+          icon="square-minus"
+          className="h-5"
+          style={{ marginBottom: '-.2em' }}
         />
-      </div>
-    );
-  });
+      </button>
+
+      <select
+        name={`workout-move-${idx}`}
+        id={`workout-move-${idx}`}
+        className="rfa-input sm:w-36 md:w-56"
+        onChange={(e) => onWorkoutMoveChange(idx, e)}
+      >
+        {moveCategories.map((moveCategory: any) => (
+          <optgroup key={moveCategory.id} label={moveCategory.name}>
+            {movesByCategory(moveCategory.id).map((move) => (
+              <option
+                key={move.id}
+                value={move.id}
+                selected={move.id === workoutMoves[idx].move_id}
+              >
+                {move.name}
+              </option>
+            ))}
+          </optgroup>
+        ))}
+      </select>
+
+      <input
+        type="number"
+        name={`amount-${idx}`}
+        id={`amount-${idx}`}
+        className="rfa-input sm:w-12 md:w-24 ml-2"
+        min="0"
+        defaultValue={workoutMoves[idx].amount}
+        onChange={(e) => onWorkoutMoveAmountChange(idx, e)}
+      />
+    </div>
+  ));
 
   const canSave = [
     trackedDuration,
@@ -200,20 +179,18 @@ export const EditWorkoutForm = () => {
           kcal_real: trackedKcal,
           start_at: start,
           end_at: end,
-          moves: workoutMoves.map((move) => {
-            return {
-              move_id: Number(move.move_id),
-              amount: Number(move.amount),
-            };
-          }),
+          moves: workoutMoves.map((move) => ({
+            move_id: Number(move.move_id),
+            amount: Number(move.amount),
+          })),
         })
       );
     } catch (error) {
       setSubmitError(true);
       console.error(`Failed to add workout: ${error}`);
     } finally {
-      if (workoutsSliceStatus === "succeeded") {
-        navigate("/");
+      if (workoutsSliceStatus === 'succeeded') {
+        navigate('/');
       }
     }
   };
@@ -222,7 +199,7 @@ export const EditWorkoutForm = () => {
     <div className="flex flex-col py-2 xl:w-2/3 sm:w-5/6 mx-auto">
       <div className="flex flex-col">
         <div className="font-bold text-xl">
-          Edit Workout {workout ? workout.id : ""}
+          Edit Workout {workout ? workout.id : ''}
         </div>
         <div className="flex flex-col bg-white rounded-md mt-4 p-2">
           <div className="font-bold text-xl text-orange-500 border-b px-2 mb-2 pb-2">

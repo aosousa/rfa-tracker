@@ -12,7 +12,7 @@ interface ApiClientData {
 
 export async function client(clientData: ApiClientData) {
   const headers = {
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
   };
 
   const config = {
@@ -56,7 +56,7 @@ export async function client(clientData: ApiClientData) {
 client.get = function (endpoint: string, customConfig = {}) {
   return client({
     endpoint,
-    method: "GET",
+    method: 'GET',
     data: {
       body: null,
       customConfig,
@@ -67,7 +67,7 @@ client.get = function (endpoint: string, customConfig = {}) {
 client.post = function (endpoint: string, body: any, customConfig = {}) {
   return client({
     endpoint,
-    method: "POST",
+    method: 'POST',
     data: {
       body,
       customConfig,
@@ -78,7 +78,7 @@ client.post = function (endpoint: string, body: any, customConfig = {}) {
 client.put = function (endpoint: string, body: any, customConfig = {}) {
   return client({
     endpoint,
-    method: "PUT",
+    method: 'PUT',
     data: {
       body,
       customConfig,
@@ -89,7 +89,7 @@ client.put = function (endpoint: string, body: any, customConfig = {}) {
 client.delete = function (endpoint: string, customConfig = {}) {
   return client({
     endpoint,
-    method: "DELETE",
+    method: 'DELETE',
     data: {
       body: null,
       customConfig,

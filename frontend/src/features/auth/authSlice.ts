@@ -1,10 +1,10 @@
 // Core
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
 // Utils
-import { client } from "../../utils/apiClient"
+import { client } from '../../utils/apiClient'
 
-export const login = createAsyncThunk('auth/login', 
+export const login = createAsyncThunk('auth/login',
     async (requestBody: any) => {
         const response = await client.post('/auth/login', requestBody)
 
@@ -21,25 +21,23 @@ const initialState = {
 const authSlice = createSlice({
     name: 'auth',
     initialState,
-    reducers: { 
+    reducers: {
         setAuthData: (state, action) => {
             state.data = action.payload
         },
         logout: (state) => {
             state.data = ''
-            document.cookie = `rfa-t_session=''; Max-Age=0;`
+            document.cookie = "rfa-t_session=''; Max-Age=0;"
         }
     },
     extraReducers: (builder: any) => {
-        builder.addCase(login.pending, (state: any, action: any) => {
+        builder.addCase(login.pending, (state: any) => {
             state.status = 'loading'
-        })
-        .addCase(login.fulfilled, (state: any, action: any) => {
+        }).addCase(login.fulfilled, (state: any, action: any) => {
             state.status = 'succeeded'
             state.data = action.payload
-            document.cookie = `rfa-t_session=${action.payload}; Max-Age=${60 * 60 * 31 *24}; SameSite=None; Secure`
-        })
-        .addCase(login.rejected, (state: any, action: any) => {
+            document.cookie = `rfa-t_session=${action.payload}; Max-Age=${60 * 60 * 31 * 24}; SameSite=None; Secure`
+        }).addCase(login.rejected, (state: any, action: any) => {
             state.status = 'failed'
             state.error = action.error.message
         })
