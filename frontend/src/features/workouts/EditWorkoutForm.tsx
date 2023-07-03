@@ -66,10 +66,10 @@ export const EditWorkoutForm = () => {
   const [workoutMoves, setWorkoutMoves] = useState<MoveAmount[]>(
     workout
       ? workout!.moves.map((move) => ({
-          id: move.id,
-          move_id: move.move_id,
-          amount: move.amount
-        }))
+        id: move.id,
+        move_id: move.move_id,
+        amount: move.amount
+      }))
       : []
   )
   const onWorkoutMoveChange = (index: number, e: any) => {

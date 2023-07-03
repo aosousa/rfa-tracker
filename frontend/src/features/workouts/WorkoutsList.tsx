@@ -9,7 +9,7 @@ import { Modal } from '../../components/Modal'
 
 // Features
 import { login, logout } from '../auth/authSlice'
-import { selectAllWorkouts } from './workoutsSlice'
+import { fetchWorkouts, selectAllWorkouts } from './workoutsSlice'
 
 // Interfaces
 import { WorkoutItem } from './WorkoutItem'
@@ -47,6 +47,8 @@ export const WorkoutsList = () => {
   }
 
   useEffect(() => {
+    dispatch(fetchWorkouts())
+
     if (authStatus === 'failed') {
       setLoginError(true)
     } else {

@@ -30,6 +30,7 @@
     "eject": "react-scripts eject",
     "lint": "eslint src/**/*.ts src/**/*.tsx"
   },
+  "homepage": "/rfa-tracker",
   "eslintConfig": {
     "extends": [
       "react-app",

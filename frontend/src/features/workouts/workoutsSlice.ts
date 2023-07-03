@@ -23,16 +23,7 @@ export const updateWorkout = createAsyncThunk('workouts/updateWorkout', async (r
   const state: any = getState()
   await client.put(`/workouts/${requestBody.id}`, requestBody, { headers: { Authorization: `Bearer ${state.auth.data}` } })
 
-  return {
-    id: requestBody.id,
-    duration_ingame: requestBody.duration_ingame,
-    duration_real: requestBody.duration_real,
-    kcal_ingame: requestBody.kcal_ingame,
-    kcal_real: requestBody.kcal_real,
-    start_at: requestBody.start_at,
-    end_at: requestBody.end_at,
-    moves: requestBody.moves
-  }
+  return requestBody
 })
 
 export const deleteWorkout = createAsyncThunk('workouts/deleteWorkout', async (id: number, { getState }) => {
