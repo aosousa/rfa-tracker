@@ -1,54 +1,54 @@
 // Core
-import dayjs from 'dayjs';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { store, AppDispatch } from '../../app/store';
-import { NavLink } from 'react-router-dom';
+import dayjs from 'dayjs'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { store, AppDispatch } from '../../app/store'
+import { NavLink } from 'react-router-dom'
 
 // Components
-import { Modal } from '../../components/Modal';
+import { Modal } from '../../components/Modal'
 
 // Features
-import { deleteWorkout } from './workoutsSlice';
+import { deleteWorkout } from './workoutsSlice'
 
 // Utils
-import { DateUtils } from '../../utils/dateUtils';
+import { DateUtils } from '../../utils/dateUtils'
 
 export const WorkoutItem = ({ workout }: any) => {
-  const workoutStartParsed = dayjs(workout.start_at).format('YYYY-MM-DD HH:mm:ss');
+  const workoutStartParsed = dayjs(workout.start_at).format('YYYY-MM-DD HH:mm:ss')
 
-  const realDurationParsed = DateUtils.secondsToReadableFormat(workout.duration_real);
-  const inGameDurationParsed = DateUtils.secondsToReadableFormat(workout.duration_ingame);
+  const realDurationParsed = DateUtils.secondsToReadableFormat(workout.duration_real)
+  const inGameDurationParsed = DateUtils.secondsToReadableFormat(workout.duration_ingame)
 
-  const [deleteWorkoutModalIsOpen, setDeleteWorkoutModalIsOpen] = useState(false);
-  const [deleteWorkoutError, setDeleteWorkoutError] = useState(false);
+  const [deleteWorkoutModalIsOpen, setDeleteWorkoutModalIsOpen] = useState(false)
+  const [deleteWorkoutError, setDeleteWorkoutError] = useState(false)
 
-  const dispatch = useDispatch<AppDispatch>();
-  const auth = useSelector(() => store.getState().auth.data);
-  const workoutSliceStatus = useSelector(() => store.getState().workouts.status);
+  const dispatch = useDispatch<AppDispatch>()
+  const auth = useSelector(() => store.getState().auth.data)
+  const workoutSliceStatus = useSelector(() => store.getState().workouts.status)
 
   const onDeleteWorkoutButtonClicked = async () => {
     try {
-      setDeleteWorkoutError(false);
-      await dispatch(deleteWorkout(workout.id));
+      setDeleteWorkoutError(false)
+      await dispatch(deleteWorkout(workout.id))
     } catch (error) {
-      setDeleteWorkoutError(true);
-      console.error(`Failed to delete workout: ${error}`);
+      setDeleteWorkoutError(true)
+      console.error(`Failed to delete workout: ${error}`)
     }
-  };
+  }
 
   useEffect(() => {
     if (workoutSliceStatus === 'failed') {
-      setDeleteWorkoutError(true);
+      setDeleteWorkoutError(true)
     } else {
-      setDeleteWorkoutError(false);
+      setDeleteWorkoutError(false)
 
       if (workoutSliceStatus === 'succeeded') {
-        setDeleteWorkoutModalIsOpen(false);
+        setDeleteWorkoutModalIsOpen(false)
       }
     }
-  }, [workoutSliceStatus]);
+  }, [workoutSliceStatus])
 
   return (
     <div className="flex bg-white rounded-md p-2 my-2 border-2 border-gray-300">
@@ -93,17 +93,10 @@ export const WorkoutItem = ({ workout }: any) => {
       </div>
 
       {deleteWorkoutModalIsOpen && (
-        <Modal
-          title="Delete Workout"
-          closeModal={() => setDeleteWorkoutModalIsOpen(false)}
-        >
+        <Modal title="Delete Workout" closeModal={() => setDeleteWorkoutModalIsOpen(false)}>
           <div>Are you sure you want to delete this workout?</div>
 
-          {deleteWorkoutError && (
-            <div className="mt-1 text-xs text-red-700">
-              An error occurred while deleting the workout.
-            </div>
-          )}
+          {deleteWorkoutError && <div className="mt-1 text-xs text-red-700">An error occurred while deleting the workout.</div>}
 
           <div className="ml-auto mt-1">
             <button
@@ -123,5 +116,5 @@ export const WorkoutItem = ({ workout }: any) => {
         </Modal>
       )}
     </div>
-  );
-};
+  )
+}

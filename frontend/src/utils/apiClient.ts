@@ -2,40 +2,37 @@
 // https://kentcdodds.com/blog/replace-axios-with-a-simple-custom-fetch-wrapper
 
 interface ApiClientData {
-  endpoint: string;
-  method: string;
+  endpoint: string
+  method: string
   data: {
-    body: any;
-    customConfig: any;
-  };
+    body: any
+    customConfig: any
+  }
 }
 
 export async function client(clientData: ApiClientData) {
   const headers = {
-    'Content-Type': 'application/json',
-  };
+    'Content-Type': 'application/json'
+  }
 
   const config = {
     method: clientData.method,
     ...clientData.data.customConfig,
     headers: {
       ...headers,
-      ...clientData.data.customConfig.headers,
-    },
-  };
-
-  if (clientData.data.body) {
-    config.body = JSON.stringify(clientData.data.body);
+      ...clientData.data.customConfig.headers
+    }
   }
 
-  let data;
-  try {
-    const response = await window.fetch(
-      `http://localhost:4000/rfa-tracker-api${clientData.endpoint}`,
-      config
-    );
+  if (clientData.data.body) {
+    config.body = JSON.stringify(clientData.data.body)
+  }
 
-    data = await response.json();
+  let data
+  try {
+    const response = await window.fetch(`http://localhost:4000/rfa-tracker-api${clientData.endpoint}`, config)
+
+    data = await response.json()
 
     if (response.ok) {
       // Return a result object similar to Axios
@@ -43,13 +40,13 @@ export async function client(clientData: ApiClientData) {
         status: response.status,
         data,
         headers: response.headers,
-        url: response.url,
-      };
+        url: response.url
+      }
     }
 
-    throw new Error(response.statusText);
+    throw new Error(response.statusText)
   } catch (err: any) {
-    return Promise.reject(err.message ? err.message : data);
+    return Promise.reject(err.message ? err.message : data)
   }
 }
 
@@ -59,10 +56,10 @@ client.get = function (endpoint: string, customConfig = {}) {
     method: 'GET',
     data: {
       body: null,
-      customConfig,
-    },
-  });
-};
+      customConfig
+    }
+  })
+}
 
 client.post = function (endpoint: string, body: any, customConfig = {}) {
   return client({
@@ -70,10 +67,10 @@ client.post = function (endpoint: string, body: any, customConfig = {}) {
     method: 'POST',
     data: {
       body,
-      customConfig,
-    },
-  });
-};
+      customConfig
+    }
+  })
+}
 
 client.put = function (endpoint: string, body: any, customConfig = {}) {
   return client({
@@ -81,10 +78,10 @@ client.put = function (endpoint: string, body: any, customConfig = {}) {
     method: 'PUT',
     data: {
       body,
-      customConfig,
-    },
-  });
-};
+      customConfig
+    }
+  })
+}
 
 client.delete = function (endpoint: string, customConfig = {}) {
   return client({
@@ -92,7 +89,7 @@ client.delete = function (endpoint: string, customConfig = {}) {
     method: 'DELETE',
     data: {
       body: null,
-      customConfig,
-    },
-  });
-};
+      customConfig
+    }
+  })
+}

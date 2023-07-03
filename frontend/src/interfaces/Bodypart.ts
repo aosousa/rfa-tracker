@@ -1,4 +1,4 @@
 export interface Bodypart {
-    ID: number
-    name: string
+  ID: number
+  name: string
 }

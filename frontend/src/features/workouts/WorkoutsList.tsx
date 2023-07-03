@@ -1,64 +1,64 @@
 // Core
-import { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { store, AppDispatch } from '../../app/store';
+import { useEffect, useState } from 'react'
+import { NavLink } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+import { store, AppDispatch } from '../../app/store'
 
 // Components
-import { Modal } from '../../components/Modal';
+import { Modal } from '../../components/Modal'
 
 // Features
-import { login, logout } from '../auth/authSlice';
-import { selectAllWorkouts } from './workoutsSlice';
+import { login, logout } from '../auth/authSlice'
+import { selectAllWorkouts } from './workoutsSlice'
 
 // Interfaces
-import { WorkoutItem } from './WorkoutItem';
+import { WorkoutItem } from './WorkoutItem'
 
 export const WorkoutsList = () => {
-  const [loginModalIsOpen, setLoginModalIsOpen] = useState(false);
-  const [loginError, setLoginError] = useState(false);
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [loginModalIsOpen, setLoginModalIsOpen] = useState(false)
+  const [loginError, setLoginError] = useState(false)
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
 
-  const dispatch = useDispatch<AppDispatch>();
-  const auth = useSelector(() => store.getState().auth.data);
-  const authStatus = useSelector(() => store.getState().auth.status);
-  const workouts = useSelector(selectAllWorkouts);
+  const dispatch = useDispatch<AppDispatch>()
+  const auth = useSelector(() => store.getState().auth.data)
+  const authStatus = useSelector(() => store.getState().auth.status)
+  const workouts = useSelector(selectAllWorkouts)
 
-  const onUsernameChanged = (e: any) => setUsername(e.target.value);
-  const onPasswordChanged = (e: any) => setPassword(e.target.value);
+  const onUsernameChanged = (e: any) => setUsername(e.target.value)
+  const onPasswordChanged = (e: any) => setPassword(e.target.value)
   const onLoginButtonClicked = async () => {
     try {
-      setLoginError(false);
+      setLoginError(false)
       await dispatch(
         login({
           username,
-          password,
+          password
         })
-      );
+      )
     } catch (error) {
-      setLoginError(true);
-      console.error(`Failed to login: ${error}`);
+      setLoginError(true)
+      console.error(`Failed to login: ${error}`)
     }
-  };
+  }
 
   const onLogoutButtonClicked = async () => {
-    store.dispatch(logout());
-  };
+    store.dispatch(logout())
+  }
 
   useEffect(() => {
     if (authStatus === 'failed') {
-      setLoginError(true);
+      setLoginError(true)
     } else {
-      setLoginError(false);
+      setLoginError(false)
 
       if (authStatus === 'succeeded') {
-        setLoginModalIsOpen(false);
+        setLoginModalIsOpen(false)
       }
     }
-  }, [authStatus]);
+  }, [authStatus])
 
-  const workoutItems = workouts.map((workout) => <WorkoutItem key={workout.id} workout={workout} />);
+  const workoutItems = workouts.map((workout) => <WorkoutItem key={workout.id} workout={workout} />)
 
   return (
     <div className="flex flex-col py-2 lg:w-2/3 md:w-5/6 sm:px-2 mx-auto">
@@ -93,9 +93,7 @@ export const WorkoutsList = () => {
         <div className="w-full grid sm:grid-cols-3 md:grid-cols-4 gap-4 font-semibold">
           <div className="flex flex-col">Date</div>
           <div className="flex flex-col">Duration (tracked / in game)</div>
-          <div className="sm:hidden md:flex flex-col">
-            Kcal burned (tracked / in game)
-          </div>
+          <div className="sm:hidden md:flex flex-col">Kcal burned (tracked / in game)</div>
           <div className="flex flex-col ml-auto">Actions</div>
         </div>
       </div>
@@ -109,26 +107,14 @@ export const WorkoutsList = () => {
               <label htmlFor="username" className="font-semibold">
                 Username
               </label>
-              <input
-                id="username"
-                type="text"
-                placeholder="Username"
-                className=" rfa-input"
-                onChange={onUsernameChanged}
-              />
+              <input id="username" type="text" placeholder="Username" className=" rfa-input" onChange={onUsernameChanged} />
             </div>
 
             <div className="flex flex-col mt-2">
               <label htmlFor="password" className="font-semibold">
                 Password
               </label>
-              <input
-                id="password"
-                type="password"
-                placeholder="Password"
-                className="rfa-input"
-                onChange={onPasswordChanged}
-              />
+              <input id="password" type="password" placeholder="Password" className="rfa-input" onChange={onPasswordChanged} />
             </div>
 
             <button
@@ -140,14 +126,10 @@ export const WorkoutsList = () => {
               Login
             </button>
 
-            {loginError && (
-              <div className="mt-1 text-center text-xs text-red-700">
-                Failed to authenticate user.
-              </div>
-            )}
+            {loginError && <div className="mt-1 text-center text-xs text-red-700">Failed to authenticate user.</div>}
           </form>
         </Modal>
       )}
     </div>
-  );
-};
+  )
+}

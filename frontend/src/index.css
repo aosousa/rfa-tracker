@@ -2,19 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
-
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
 .spinner {
@@ -37,21 +33,11 @@ code {
   height: 5em;
   border-radius: 50%;
   background: var(--redux-color);
-  background: -moz-linear-gradient(left,
-      var(--redux-color) 10%,
-      rgba(128, 0, 255, 0) 42%);
-  background: -webkit-linear-gradient(left,
-      var(--redux-color) 10%,
-      rgba(128, 0, 255, 0) 42%);
-  background: -o-linear-gradient(left,
-      var(--redux-color) 10%,
-      rgba(128, 0, 255, 0) 42%);
-  background: -ms-linear-gradient(left,
-      var(--redux-color) 10%,
-      rgba(128, 0, 255, 0) 42%);
-  background: linear-gradient(to right,
-      var(--redux-color) 10%,
-      rgba(128, 0, 255, 0) 42%);
+  background: -moz-linear-gradient(left, var(--redux-color) 10%, rgba(128, 0, 255, 0) 42%);
+  background: -webkit-linear-gradient(left, var(--redux-color) 10%, rgba(128, 0, 255, 0) 42%);
+  background: -o-linear-gradient(left, var(--redux-color) 10%, rgba(128, 0, 255, 0) 42%);
+  background: -ms-linear-gradient(left, var(--redux-color) 10%, rgba(128, 0, 255, 0) 42%);
+  background: linear-gradient(to right, var(--redux-color) 10%, rgba(128, 0, 255, 0) 42%);
   position: relative;
   -webkit-animation: load3 1.4s infinite linear;
   animation: load3 1.4s infinite linear;
