@@ -1,4 +1,6 @@
-export const Modal = (props: any) => (
+import PropTypes from 'prop-types'
+
+const Modal = (props: any) => (
 	<div className="flex flex-col fixed top-0 left-0 bottom-0 right-0 w-screen h-screen bg-black bg-opacity-80 p-4 z-50 items-center">
 		<div className="flex flex-col w-full bg-white rounded-lg overflow-auto md:w-6/12 2xl:w-4/12">
 			<div className="flex flex-row border-b p-4">
@@ -14,3 +16,11 @@ export const Modal = (props: any) => (
 		</div>
 	</div>
 )
+
+Modal.propTypes = {
+	title: PropTypes.string,
+	children: PropTypes.any,
+	closeModal: PropTypes.func
+}
+
+export default Modal

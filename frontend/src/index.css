@@ -96,11 +96,11 @@ code {
 }
 
 .active-link {
-  @apply font-semibold bg-orange-700 text-white rounded-md p-1.5;
+  @apply font-semibold bg-orange-700 text-white rounded-md py-1.5 px-2;
 }
 
 .inactive-link {
-  @apply font-semibold bg-white text-gray-700 rounded-md p-1.5;
+  @apply font-semibold bg-white text-gray-700 rounded-md py-1.5 px-2;
 }
 
 .rfa-input {

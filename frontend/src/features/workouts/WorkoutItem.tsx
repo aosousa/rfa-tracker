@@ -7,7 +7,7 @@ import { store, AppDispatch } from '../../app/store'
 import { NavLink } from 'react-router-dom'
 
 // Components
-import { Modal } from '../../components/Modal'
+import Modal from '../../components/Modal'
 
 // Features
 import { deleteWorkout } from './workoutsSlice'

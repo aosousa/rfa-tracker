@@ -1,7 +1,11 @@
+// Core
 import './App.css'
 import { Route, Routes } from 'react-router-dom'
 
+// Components
 import { TopBar } from './components/TopBar'
+
+// Features
 import { AddWorkoutForm } from './features/workouts/AddWorkoutForm'
 import { EditWorkoutForm } from './features/workouts/EditWorkoutForm'
 import { WorkoutDetails } from './features/workouts/WorkoutDetails'
