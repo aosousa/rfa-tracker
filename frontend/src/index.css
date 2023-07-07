@@ -104,5 +104,15 @@ code {
 }
 
 .rfa-input {
-  @apply bg-white text-gray-700 border border-gray-200 rounded-md p-1;
+  @apply bg-white text-gray-700 border rounded-md p-1 outline-none;
+}
+
+input:hover,
+select:hover {
+  @apply border-orange-300
+}
+
+input:focus,
+select:focus {
+  @apply border-orange-500 ring-1 ring-orange-500
 }
