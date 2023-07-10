@@ -25,7 +25,7 @@ const authSlice = createSlice({
     },
     logout: (state) => {
       state.data = ''
-      document.cookie = "rfa-t_session=''; Max-Age=0;"
+      document.cookie = 'rfa-t_session=; Max-Age=0;'
     }
   },
   extraReducers: (builder: any) => {

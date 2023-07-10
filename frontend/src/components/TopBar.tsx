@@ -38,7 +38,7 @@ export const TopBar = () => {
   }
 
   const onLogoutButtonClicked = async () => {
-    store.dispatch(logout())
+    dispatch(logout())
   }
 
   useEffect(() => {

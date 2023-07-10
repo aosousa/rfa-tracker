@@ -35,16 +35,18 @@ export const WorkoutsList = () => {
           </div>)}
       </div>
 
-      <div className="flex bg-white rounded-md p-2 my-2 border-2 border-gray-300">
-        <div className="w-full grid sm:grid-cols-3 md:grid-cols-4 gap-4 font-semibold">
-          <div className="flex flex-col">Date</div>
-          <div className="flex flex-col">Duration (tracked / in game)</div>
-          <div className="sm:hidden md:flex flex-col">Kcal burned (tracked / in game)</div>
-          <div className="flex flex-col ml-auto">Actions</div>
+      <div className="bg-white rounded-md p-2 mt-2">
+        <div className="flex bg-white rounded-md p-1 mb-2">
+          <div className="w-full grid sm:grid-cols-3 md:grid-cols-4 gap-4 font-semibold">
+            <div className="flex flex-col">Date</div>
+            <div className="flex flex-col">Duration (tracked / in game)</div>
+            <div className="sm:hidden md:flex flex-col">Kcal burned (tracked / in game)</div>
+            <div className="flex flex-col ml-auto">Actions</div>
+          </div>
         </div>
-      </div>
+        {workoutItems}
 
-      {workoutItems}
+      </div>
     </div>
   )
 }

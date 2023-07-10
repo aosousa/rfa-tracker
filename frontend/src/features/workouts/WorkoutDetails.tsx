@@ -3,6 +3,7 @@ import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { NavLink, useNavigate, useParams } from 'react-router-dom'
 import dayjs from 'dayjs'
+import { store } from '../../app/store'
 
 // Features
 import { selectAllMoveCategories } from '../moveCategories/moveCategoriesSlice'
@@ -16,6 +17,8 @@ import { DateUtils } from '../../utils/dateUtils'
 
 export const WorkoutDetails = () => {
   const navigate = useNavigate()
+
+  const auth = useSelector(() => store.getState().auth.data)
 
   const params = useParams()
   const workout = useSelector((state) => selectWorkoutById(state, String(params.id)))
@@ -58,12 +61,12 @@ export const WorkoutDetails = () => {
       <div className="flex flex-col">
         <div className="flex">
           <span className="font-bold text-xl">Workout {workout ? workout.id : ''}</span>
-          <NavLink
+          {auth !== '' && <NavLink
             to={`/edit-workout/${workout?.id}`}
             className="bg-sky-600 hover:bg-sky-700 focus:bg-sky-700 font-semibold text-white rounded-md hover:shadow-md focus:shadow-md outline-none px-4 py-0.5 ml-auto"
           >
             <button>Edit</button>
-          </NavLink>
+          </NavLink>}
         </div>
         <div className="flex flex-col bg-white rounded-md mt-4 p-2">
           <div className="font-bold text-xl text-orange-500 border-b px-2 mb-2 pb-2">Workout Details</div>

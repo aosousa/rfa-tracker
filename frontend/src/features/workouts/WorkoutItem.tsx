@@ -51,7 +51,7 @@ export const WorkoutItem = ({ workout }: any) => {
   }, [workoutSliceStatus])
 
   return (
-    <div className="flex bg-white rounded-md p-2 my-2 border-2 border-gray-300">
+    <div className="flex even:bg-gray-300 odd:bg-gray-100 p-2 border-2 even:border-gray-300 odd:border-gray-100">
       <div className="w-full grid sm:grid-cols-3 md:grid-cols-4 gap-4">
         <div className="flex flex-col mt-1">{workoutStartParsed}</div>
         <div className="flex flex-col mt-1">{`${realDurationParsed} / ${inGameDurationParsed}`}</div>
