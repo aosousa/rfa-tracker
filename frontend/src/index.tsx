@@ -12,6 +12,7 @@ import { faEye, faPencil, faSquareMinus, faTrash } from '@fortawesome/free-solid
 import { setAuthData } from './features/auth/authSlice'
 import { fetchMoves } from './features/moves/movesSlice'
 import { fetchMoveCategories } from './features/moveCategories/moveCategoriesSlice'
+import { fetchWorkouts } from './features/workouts/workoutsSlice'
 
 // Utils
 import { CookieUtils } from './utils/cookieUtils'
@@ -30,6 +31,7 @@ const start = async () => {
   // load all needed data at the start
   store.dispatch(fetchMoves())
   store.dispatch(fetchMoveCategories())
+  store.dispatch(fetchWorkouts())
 
   root.render(
     <React.StrictMode>

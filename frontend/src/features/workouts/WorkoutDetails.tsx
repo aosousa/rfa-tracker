@@ -22,6 +22,7 @@ export const WorkoutDetails = () => {
 
   const params = useParams()
   const workout = useSelector((state) => selectWorkoutById(state, String(params.id)))
+  const workoutSliceStatus = useSelector(() => store.getState().workouts.status)
 
   const movesByCategory = (categoryID: number): WorkoutMove[] | undefined => workout?.moves.filter((workoutMove: WorkoutMove) => workoutMove.move.category_id === categoryID)
 
@@ -51,10 +52,10 @@ export const WorkoutDetails = () => {
   const end = dayjs(workout?.end_at).format('YYYY-MM-DD HH:mm:ss')
 
   useEffect(() => {
-    if (workout === undefined) {
+    if (workoutSliceStatus === 'succeeded' && workout === undefined) {
       navigate('/')
     }
-  }, [navigate, workout])
+  }, [workoutSliceStatus, navigate, workout])
 
   return (
     <div className="flex flex-col py-2 xl:w-2/3 sm:w-5/6 sm:px-2 mx-auto">

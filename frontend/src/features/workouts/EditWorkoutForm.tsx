@@ -25,12 +25,50 @@ export const EditWorkoutForm = () => {
 
   const params = useParams()
   const workout = useSelector((state) => selectWorkoutById(state, String(params.id)))
-
   const workoutsSliceStatus = useSelector(() => store.getState().workouts.status)
 
+  const moveCategories: any[] = useSelector(selectAllMoveCategories)
+  const moves: any[] = useSelector(selectAllMoves)
+
+  const movesByCategory = (categoryID: number) => moves.filter((move) => move.category_id === categoryID)
+
+  const [trackedDuration, setTrackedDuration] = useState('')
+  const onTrackedDurationChange = (e: any) => setTrackedDuration(e.target.value)
+
+  const [ingameDuration, setIngameDuration] = useState('')
+  const onIngameDurationChange = (e: any) => setIngameDuration(e.target.value)
+
+  const [trackedKcal, setTrackedKcal] = useState(0)
+  const onTrackedKcalChange = (e: any) => setTrackedKcal(e.target.value)
+
+  const [ingameKcal, setIngameKcal] = useState(0)
+  const onIngameKcalChange = (e: any) => setIngameKcal(e.target.value)
+
+  const [start, setStart] = useState('')
+  const onStartChange = (e: any) => setStart(e.target.value)
+
+  const [end, setEnd] = useState('')
+  const onEndChange = (e: any) => setEnd(e.target.value)
+
+  const [workoutMoves, setWorkoutMoves] = useState<MoveAmount[]>([])
+
   useEffect(() => {
-    if (workout === undefined) {
-      navigate('/')
+    if (workoutsSliceStatus === 'succeeded') {
+      if (workout === undefined) {
+        navigate('/')
+      } else {
+        setTrackedDuration(DateUtils.secondsToReadableFormat(workout.duration_real))
+        setIngameDuration(DateUtils.secondsToReadableFormat(workout.duration_ingame))
+        setTrackedKcal(workout.kcal_real)
+        setIngameKcal(workout.kcal_ingame)
+        setStart(dayjs(workout.start_at).format('YYYY-MM-DDTHH:mm:ss'))
+        setEnd(dayjs(workout.end_at).format('YYYY-MM-DDTHH:mm:ss'))
+        setWorkoutMoves(workout.moves.map((move) => ({
+          id: move.id,
+          move_id: move.move_id,
+          amount: move.amount
+        })))
+      }
     }
 
     if (workoutsSliceStatus === 'failed') {
@@ -40,38 +78,7 @@ export const EditWorkoutForm = () => {
     }
   }, [navigate, workout, workoutsSliceStatus])
 
-  const moveCategories: any[] = useSelector(selectAllMoveCategories)
-  const moves: any[] = useSelector(selectAllMoves)
 
-  const movesByCategory = (categoryID: number) => moves.filter((move) => move.category_id === categoryID)
-
-  const [trackedDuration, setTrackedDuration] = useState(DateUtils.secondsToReadableFormat(workout?.duration_real))
-  const onTrackedDurationChange = (e: any) => setTrackedDuration(e.target.value)
-
-  const [ingameDuration, setIngameDuration] = useState(DateUtils.secondsToReadableFormat(workout?.duration_ingame))
-  const onIngameDurationChange = (e: any) => setIngameDuration(e.target.value)
-
-  const [trackedKcal, setTrackedKcal] = useState(workout?.kcal_real)
-  const onTrackedKcalChange = (e: any) => setTrackedKcal(e.target.value)
-
-  const [ingameKcal, setIngameKcal] = useState(workout?.kcal_ingame)
-  const onIngameKcalChange = (e: any) => setIngameKcal(e.target.value)
-
-  const [start, setStart] = useState(dayjs(workout?.start_at).format('YYYY-MM-DDTHH:mm:ss'))
-  const onStartChange = (e: any) => setStart(e.target.value)
-
-  const [end, setEnd] = useState(dayjs(workout?.end_at).format('YYYY-MM-DDTHH:mm:ss'))
-  const onEndChange = (e: any) => setEnd(e.target.value)
-
-  const [workoutMoves, setWorkoutMoves] = useState<MoveAmount[]>(
-    workout
-      ? workout!.moves.map((move) => ({
-        id: move.id,
-        move_id: move.move_id,
-        amount: move.amount
-      }))
-      : []
-  )
   const onWorkoutMoveChange = (index: number, e: any) => {
     workoutMoves[index].move_id = e.target.value
   }
