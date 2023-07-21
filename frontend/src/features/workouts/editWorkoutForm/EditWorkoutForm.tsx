@@ -1,31 +1,35 @@
 // Core
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { store, AppDispatch } from '../../app/store'
-import { useNavigate } from 'react-router-dom'
+import { store, AppDispatch } from '../../../app/store'
+import { useNavigate, useParams } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import dayjs from 'dayjs'
+import './EditWorkoutForm.css'
 
 // Features
-import { createWorkout } from './workoutsSlice'
-import { selectAllMoveCategories } from '../moveCategories/moveCategoriesSlice'
-import { selectAllMoves } from '../moves/movesSlice'
+import { updateWorkout, selectWorkoutById, deleteWorkoutMove } from '../workoutsSlice'
+import { selectAllMoveCategories } from '../../moveCategories/moveCategoriesSlice'
+import { selectAllMoves } from '../../moves/movesSlice'
 
 // Interfaces
-import { MoveAmount } from '../../interfaces/MoveAmount'
+import { MoveAmount } from '../../../interfaces/MoveAmount'
 
 // Utils
-import { DateUtils } from '../../utils/dateUtils'
+import { DateUtils } from '../../../utils/dateUtils'
 
-export const AddWorkoutForm = () => {
+export const EditWorkoutForm = () => {
   const dispatch = useDispatch<AppDispatch>()
   const navigate = useNavigate()
 
   const [submitError, setSubmitError] = useState(false)
 
-  const moveCategories: any[] = useSelector(selectAllMoveCategories)
-
-  const moves: any[] = useSelector(selectAllMoves)
+  const params = useParams()
+  const workout = useSelector((state) => selectWorkoutById(state, String(params.id)))
   const workoutsSliceStatus = useSelector(() => store.getState().workouts.status)
+
+  const moveCategories: any[] = useSelector(selectAllMoveCategories)
+  const moves: any[] = useSelector(selectAllMoves)
 
   const movesByCategory = (categoryID: number) => moves.filter((move) => move.category_id === categoryID)
 
@@ -48,6 +52,34 @@ export const AddWorkoutForm = () => {
   const onEndChange = (e: any) => setEnd(e.target.value)
 
   const [workoutMoves, setWorkoutMoves] = useState<MoveAmount[]>([])
+
+  useEffect(() => {
+    if (workoutsSliceStatus === 'succeeded') {
+      if (workout === undefined) {
+        navigate('/')
+      } else {
+        setTrackedDuration(DateUtils.secondsToReadableFormat(workout.duration_real))
+        setIngameDuration(DateUtils.secondsToReadableFormat(workout.duration_ingame))
+        setTrackedKcal(workout.kcal_real)
+        setIngameKcal(workout.kcal_ingame)
+        setStart(dayjs(workout.start_at).format('YYYY-MM-DDTHH:mm:ss'))
+        setEnd(dayjs(workout.end_at).format('YYYY-MM-DDTHH:mm:ss'))
+        setWorkoutMoves(workout.moves.map((move) => ({
+          id: move.id,
+          move_id: move.move_id,
+          amount: move.amount
+        })))
+      }
+    }
+
+    if (workoutsSliceStatus === 'failed') {
+      setSubmitError(true)
+    } else {
+      setSubmitError(false)
+    }
+  }, [navigate, workout, workoutsSliceStatus])
+
+
   const onWorkoutMoveChange = (index: number, e: any) => {
     workoutMoves[index].move_id = e.target.value
   }
@@ -59,10 +91,26 @@ export const AddWorkoutForm = () => {
   const onAddWorkoutMoveButtonClicked = () => setWorkoutMoves([...workoutMoves, { move_id: moves[0].id, amount: 0 }])
 
   const onRemoveMoveButtonClicked = (index: number) => {
+    const moveToRemove = workoutMoves[index].id
     const updatedWorkoutMoves = workoutMoves
     updatedWorkoutMoves.splice(index, 1)
 
     setWorkoutMoves([...updatedWorkoutMoves])
+
+    try {
+      dispatch(
+        deleteWorkoutMove({
+          id: params.id,
+          move_id: moveToRemove,
+          moves: workoutMoves.map((move) => ({
+            move_id: Number(move.move_id),
+            amount: Number(move.amount)
+          }))
+        })
+      )
+    } catch (error) {
+      console.error(`Failed to delete workout_move: ${error}`)
+    }
   }
 
   const workoutMovesContent = workoutMoves.map((workoutMove, idx) => (
@@ -75,7 +123,7 @@ export const AddWorkoutForm = () => {
         {moveCategories.map((moveCategory: any) => (
           <optgroup key={moveCategory.id} label={moveCategory.name}>
             {movesByCategory(moveCategory.id).map((move) => (
-              <option key={move.id} value={move.id}>
+              <option key={move.id} value={move.id} selected={move.id === workoutMoves[idx].move_id}>
                 {move.name}
               </option>
             ))}
@@ -83,7 +131,15 @@ export const AddWorkoutForm = () => {
         ))}
       </select>
 
-      <input type="number" name={`amount-${idx}`} id={`amount-${idx}`} min="0" className="rfa-input sm:w-12 md:w-24 ml-2" onChange={(e) => onWorkoutMoveAmountChange(idx, e)} />
+      <input
+        type="number"
+        name={`amount-${idx}`}
+        id={`amount-${idx}`}
+        className="rfa-input sm:w-12 md:w-24 ml-2"
+        min="0"
+        defaultValue={workoutMoves[idx].amount}
+        onChange={(e) => onWorkoutMoveAmountChange(idx, e)}
+      />
     </div>
   ))
 
@@ -93,14 +149,18 @@ export const AddWorkoutForm = () => {
     try {
       setSubmitError(false)
       dispatch(
-        createWorkout({
+        updateWorkout({
+          id: params.id,
           duration_ingame: DateUtils.hmsToSeconds(ingameDuration),
           duration_real: DateUtils.hmsToSeconds(trackedDuration),
           kcal_ingame: ingameKcal,
           kcal_real: trackedKcal,
           start_at: start,
           end_at: end,
-          moves: workoutMoves
+          moves: workoutMoves.map((move) => ({
+            move_id: Number(move.move_id),
+            amount: Number(move.amount)
+          }))
         })
       )
     } catch (error) {
@@ -113,19 +173,11 @@ export const AddWorkoutForm = () => {
     }
   }
 
-  useEffect(() => {
-    if (workoutsSliceStatus === 'failed') {
-      setSubmitError(true)
-    } else {
-      setSubmitError(false)
-    }
-  }, [navigate, workoutsSliceStatus])
-
   return (
-    <div className="flex flex-col py-2 xl:w-2/3 sm:w-5/6 mx-auto">
+    <div className="edit-workout-form">
       <div className="flex flex-col">
-        <div className="font-bold text-xl">Add Workout</div>
-        <div className="flex flex-col bg-white rounded-md mt-4 p-2">
+        <div className="edit-workout-form__title">Edit Workout {workout ? workout.id : ''}</div>
+        <div className="edit-workout-form__info">
           <div className="font-bold text-xl text-orange-500 border-b px-2 mb-2 pb-2">Workout Details</div>
 
           <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-4 lg:gap-2">
@@ -133,14 +185,14 @@ export const AddWorkoutForm = () => {
               <label htmlFor="start" className="font-semibold text-orange-600">
                 Start <span className="text-red-600">*</span>
               </label>
-              <input type="datetime-local" name="start" id="start" className="rfa-input w-56" step="1" onChange={onStartChange} />
+              <input type="datetime-local" name="start" id="start" className="rfa-input w-56" step="1" value={start} onChange={onStartChange} />
             </div>
 
             <div className="grid mx-2">
               <label htmlFor="end" className="font-semibold text-orange-600">
                 End <span className="text-red-600">*</span>
               </label>
-              <input type="datetime-local" name="end" id="end" className="rfa-input w-56" step="1" onChange={onEndChange} />
+              <input type="datetime-local" name="end" id="end" className="rfa-input w-56" step="1" value={end} onChange={onEndChange} />
             </div>
           </div>
 
@@ -149,28 +201,28 @@ export const AddWorkoutForm = () => {
               <label htmlFor="duration-real" className="font-semibold text-orange-600">
                 Duration (tracked) <span className="text-red-600">*</span>
               </label>
-              <input type="time" name="duration-real" id="duration-real" className="rfa-input w-40" step="1" onChange={onTrackedDurationChange} />
+              <input type="time" name="duration-real" id="duration-real" className="rfa-input w-40" step="1" value={trackedDuration} onChange={onTrackedDurationChange} />
             </div>
 
             <div className="grid mx-2">
               <label htmlFor="duration-ingame" className="font-semibold text-orange-600">
                 Duration (in game) <span className="text-red-600">*</span>
               </label>
-              <input type="time" name="duration-ingame" id="duration-ingame" className="rfa-input w-40" step="1" onChange={onIngameDurationChange} />
+              <input type="time" name="duration-ingame" id="duration-ingame" className="rfa-input w-40" step="1" value={ingameDuration} onChange={onIngameDurationChange} />
             </div>
 
             <div className="grid mx-2">
               <label htmlFor="kcal-real" className="font-semibold text-orange-600">
                 Kcal burned (tracked) <span className="text-red-600">*</span>
               </label>
-              <input type="number" name="kcal-real" id="kcal-real" className="rfa-input w-40" min="0" onChange={onTrackedKcalChange} />
+              <input type="number" name="kcal-real" id="kcal-real" className="rfa-input w-40" min="0" value={trackedKcal} onChange={onTrackedKcalChange} />
             </div>
 
             <div className="grid mx-2">
               <label htmlFor="kcal-ingame" className="font-semibold text-orange-600">
                 Kcal burned (in game) <span className="text-red-600">*</span>
               </label>
-              <input type="number" name="kcal-ingame" id="kcal-ingame" className="rfa-input w-40" min="0" onChange={onIngameKcalChange} />
+              <input type="number" name="kcal-ingame" id="kcal-ingame" className="rfa-input w-40" min="0" value={ingameKcal} onChange={onIngameKcalChange} />
             </div>
           </div>
 
@@ -196,7 +248,7 @@ export const AddWorkoutForm = () => {
           <div className="border-b py-2"></div>
 
           <div className="flex ml-auto mt-2">
-            {submitError && <div className="text-xs text-red-700 mt-1 mr-2">An error occurred while creating the workout.</div>}
+            {submitError && <div className="text-xs text-red-700 mt-1 mr-2">An error occurred while editing the workout.</div>}
 
             <button
               className="bg-green-600 hover:bg-green-700 focus:bg-green-700 hover:shadow-md disabled:bg-green-300 disabled:pointer-events-none font-semibold text-sm text-white outline-none rounded-md px-4 py-1 mr-2"

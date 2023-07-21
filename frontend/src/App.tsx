@@ -3,13 +3,13 @@ import './App.css'
 import { Route, Routes } from 'react-router-dom'
 
 // Components
-import { TopBar } from './components/TopBar'
+import { TopBar } from './components/topBar/TopBar'
 
 // Features
-import { AddWorkoutForm } from './features/workouts/AddWorkoutForm'
-import { EditWorkoutForm } from './features/workouts/EditWorkoutForm'
-import { WorkoutDetails } from './features/workouts/WorkoutDetails'
-import { WorkoutsList } from './features/workouts/WorkoutsList'
+import { AddWorkoutForm } from './features/workouts/addWorkoutForm/AddWorkoutForm'
+import { EditWorkoutForm } from './features/workouts/editWorkoutForm/EditWorkoutForm'
+import { WorkoutDetails } from './features/workouts/workoutDetails/WorkoutDetails'
+import { WorkoutsList } from './features/workouts/workoutsList/WorkoutsList'
 
 export const App = () => (
   <div className="App">

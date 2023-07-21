@@ -1,0 +1,11 @@
+.add-workout-form {
+    @apply flex flex-col py-2 xl:w-2/3 sm:w-5/6 mx-auto;
+}
+
+.add-workout-form__title {
+    @apply font-bold text-black dark:text-white text-xl;
+}
+
+.add-workout-form__info {
+    @apply flex flex-col bg-white dark:bg-gray-600 rounded-md mt-4 p-2
+}

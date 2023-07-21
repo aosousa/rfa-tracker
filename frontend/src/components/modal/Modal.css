@@ -1,0 +1,27 @@
+.modal {
+  @apply flex flex-col fixed top-0 left-0 bottom-0 right-0 w-screen h-screen bg-black bg-opacity-80 p-4 z-50 items-center;
+}
+
+.modal__header {
+  @apply flex flex-col w-full bg-white dark:bg-zinc-800 text-black dark:text-white rounded-lg overflow-auto md:w-6/12 2xl:w-4/12;
+}
+
+.modal__header-title-div {
+  @apply flex flex-row border-b p-4;
+}
+
+.modal__header-title-div-text {
+  @apply flex flex-col font-semibold text-lg;
+}
+
+.modal__header-title-div-close {
+  @apply hover:bg-gray-100 dark:hover:bg-white focus:bg-gray-100 dark:focus:bg-white disabled:text-gray-300 rounded-md p-1 ml-auto;
+}
+
+.modal__header-title-div-close-svg {
+  @apply h-5 w-5 text-black dark:text-white dark:hover:text-black;
+}
+
+.modal__content {
+  @apply flex flex-col bg-white dark:bg-zinc-800 rounded-md p-4;
+}

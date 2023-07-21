@@ -100,11 +100,11 @@ code {
 }
 
 .inactive-link {
-  @apply font-semibold bg-white text-gray-700 rounded-md py-1.5 px-2;
+  @apply font-semibold bg-white dark:bg-gray-600 text-gray-700 dark:text-white rounded-md py-1.5 px-2;
 }
 
 .rfa-input {
-  @apply bg-white text-gray-700 border rounded-md p-1 outline-none;
+  @apply  bg-white dark:bg-zinc-800 text-gray-700 dark:text-white border rounded-md p-1 outline-none;
 }
 
 input:hover,

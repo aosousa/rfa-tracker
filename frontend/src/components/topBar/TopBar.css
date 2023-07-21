@@ -1,0 +1,35 @@
+.top-bar {
+    @apply h-12 flex flex-row items-center bg-white dark:bg-zinc-800 shadow-sm border-b;
+}
+
+.top-bar__logo-div {
+    @apply flex font-semibold flex-shrink-0 ml-4 pr-4 border-r;
+}
+
+.top-bar__logo-div-title {
+    @apply sm:block bg-white dark:bg-zinc-800 text-orange-500 text-2xl font-semibold p-1.5
+}
+
+.top-bar__item {
+    @apply flex flex-shrink-0 ml-2;
+}
+
+.top-bar__moon {
+    @apply text-zinc-800 mt-2 mr-4 w-5 h-5 cursor-pointer;
+}
+
+.top-bar__sun {
+    @apply text-white mt-2 mr-4 w-5 h-5 cursor-pointer;
+}
+
+.top-bar__mode {
+    @apply flex flex-shrink-0 ml-auto mr-2;
+}
+
+.top-bar__mode-edit {
+    @apply bg-green-600 hover:bg-green-700 focus:bg-green-700 font-semibold text-white rounded-md hover:shadow-md focus:shadow-md outline-none px-4 py-1.5;
+}
+
+.top-bar__mode-view {
+    @apply bg-gray-600 hover:bg-gray-700 focus:bg-gray-700 font-semibold text-white rounded-md hover:shadow-md focus:shadow-md outline-none px-4 py-1.5;
+}

@@ -3,17 +3,18 @@ import dayjs from 'dayjs'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { store, AppDispatch } from '../../app/store'
+import { store, AppDispatch } from '../../../app/store'
 import { NavLink } from 'react-router-dom'
+import './WorkoutItem.css'
 
 // Components
-import Modal from '../../components/Modal'
+import Modal from '../../../components/modal/Modal'
 
 // Features
-import { deleteWorkout } from './workoutsSlice'
+import { deleteWorkout } from '../workoutsSlice'
 
 // Utils
-import { DateUtils } from '../../utils/dateUtils'
+import { DateUtils } from '../../../utils/dateUtils'
 
 export const WorkoutItem = ({ workout }: any) => {
   const workoutStartParsed = dayjs(workout.start_at).format('YYYY-MM-DD HH:mm:ss')
@@ -51,8 +52,8 @@ export const WorkoutItem = ({ workout }: any) => {
   }, [workoutSliceStatus])
 
   return (
-    <div className="flex even:bg-gray-300 odd:bg-gray-100 p-2 border-2 even:border-gray-300 odd:border-gray-100">
-      <div className="w-full grid sm:grid-cols-3 md:grid-cols-4 gap-4">
+    <div className="workout-item">
+      <div className="workout-item__grid">
         <div className="flex flex-col mt-1">{workoutStartParsed}</div>
         <div className="flex flex-col mt-1">{`${realDurationParsed} / ${inGameDurationParsed}`}</div>
         <div className="sm:hidden md:flex flex-col mt-1">{`${workout.kcal_real} / ${workout.kcal_ingame} kcal`}</div>
@@ -61,7 +62,7 @@ export const WorkoutItem = ({ workout }: any) => {
             <button
               type="button"
               title="Workout Details"
-              className="sm:w-6 md:w-8 sm:h-6 md:h-8 rounded-md border-2 bg-transparent hover:bg-gray-100 focus:bg-gray-100 text-gray-500 border-gray-500 outline-none sm:pb-6 md:pb-0"
+              className="workout-item__view-btn"
             >
               <FontAwesomeIcon icon="eye" />
             </button>
@@ -72,7 +73,7 @@ export const WorkoutItem = ({ workout }: any) => {
               <button
                 type="button"
                 title="Edit Workout"
-                className="sm:w-6 md:w-8 sm:h-6 md:h-8 rounded-md border-2 bg-transparent hover:bg-sky-100 focus:bg-sky-100 text-sky-500 border-sky-500 outline-none ml-2 sm:pb-6 md:pb-0"
+                className="workout-item__edit-btn"
               >
                 <FontAwesomeIcon icon="pencil" />
               </button>
@@ -83,7 +84,7 @@ export const WorkoutItem = ({ workout }: any) => {
             <button
               type="button"
               title="Delete Workout"
-              className="sm:w-6 md:w-8 sm:h-6 md:h-8 rounded-md border-2 bg-transparent hover:bg-red-100 focus:bg-red-100 text-red-500 border-red-500 outline-none ml-2 sm:pb-6 md:pb-0"
+              className="workout-item__delete-btn"
               onClick={() => setDeleteWorkoutModalIsOpen(true)}
             >
               <FontAwesomeIcon icon="trash" />

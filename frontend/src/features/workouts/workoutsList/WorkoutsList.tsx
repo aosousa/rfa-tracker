@@ -2,13 +2,14 @@
 import { useEffect } from 'react'
 import { NavLink } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import { store, AppDispatch } from '../../app/store'
+import { store, AppDispatch } from '../../../app/store'
+import './WorkoutsList.css'
 
 // Features
-import { fetchWorkouts, selectAllWorkouts } from './workoutsSlice'
+import { fetchWorkouts, selectAllWorkouts } from '../workoutsSlice'
 
 // Interfaces
-import { WorkoutItem } from './WorkoutItem'
+import { WorkoutItem } from '../workoutItem/WorkoutItem'
 
 export const WorkoutsList = () => {
   const dispatch = useDispatch<AppDispatch>()
@@ -21,9 +22,9 @@ export const WorkoutsList = () => {
   }, [dispatch])
 
   return (
-    <div className="flex flex-col py-2 lg:w-2/3 md:w-5/6 sm:px-2 mx-auto">
+    <div className="workouts">
       <div className="flex">
-        <p className="font-bold text-xl">Workouts</p>
+        <p className="workouts__title">Workouts</p>
         {auth !== '' && (
           <div className="ml-auto">
             <NavLink
@@ -35,9 +36,9 @@ export const WorkoutsList = () => {
           </div>)}
       </div>
 
-      <div className="bg-white rounded-md p-2 mt-2">
-        <div className="flex bg-white rounded-md p-1 mb-2">
-          <div className="w-full grid sm:grid-cols-3 md:grid-cols-4 gap-4 font-semibold">
+      <div className="workouts__list">
+        <div className="workouts__list-table">
+          <div className="workouts__list-table-headers">
             <div className="flex flex-col">Date</div>
             <div className="flex flex-col">Duration (tracked / in game)</div>
             <div className="sm:hidden md:flex flex-col">Kcal burned (tracked / in game)</div>
