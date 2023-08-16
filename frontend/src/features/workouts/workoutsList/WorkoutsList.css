@@ -3,7 +3,11 @@
 }
 
 .workouts__title {
-    @apply font-bold text-black dark:text-white text-xl;
+    @apply font-bold text-black dark:text-white text-2xl;
+}
+
+.workouts__add-btn {
+    @apply bg-green-600 hover:bg-green-700 focus:bg-green-700 font-semibold text-white rounded-md hover:shadow-md focus:shadow-md outline-none sm:px-2 md:px-4 py-1;
 }
 
 .workouts__list {

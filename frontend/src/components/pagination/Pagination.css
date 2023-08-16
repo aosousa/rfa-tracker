@@ -1,0 +1,7 @@
+.pagination {
+    @apply flex flex-col mt-2;
+}
+
+.pagination-container {
+    @apply flex ml-auto;
+}

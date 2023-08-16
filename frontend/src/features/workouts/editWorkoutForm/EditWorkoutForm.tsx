@@ -17,6 +17,7 @@ import { MoveAmount } from '../../../interfaces/MoveAmount'
 
 // Utils
 import { DateUtils } from '../../../utils/dateUtils'
+import { Move } from '../../../interfaces/Move'
 
 export const EditWorkoutForm = () => {
   const dispatch = useDispatch<AppDispatch>()
@@ -66,6 +67,7 @@ export const EditWorkoutForm = () => {
         setEnd(dayjs(workout.end_at).format('YYYY-MM-DDTHH:mm:ss'))
         setWorkoutMoves(workout.moves.map((move) => ({
           id: move.id,
+          move: move.move,
           move_id: move.move_id,
           amount: move.amount
         })))
@@ -81,14 +83,22 @@ export const EditWorkoutForm = () => {
 
 
   const onWorkoutMoveChange = (index: number, e: any) => {
-    workoutMoves[index].move_id = e.target.value
+    const moveID = Number(e.target.value)
+    const move = store.getState().moves.entities[moveID] as Move
+
+    workoutMoves[index].move_id = moveID
+    workoutMoves[index].move = move
   }
 
   const onWorkoutMoveAmountChange = (index: number, e: any) => {
-    workoutMoves[index].amount = e.target.value
+    workoutMoves[index].amount = Number(e.target.value)
   }
 
-  const onAddWorkoutMoveButtonClicked = () => setWorkoutMoves([...workoutMoves, { move_id: moves[0].id, amount: 0 }])
+  const onAddWorkoutMoveButtonClicked = () => {
+    const move = store.getState().moves.entities[moves[0].id] as Move
+
+    setWorkoutMoves([...workoutMoves, { move_id: moves[0].id, amount: 0, move }])
+  }
 
   const onRemoveMoveButtonClicked = (index: number) => {
     const moveToRemove = workoutMoves[index].id
@@ -115,7 +125,7 @@ export const EditWorkoutForm = () => {
 
   const workoutMovesContent = workoutMoves.map((workoutMove, idx) => (
     <div className="ml-2 mt-2" key={idx}>
-      <button title="Remove Move" className="text-red-600 hover:text-red-700 focus:text-red-700 outline-none mr-2" onClick={() => onRemoveMoveButtonClicked(idx)}>
+      <button title="Remove Move" className="edit-workout-form__remove-move-btn" onClick={() => onRemoveMoveButtonClicked(idx)}>
         <FontAwesomeIcon icon="square-minus" className="h-5" style={{ marginBottom: '-.2em' }} />
       </button>
 
@@ -158,6 +168,7 @@ export const EditWorkoutForm = () => {
           start_at: start,
           end_at: end,
           moves: workoutMoves.map((move) => ({
+            move: move.move,
             move_id: Number(move.move_id),
             amount: Number(move.amount)
           }))
@@ -178,19 +189,19 @@ export const EditWorkoutForm = () => {
       <div className="flex flex-col">
         <div className="edit-workout-form__title">Edit Workout {workout ? workout.id : ''}</div>
         <div className="edit-workout-form__info">
-          <div className="font-bold text-xl text-orange-500 border-b px-2 mb-2 pb-2">Workout Details</div>
+          <div className="edit-workout-form__header">Workout Details</div>
 
           <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-4 lg:gap-2">
             <div className="grid mx-2">
-              <label htmlFor="start" className="font-semibold text-orange-600">
-                Start <span className="text-red-600">*</span>
+              <label htmlFor="start" className="edit-workout-form__label">
+                Start <span className="edit-workout-form__required-field">*</span>
               </label>
               <input type="datetime-local" name="start" id="start" className="rfa-input w-56" step="1" value={start} onChange={onStartChange} />
             </div>
 
             <div className="grid mx-2">
-              <label htmlFor="end" className="font-semibold text-orange-600">
-                End <span className="text-red-600">*</span>
+              <label htmlFor="end" className="edit-workout-form__label">
+                End <span className="edit-workout-form__required-field">*</span>
               </label>
               <input type="datetime-local" name="end" id="end" className="rfa-input w-56" step="1" value={end} onChange={onEndChange} />
             </div>
@@ -198,38 +209,38 @@ export const EditWorkoutForm = () => {
 
           <div className="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-4 mt-4">
             <div className="grid mx-2">
-              <label htmlFor="duration-real" className="font-semibold text-orange-600">
-                Duration (tracked) <span className="text-red-600">*</span>
+              <label htmlFor="duration-real" className="edit-workout-form__label">
+                Duration (tracked) <span className="edit-workout-form__required-field">*</span>
               </label>
               <input type="time" name="duration-real" id="duration-real" className="rfa-input w-40" step="1" value={trackedDuration} onChange={onTrackedDurationChange} />
             </div>
 
             <div className="grid mx-2">
-              <label htmlFor="duration-ingame" className="font-semibold text-orange-600">
-                Duration (in game) <span className="text-red-600">*</span>
+              <label htmlFor="duration-ingame" className="edit-workout-form__label">
+                Duration (in game) <span className="edit-workout-form__required-field">*</span>
               </label>
               <input type="time" name="duration-ingame" id="duration-ingame" className="rfa-input w-40" step="1" value={ingameDuration} onChange={onIngameDurationChange} />
             </div>
 
             <div className="grid mx-2">
-              <label htmlFor="kcal-real" className="font-semibold text-orange-600">
-                Kcal burned (tracked) <span className="text-red-600">*</span>
+              <label htmlFor="kcal-real" className="edit-workout-form__label">
+                Kcal burned (tracked) <span className="edit-workout-form__required-field">*</span>
               </label>
               <input type="number" name="kcal-real" id="kcal-real" className="rfa-input w-40" min="0" value={trackedKcal} onChange={onTrackedKcalChange} />
             </div>
 
             <div className="grid mx-2">
-              <label htmlFor="kcal-ingame" className="font-semibold text-orange-600">
-                Kcal burned (in game) <span className="text-red-600">*</span>
+              <label htmlFor="kcal-ingame" className="edit-workout-form__label">
+                Kcal burned (in game) <span className="edit-workout-form__required-field">*</span>
               </label>
               <input type="number" name="kcal-ingame" id="kcal-ingame" className="rfa-input w-40" min="0" value={ingameKcal} onChange={onIngameKcalChange} />
             </div>
           </div>
 
-          <div className="font-bold text-xl text-orange-500 border-b px-2 mt-4 pb-2">
+          <div className="edit-workout-form__header mt-4">
             Moves
             <button
-              className="bg-green-600 hover:bg-green-700 focus:bg-green-700 hover:shadow-md font-semibold text-sm text-white outline-none rounded-md px-4 py-1 ml-4"
+              className="edit-workout-form__add-move-btn"
               onClick={onAddWorkoutMoveButtonClicked}
             >
               Add Move
@@ -251,7 +262,7 @@ export const EditWorkoutForm = () => {
             {submitError && <div className="text-xs text-red-700 mt-1 mr-2">An error occurred while editing the workout.</div>}
 
             <button
-              className="bg-green-600 hover:bg-green-700 focus:bg-green-700 hover:shadow-md disabled:bg-green-300 disabled:pointer-events-none font-semibold text-sm text-white outline-none rounded-md px-4 py-1 mr-2"
+              className="edit-workout-form__submit-btn"
               onClick={onSubmitButtonClicked}
               disabled={!canSave}
             >

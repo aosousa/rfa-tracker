@@ -3,9 +3,33 @@
 }
 
 .edit-workout-form__title {
-    @apply font-bold text-black dark:text-white text-xl;
+    @apply font-bold text-black dark:text-white text-2xl;
 }
 
 .edit-workout-form__info {
-    @apply flex flex-col bg-white dark:bg-gray-600 rounded-md mt-4 p-2
+    @apply flex flex-col bg-white dark:bg-gray-600 rounded-md mt-4 p-2;
+}
+
+.edit-workout-form__remove-move-btn {
+    @apply text-red-600 hover:text-red-700 focus:text-red-700 outline-none mr-2;
+}
+
+.edit-workout-form__header {
+    @apply font-bold text-xl text-orange-500 border-b px-2 mb-2 pb-2;
+}
+
+.edit-workout-form__label {
+    @apply font-semibold text-orange-600;
+}
+
+.edit-workout-form__required-field {
+    @apply text-red-600;
+}
+
+.edit-workout-form__add-move-btn {
+    @apply bg-green-600 hover:bg-green-700 focus:bg-green-700 hover:shadow-md font-semibold text-sm text-white outline-none rounded-md px-4 py-1 ml-4;
+}
+
+.edit-workout-form__submit-btn {
+    @apply bg-green-600 hover:bg-green-700 focus:bg-green-700 hover:shadow-md disabled:bg-green-300 disabled:pointer-events-none font-semibold text-sm text-white outline-none rounded-md px-4 py-1 mr-2;
 }

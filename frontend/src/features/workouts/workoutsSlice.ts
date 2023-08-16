@@ -16,7 +16,14 @@ export const createWorkout = createAsyncThunk('workouts/createWorkout', async (r
   const state: any = getState()
   const response = await client.post('/workouts', requestBody, { headers: { Authorization: `Bearer ${state.auth.data}` } })
 
-  return response.data.data
+  const newWorkout = {
+    id: response.data.data.id,
+    ...requestBody
+  }
+
+  console.log(newWorkout)
+
+  return newWorkout
 })
 
 export const updateWorkout = createAsyncThunk('workouts/updateWorkout', async (requestBody: any, { getState }) => {
@@ -87,6 +94,8 @@ const workoutsSlice = createSlice({
       })
       .addCase(updateWorkout.fulfilled, (state: any, { payload }: any) => {
         state.status = 'succeeded'
+
+        console.log(payload)
 
         const { id, ...changes } = payload
 

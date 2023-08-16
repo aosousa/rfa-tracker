@@ -65,7 +65,7 @@ export const WorkoutDetails = () => {
           <span className="workout-details__title">Workout {workout ? workout.id : ''}</span>
           {auth !== '' && <NavLink
             to={`/edit-workout/${workout?.id}`}
-            className="bg-sky-600 hover:bg-sky-700 focus:bg-sky-700 font-semibold text-white rounded-md hover:shadow-md focus:shadow-md outline-none px-4 py-0.5 ml-auto"
+            className="bg-sky-600 hover:bg-sky-700 focus:bg-sky-700 font-semibold text-white rounded-md hover:shadow-md focus:shadow-md outline-none px-4 py-0.5 ml-auto mt-1"
           >
             <button>Edit</button>
           </NavLink>}

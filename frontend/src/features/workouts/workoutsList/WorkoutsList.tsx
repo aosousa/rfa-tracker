@@ -1,35 +1,44 @@
 // Core
-import { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { NavLink } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux'
-import { store, AppDispatch } from '../../../app/store'
+import { useSelector } from 'react-redux'
+import { store } from '../../../app/store'
 import './WorkoutsList.css'
 
+// Components
+import Pagination from '../../../components/pagination/Pagination'
+
 // Features
-import { fetchWorkouts, selectAllWorkouts } from '../workoutsSlice'
+import { selectAllWorkouts } from '../workoutsSlice'
 
 // Interfaces
 import { WorkoutItem } from '../workoutItem/WorkoutItem'
 
 export const WorkoutsList = () => {
-  const dispatch = useDispatch<AppDispatch>()
+  const numItemsToShow = 10
   const auth = useSelector(() => store.getState().auth.data)
   const workouts = useSelector(selectAllWorkouts)
-  const workoutItems = workouts.map((workout) => <WorkoutItem key={workout.id} workout={workout} />)
+
+  const [workoutItems, setWorkoutItems] = useState<React.JSX.Element[]>([])
+  const changeWorkoutItems = (pageNum: number) => {
+    const start = pageNum * numItemsToShow
+    const end = start + numItemsToShow > workouts.length ? workouts.length - 1 : start + numItemsToShow
+    setWorkoutItems(workouts.slice(start, end).map((workout) => <WorkoutItem key={workout.id} workout={workout} />))
+  }
 
   useEffect(() => {
-    dispatch(fetchWorkouts())
-  }, [dispatch])
+    changeWorkoutItems(0)
+  }, [workouts])
 
   return (
     <div className="workouts">
       <div className="flex">
         <p className="workouts__title">Workouts</p>
         {auth !== '' && (
-          <div className="ml-auto">
+          <div className="ml-auto mt-1">
             <NavLink
               to="/add-workout"
-              className="bg-green-600 hover:bg-green-700 focus:bg-green-700 font-semibold text-white rounded-md hover:shadow-md focus:shadow-md outline-none sm:px-2 md:px-4 py-1"
+              className="workouts__add-btn"
             >
               <button>Add Workout</button>
             </NavLink>
@@ -46,7 +55,7 @@ export const WorkoutsList = () => {
           </div>
         </div>
         {workoutItems}
-
+        <Pagination numItems={workouts.length} numItemsToShow={numItemsToShow} changePage={(pageNum) => changeWorkoutItems(pageNum)} />
       </div>
     </div>
   )

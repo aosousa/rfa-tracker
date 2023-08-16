@@ -3,7 +3,7 @@
 }
 
 .workout-details__title {
-    @apply font-bold text-black dark:text-white text-xl;
+    @apply font-bold text-black dark:text-white text-2xl;
 }
 
 .workout-details__info {
