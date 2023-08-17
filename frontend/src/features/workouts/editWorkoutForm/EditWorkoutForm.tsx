@@ -81,7 +81,6 @@ export const EditWorkoutForm = () => {
     }
   }, [navigate, workout, workoutsSliceStatus])
 
-
   const onWorkoutMoveChange = (index: number, e: any) => {
     const moveID = Number(e.target.value)
     const move = store.getState().moves.entities[moveID] as Move

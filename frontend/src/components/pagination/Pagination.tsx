@@ -1,6 +1,10 @@
 import PropTypes from 'prop-types'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 import './Pagination.css'
+
+// Features
+import { selectAllWorkouts } from '../../features/workouts/workoutsSlice'
 
 const Pagination = (props: any) => {
     const pages = Math.ceil(props.numItems / props.numItemsToShow)
@@ -10,6 +14,12 @@ const Pagination = (props: any) => {
         setCurrentPage(pageNum)
         props.changePage(pageNum)
     }
+
+    const workouts = useSelector(selectAllWorkouts)
+
+    useEffect(() => {
+        changePage(0)
+    }, [workouts])
 
     return (
         <div className='pagination'>

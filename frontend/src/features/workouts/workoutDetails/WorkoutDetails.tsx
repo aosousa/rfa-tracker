@@ -1,10 +1,13 @@
 // Core
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { NavLink, useNavigate, useParams } from 'react-router-dom'
 import dayjs from 'dayjs'
 import { store } from '../../../app/store'
 import './WorkoutDetails.css'
+
+// Components
+import DeleteWorkout from '../../../components/deleteWorkout/DeleteWorkout'
 
 // Features
 import { selectAllMoveCategories } from '../../moveCategories/moveCategoriesSlice'
@@ -24,6 +27,8 @@ export const WorkoutDetails = () => {
   const params = useParams()
   const workout = useSelector((state) => selectWorkoutById(state, String(params.id)))
   const workoutSliceStatus = useSelector(() => store.getState().workouts.status)
+
+  const [deleteWorkoutModalIsOpen, setDeleteWorkoutModalIsOpen] = useState(false)
 
   const movesByCategory = (categoryID: number): WorkoutMove[] | undefined => workout?.moves.filter((workoutMove: WorkoutMove) => workoutMove.move.category_id === categoryID)
 
@@ -63,12 +68,15 @@ export const WorkoutDetails = () => {
       <div className="flex flex-col">
         <div className="flex">
           <span className="workout-details__title">Workout {workout ? workout.id : ''}</span>
-          {auth !== '' && <NavLink
-            to={`/edit-workout/${workout?.id}`}
-            className="bg-sky-600 hover:bg-sky-700 focus:bg-sky-700 font-semibold text-white rounded-md hover:shadow-md focus:shadow-md outline-none px-4 py-0.5 ml-auto mt-1"
-          >
-            <button>Edit</button>
-          </NavLink>}
+          {auth !== '' && <div className="flex ml-auto">
+            <NavLink
+              to={`/edit-workout/${workout?.id}`}
+              className="bg-sky-600 hover:bg-sky-700 focus:bg-sky-700 font-semibold text-white rounded-md hover:shadow-md focus:shadow-md outline-none px-4 py-0.5 mt-1"
+            >
+              <button>Edit</button>
+            </NavLink>
+            <button className='bg-red-600 hover:bg-red-700 focus:bg-red-700 font-semibold text-white rounded-md hover:shadow-md focus:shadow-md outline-none px-4 py-0.5 ml-2 mt-1' onClick={() => setDeleteWorkoutModalIsOpen(true)}>Delete</button>
+          </div>}
         </div>
         <div className="workout-details__info">
           <div className="font-bold text-xl text-orange-500 border-b px-2 mb-2 pb-2">Workout Details</div>
@@ -121,6 +129,8 @@ export const WorkoutDetails = () => {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">{moveCategoriesContent}</div>
         </div>
       </div>
+
+      {deleteWorkoutModalIsOpen && <DeleteWorkout workoutID={workout?.id} setDeleteWorkoutModalIsOpen={(modalStatus: boolean) => setDeleteWorkoutModalIsOpen(modalStatus)} />}
     </div>
   )
 }

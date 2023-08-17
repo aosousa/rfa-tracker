@@ -1,5 +1,5 @@
 // Core
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { store } from '../../../app/store'
@@ -25,10 +25,6 @@ export const WorkoutsList = () => {
     const end = start + numItemsToShow > workouts.length ? workouts.length - 1 : start + numItemsToShow
     setWorkoutItems(workouts.slice(start, end).map((workout) => <WorkoutItem key={workout.id} workout={workout} />))
   }
-
-  useEffect(() => {
-    changeWorkoutItems(0)
-  }, [workouts])
 
   return (
     <div className="workouts">
