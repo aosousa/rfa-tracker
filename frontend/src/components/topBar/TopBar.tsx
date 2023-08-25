@@ -130,7 +130,7 @@ export const TopBar = () => {
 
             <button
               className="flex justify-center items-center bg-sky-500 hover:bg-sky-600 disabled:bg-sky-300 hover:shadow-md text-white font-bold rounded-md disabled:pointer-events-none select-none p-1 mt-4"
-              disabled={authStatus === 'loading'}
+              disabled={authStatus === 'loading' || username === '' || password === ''}
               onClick={onLoginButtonClicked}
             >
               Login

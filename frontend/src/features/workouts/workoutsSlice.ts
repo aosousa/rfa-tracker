@@ -21,8 +21,6 @@ export const createWorkout = createAsyncThunk('workouts/createWorkout', async (r
     ...requestBody
   }
 
-  console.log(newWorkout)
-
   return newWorkout
 })
 
