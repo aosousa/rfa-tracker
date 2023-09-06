@@ -93,8 +93,6 @@ const workoutsSlice = createSlice({
       .addCase(updateWorkout.fulfilled, (state: any, { payload }: any) => {
         state.status = 'succeeded'
 
-        console.log(payload)
-
         const { id, ...changes } = payload
 
         workoutsAdapter.updateOne(state, { id, changes })

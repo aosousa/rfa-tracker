@@ -10,10 +10,17 @@ import './WorkoutItem.css'
 // Components
 import DeleteWorkout from '../../../components/deleteWorkout/DeleteWorkout'
 
+// Interfaces
+import { Workout } from '../../../interfaces/Workout'
+
 // Utils
 import { DateUtils } from '../../../utils/dateUtils'
 
-export const WorkoutItem = ({ workout }: any) => {
+type WorkoutItemProps = {
+  workout: Workout
+}
+
+export const WorkoutItem = ({ workout }: WorkoutItemProps) => {
   const workoutStartParsed = dayjs(workout.start_at).format('YYYY-MM-DD HH:mm:ss')
 
   const realDurationParsed = DateUtils.secondsToReadableFormat(workout.duration_real)
@@ -38,34 +45,21 @@ export const WorkoutItem = ({ workout }: any) => {
         <div className="sm:hidden md:flex flex-col mt-1">{`${workout.kcal_real} / ${workout.kcal_ingame} kcal`}</div>
         <div className="flex ml-auto">
           <NavLink to={`/workout/${workout.id}`}>
-            <button
-              type="button"
-              title="Workout Details"
-              className="workout-item__view-btn"
-            >
+            <button type="button" title="Workout Details" className="workout-item__view-btn">
               <FontAwesomeIcon icon="eye" />
             </button>
           </NavLink>
 
           {auth !== '' && (
             <NavLink to={`/edit-workout/${workout.id}`}>
-              <button
-                type="button"
-                title="Edit Workout"
-                className="workout-item__edit-btn"
-              >
+              <button type="button" title="Edit Workout" className="workout-item__edit-btn">
                 <FontAwesomeIcon icon="pencil" />
               </button>
             </NavLink>
           )}
 
           {auth !== '' && (
-            <button
-              type="button"
-              title="Delete Workout"
-              className="workout-item__delete-btn"
-              onClick={() => setDeleteWorkoutModalIsOpen(true)}
-            >
+            <button type="button" title="Delete Workout" className="workout-item__delete-btn" onClick={() => setDeleteWorkoutModalIsOpen(true)}>
               <FontAwesomeIcon icon="trash" />
             </button>
           )}

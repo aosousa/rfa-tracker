@@ -1,5 +1,5 @@
 // Core
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { store, AppDispatch } from '../../../app/store'
 import { useNavigate } from 'react-router-dom'
@@ -9,14 +9,14 @@ import './AddWorkoutForm.css'
 // Features
 import { createWorkout } from '../workoutsSlice'
 import { selectAllMoveCategories } from '../../moveCategories/moveCategoriesSlice'
-import { selectMoveById, selectAllMoves } from '../../moves/movesSlice'
+import { selectAllMoves } from '../../moves/movesSlice'
 
 // Interfaces
+import { Move } from '../../../interfaces/Move'
 import { MoveAmount } from '../../../interfaces/MoveAmount'
 
 // Utils
 import { DateUtils } from '../../../utils/dateUtils'
-import { Move } from '../../../interfaces/Move'
 
 export const AddWorkoutForm = () => {
   const dispatch = useDispatch<AppDispatch>()
@@ -32,34 +32,34 @@ export const AddWorkoutForm = () => {
   const movesByCategory = (categoryID: number) => moves.filter((move) => move.category_id === categoryID)
 
   const [trackedDuration, setTrackedDuration] = useState('')
-  const onTrackedDurationChange = (e: any) => setTrackedDuration(e.target.value)
+  const onTrackedDurationChange = (e: React.FormEvent<HTMLInputElement>) => setTrackedDuration((e.target as HTMLInputElement).value)
 
   const [ingameDuration, setIngameDuration] = useState('')
-  const onIngameDurationChange = (e: any) => setIngameDuration(e.target.value)
+  const onIngameDurationChange = (e: React.FormEvent<HTMLInputElement>) => setIngameDuration((e.target as HTMLInputElement).value)
 
   const [trackedKcal, setTrackedKcal] = useState(0)
-  const onTrackedKcalChange = (e: any) => setTrackedKcal(e.target.value)
+  const onTrackedKcalChange = (e: React.FormEvent<HTMLInputElement>) => setTrackedKcal(Number((e.target as HTMLInputElement).value))
 
   const [ingameKcal, setIngameKcal] = useState(0)
-  const onIngameKcalChange = (e: any) => setIngameKcal(e.target.value)
+  const onIngameKcalChange = (e: React.FormEvent<HTMLInputElement>) => setIngameKcal(Number((e.target as HTMLInputElement).value))
 
   const [start, setStart] = useState('')
-  const onStartChange = (e: any) => setStart(e.target.value)
+  const onStartChange = (e: React.FormEvent<HTMLInputElement>) => setStart((e.target as HTMLInputElement).value)
 
   const [end, setEnd] = useState('')
-  const onEndChange = (e: any) => setEnd(e.target.value)
+  const onEndChange = (e: React.FormEvent<HTMLInputElement>) => setEnd((e.target as HTMLInputElement).value)
 
   const [workoutMoves, setWorkoutMoves] = useState<MoveAmount[]>([])
-  const onWorkoutMoveChange = (index: number, e: any) => {
-    const moveID = Number(e.target.value)
+  const onWorkoutMoveChange = (index: number, e: React.FormEvent<HTMLSelectElement>) => {
+    const moveID = Number((e.target as HTMLSelectElement).value)
     const move = store.getState().moves.entities[moveID] as Move
 
     workoutMoves[index].move_id = moveID
     workoutMoves[index].move = move
   }
 
-  const onWorkoutMoveAmountChange = (index: number, e: any) => {
-    workoutMoves[index].amount = Number(e.target.value)
+  const onWorkoutMoveAmountChange = (index: number, e: React.FormEvent<HTMLInputElement>) => {
+    workoutMoves[index].amount = Number((e.target as HTMLInputElement).value)
   }
 
   const onAddWorkoutMoveButtonClicked = () => {
@@ -77,7 +77,7 @@ export const AddWorkoutForm = () => {
 
   const workoutMovesContent = workoutMoves.map((workoutMove, idx) => (
     <div className="ml-2 mt-2" key={idx}>
-      <button title="Remove Move" className="add-workout-form__remove-move-btn " onClick={() => onRemoveMoveButtonClicked(idx)}>
+      <button title="Remove Move" className="add-workout-form__remove-move-btn" onClick={() => onRemoveMoveButtonClicked(idx)}>
         <FontAwesomeIcon icon="square-minus" className="h-5" style={{ marginBottom: '-.2em' }} />
       </button>
 
@@ -186,10 +186,7 @@ export const AddWorkoutForm = () => {
 
           <div className="add-workout-form__header mt-4">
             Moves
-            <button
-              className="add-workout-form__add-move-btn"
-              onClick={onAddWorkoutMoveButtonClicked}
-            >
+            <button className="add-workout-form__add-move-btn" onClick={onAddWorkoutMoveButtonClicked}>
               Add Move
             </button>
           </div>
@@ -208,11 +205,7 @@ export const AddWorkoutForm = () => {
           <div className="flex ml-auto mt-2">
             {submitError && <div className="text-xs text-red-700 mt-1 mr-2">An error occurred while creating the workout.</div>}
 
-            <button
-              className="add-workout-form__submit-btn"
-              onClick={onSubmitButtonClicked}
-              disabled={!canSave}
-            >
+            <button className="add-workout-form__submit-btn" onClick={onSubmitButtonClicked} disabled={!canSave}>
               Submit
             </button>
           </div>
