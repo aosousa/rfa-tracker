@@ -2,7 +2,7 @@
 import { createSlice, createAsyncThunk, createEntityAdapter } from '@reduxjs/toolkit'
 
 // Interfaces
-import { Workout } from '../../interfaces/Workout'
+import Workout from '../../interfaces/Workout'
 
 // Utils
 import { client } from '../../utils/apiClient'

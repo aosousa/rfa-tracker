@@ -1,6 +1,6 @@
-import { WorkoutMove } from './WorkoutMove'
+import WorkoutMove from './WorkoutMove'
 
-export interface Workout {
+export default interface Workout {
   id: number
   duration_ingame: number
   duration_real: number

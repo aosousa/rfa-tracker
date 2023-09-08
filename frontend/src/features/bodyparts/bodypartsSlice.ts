@@ -2,7 +2,7 @@
 import { createSlice, createAsyncThunk, createEntityAdapter } from '@reduxjs/toolkit'
 
 // Interfaces
-import { Bodypart } from '../../interfaces/Bodypart'
+import Bodypart from '../../interfaces/Bodypart'
 
 // Utils
 import { client } from '../../utils/apiClient'

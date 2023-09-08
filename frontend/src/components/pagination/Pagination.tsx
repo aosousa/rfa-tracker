@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import './Pagination.css'
@@ -6,36 +5,38 @@ import './Pagination.css'
 // Features
 import { selectAllWorkouts } from '../../features/workouts/workoutsSlice'
 
-const Pagination = (props: any) => {
-    const pages = Math.ceil(props.numItems / props.numItemsToShow)
-    const [currentPage, setCurrentPage] = useState(0)
+type PaginationProps = {
+  numItems: number
+  numItemsToShow: number
+  changePage: (pageNum: number) => void
+}
 
-    const changePage = (pageNum: number) => {
-        setCurrentPage(pageNum)
-        props.changePage(pageNum)
-    }
+export default function Pagination(props: PaginationProps) {
+  const pages = Math.ceil(props.numItems / props.numItemsToShow)
+  const [currentPage, setCurrentPage] = useState(0)
 
-    const workouts = useSelector(selectAllWorkouts)
+  const changePage = (pageNum: number) => {
+    setCurrentPage(pageNum)
+    props.changePage(pageNum)
+  }
 
-    useEffect(() => {
-        changePage(0)
-    }, [workouts])
+  const workouts = useSelector(selectAllWorkouts)
 
-    return (
-        <div className='pagination'>
-            <div className='pagination-container'>
-                {Array(pages).fill(1).map((el, i) =>
-                    <div className={'text-black rounded-md cursor-pointer px-2 py-1 mr-2 ' + (currentPage === i ? 'bg-orange-500 text-white' : 'bg-white')} key={i} onClick={() => changePage(i)}>{i + 1}</div>
-                )}
+  useEffect(() => {
+    changePage(0)
+  }, [workouts])
+
+  return (
+    <div className="pagination">
+      <div className="pagination-container">
+        {Array(pages)
+          .fill(1)
+          .map((el, i) => (
+            <div className={'text-black rounded-md cursor-pointer px-2 py-1 mr-2 ' + (currentPage === i ? 'bg-orange-500 text-white' : 'bg-white')} key={i} onClick={() => changePage(i)}>
+              {i + 1}
             </div>
-        </div>
-    )
+          ))}
+      </div>
+    </div>
+  )
 }
-
-Pagination.propTypes = {
-    numItems: PropTypes.number,
-    numItemsToShow: PropTypes.number,
-    changePage: PropTypes.func
-}
-
-export default Pagination

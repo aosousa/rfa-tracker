@@ -12,11 +12,11 @@ import { selectAllMoveCategories } from '../../moveCategories/moveCategoriesSlic
 import { selectAllMoves } from '../../moves/movesSlice'
 
 // Interfaces
-import { Move } from '../../../interfaces/Move'
-import { MoveAmount } from '../../../interfaces/MoveAmount'
+import Move from '../../../interfaces/Move'
+import MoveAmount from '../../../interfaces/MoveAmount'
 
 // Utils
-import { DateUtils } from '../../../utils/dateUtils'
+import DateUtils from '../../../utils/dateUtils'
 
 export const AddWorkoutForm = () => {
   const dispatch = useDispatch<AppDispatch>()

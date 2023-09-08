@@ -14,10 +14,10 @@ import { selectAllMoveCategories } from '../../moveCategories/moveCategoriesSlic
 import { selectWorkoutById } from '../workoutsSlice'
 
 // Interfaces
-import { WorkoutMove } from '../../../interfaces/WorkoutMove'
+import WorkoutMove from '../../../interfaces/WorkoutMove'
 
 // Utils
-import { DateUtils } from '../../../utils/dateUtils'
+import DateUtils from '../../../utils/dateUtils'
 
 export const WorkoutDetails = () => {
   const navigate = useNavigate()
@@ -68,15 +68,22 @@ export const WorkoutDetails = () => {
       <div className="flex flex-col">
         <div className="flex">
           <span className="workout-details__title">Workout {workout ? workout.id : ''}</span>
-          {auth !== '' && <div className="flex ml-auto">
-            <NavLink
-              to={`/edit-workout/${workout?.id}`}
-              className="bg-sky-600 hover:bg-sky-700 focus:bg-sky-700 font-semibold text-white rounded-md hover:shadow-md focus:shadow-md outline-none px-4 py-0.5 mt-1"
-            >
-              <button>Edit</button>
-            </NavLink>
-            <button className='bg-red-600 hover:bg-red-700 focus:bg-red-700 font-semibold text-white rounded-md hover:shadow-md focus:shadow-md outline-none px-4 py-0.5 ml-2 mt-1' onClick={() => setDeleteWorkoutModalIsOpen(true)}>Delete</button>
-          </div>}
+          {auth !== '' && (
+            <div className="flex ml-auto">
+              <NavLink
+                to={`/edit-workout/${workout?.id}`}
+                className="bg-sky-600 hover:bg-sky-700 focus:bg-sky-700 font-semibold text-white rounded-md hover:shadow-md focus:shadow-md outline-none px-4 py-0.5 mt-1"
+              >
+                <button>Edit</button>
+              </NavLink>
+              <button
+                className="bg-red-600 hover:bg-red-700 focus:bg-red-700 font-semibold text-white rounded-md hover:shadow-md focus:shadow-md outline-none px-4 py-0.5 ml-2 mt-1"
+                onClick={() => setDeleteWorkoutModalIsOpen(true)}
+              >
+                Delete
+              </button>
+            </div>
+          )}
         </div>
         <div className="workout-details__info">
           <div className="font-bold text-xl text-orange-500 border-b px-2 mb-2 pb-2">Workout Details</div>
@@ -85,42 +92,42 @@ export const WorkoutDetails = () => {
             <div className="grid mx-2">
               <div className="font-semibold">
                 <div className="text-orange-500">Start</div>
-                <div className='workout-details__info-value'>{start}</div>
+                <div className="workout-details__info-value">{start}</div>
               </div>
             </div>
 
             <div className="grid mx-2">
               <div className="font-semibold">
                 <div className="text-orange-500">End</div>
-                <div className='workout-details__info-value'>{end}</div>
+                <div className="workout-details__info-value">{end}</div>
               </div>
             </div>
 
             <div className="grid mx-2">
               <div className="font-semibold">
                 <div className="text-orange-500">Duration (tracked)</div>
-                <div className='workout-details__info-value'>{trackedDuration}</div>
+                <div className="workout-details__info-value">{trackedDuration}</div>
               </div>
             </div>
 
             <div className="grid mx-2">
               <div className="font-semibold">
                 <div className="text-orange-500">Duration (in game)</div>
-                <div className='workout-details__info-value'>{ingameDuration}</div>
+                <div className="workout-details__info-value">{ingameDuration}</div>
               </div>
             </div>
 
             <div className="grid mx-2">
               <div className="font-semibold">
                 <div className="text-orange-500">Kcal burned (tracked)</div>
-                <div className='workout-details__info-value'>{workout?.kcal_real}</div>
+                <div className="workout-details__info-value">{workout?.kcal_real}</div>
               </div>
             </div>
 
             <div className="grid mx-2">
               <div className="font-semibold">
                 <div className="text-orange-500">Kcal burned (in game)</div>
-                <div className='workout-details__info-value'>{workout?.kcal_ingame}</div>
+                <div className="workout-details__info-value">{workout?.kcal_ingame}</div>
               </div>
             </div>
           </div>
@@ -130,7 +137,7 @@ export const WorkoutDetails = () => {
         </div>
       </div>
 
-      {deleteWorkoutModalIsOpen && <DeleteWorkout workoutID={workout?.id} setDeleteWorkoutModalIsOpen={(modalStatus: boolean) => setDeleteWorkoutModalIsOpen(modalStatus)} />}
+      {deleteWorkoutModalIsOpen && <DeleteWorkout workoutID={workout!.id} setDeleteWorkoutModalIsOpen={(modalStatus: boolean) => setDeleteWorkoutModalIsOpen(modalStatus)} />}
     </div>
   )
 }

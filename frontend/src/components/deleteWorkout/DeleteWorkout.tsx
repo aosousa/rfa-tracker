@@ -1,5 +1,4 @@
-import PropTypes from 'prop-types'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { store, AppDispatch } from '../../app/store'
@@ -10,7 +9,12 @@ import Modal from '../../components/modal/Modal'
 // Features
 import { deleteWorkout } from '../../features/workouts/workoutsSlice'
 
-const DeleteWorkout = (props: any) => {
+type DeleteWorkoutProps = {
+  workoutID: number
+  setDeleteWorkoutModalIsOpen: (isOpen: boolean) => void
+}
+
+const DeleteWorkout = (props: DeleteWorkoutProps) => {
   const dispatch = useDispatch<AppDispatch>()
   const navigate = useNavigate()
 
@@ -63,11 +67,6 @@ const DeleteWorkout = (props: any) => {
       </div>
     </Modal>
   )
-}
-
-DeleteWorkout.props = {
-  workoutID: PropTypes.number,
-  setDeleteWorkoutModalIsOpen: PropTypes.func
 }
 
 export default DeleteWorkout

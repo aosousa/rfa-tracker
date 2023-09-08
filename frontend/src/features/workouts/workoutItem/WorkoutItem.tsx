@@ -11,10 +11,10 @@ import './WorkoutItem.css'
 import DeleteWorkout from '../../../components/deleteWorkout/DeleteWorkout'
 
 // Interfaces
-import { Workout } from '../../../interfaces/Workout'
+import Workout from '../../../interfaces/Workout'
 
 // Utils
-import { DateUtils } from '../../../utils/dateUtils'
+import DateUtils from '../../../utils/dateUtils'
 
 type WorkoutItemProps = {
   workout: Workout

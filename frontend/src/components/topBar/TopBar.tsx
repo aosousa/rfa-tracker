@@ -1,5 +1,5 @@
 // Core
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './TopBar.css'
 import { NavLink } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
@@ -23,8 +23,8 @@ export const TopBar = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
-  const onUsernameChanged = (e: any) => setUsername(e.target.value)
-  const onPasswordChanged = (e: any) => setPassword(e.target.value)
+  const onUsernameChanged = (e: React.FormEvent<HTMLInputElement>) => setUsername((e.target as HTMLInputElement).value)
+  const onPasswordChanged = (e: React.FormEvent<HTMLInputElement>) => setPassword((e.target as HTMLInputElement).value)
   const onLoginButtonClicked = async () => {
     try {
       setLoginError(false)
@@ -94,18 +94,12 @@ export const TopBar = () => {
         )}
 
         {authData === '' && (
-          <button
-            className="top-bar__mode-edit"
-            onClick={() => setLoginModalIsOpen(true)}
-          >
+          <button className="top-bar__mode-edit" onClick={() => setLoginModalIsOpen(true)}>
             Edit Mode
           </button>
         )}
         {authData !== '' && (
-          <button
-            className="top-bar__mode-view"
-            onClick={onLogoutButtonClicked}
-          >
+          <button className="top-bar__mode-view" onClick={onLogoutButtonClicked}>
             View Mode
           </button>
         )}

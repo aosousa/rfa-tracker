@@ -1,4 +1,4 @@
-export interface Bodypart {
+export default interface Bodypart {
   ID: number
   name: string
 }

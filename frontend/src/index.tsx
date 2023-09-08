@@ -15,7 +15,7 @@ import { fetchMoveCategories } from './features/moveCategories/moveCategoriesSli
 import { fetchWorkouts } from './features/workouts/workoutsSlice'
 
 // Utils
-import { CookieUtils } from './utils/cookieUtils'
+import CookieUtils from './utils/cookieUtils'
 
 const start = async () => {
   if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
