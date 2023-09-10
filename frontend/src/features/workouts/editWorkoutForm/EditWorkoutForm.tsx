@@ -248,8 +248,8 @@ export const EditWorkoutForm = () => {
           {workoutMoves.length > 0 && (
             <div className="flex flex-row font-semibold mt-2">
               <div className="ml-9 text-orange-600">Move</div>
-              <div className="sm:hidden md:block text-orange-600 ml-48">Amount / Duration</div>
-              <div className="sm:block md:hidden sm:ml-28 text-orange-600 ml-48">Amount</div>
+              <div className="sm:hidden md:block text-orange-600 ml-56">Amount / Duration</div>
+              <div className="sm:block md:hidden sm:ml-56 text-orange-600">Amount</div>
             </div>
           )}
           {workoutMovesContent}
