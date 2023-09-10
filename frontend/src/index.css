@@ -104,15 +104,15 @@ code {
 }
 
 .rfa-input {
-  @apply  bg-white dark:bg-zinc-800 text-gray-700 dark:text-white border rounded-md p-1 outline-none;
+  @apply bg-white dark:bg-zinc-800 text-gray-700 dark:text-white border rounded-md p-1 outline-none;
 }
 
 input:hover,
 select:hover {
-  @apply border-orange-300
+  @apply border-orange-300;
 }
 
 input:focus,
 select:focus {
-  @apply border-orange-500 ring-1 ring-orange-500
+  @apply border-orange-500 ring-1 ring-orange-500;
 }

@@ -130,7 +130,7 @@ export const EditWorkoutForm = () => {
         <FontAwesomeIcon icon="square-minus" className="h-5" style={{ marginBottom: '-.2em' }} />
       </button>
 
-      <select name={`workout-move-${idx}`} id={`workout-move-${idx}`} className="rfa-input sm:w-36 md:w-56" onChange={(e) => onWorkoutMoveChange(idx, e)}>
+      <select name={`workout-move-${idx}`} id={`workout-move-${idx}`} className="rfa-input" onChange={(e) => onWorkoutMoveChange(idx, e)}>
         {moveCategories.map((moveCategory: any) => (
           <optgroup key={moveCategory.id} label={moveCategory.name}>
             {movesByCategory(moveCategory.id).map((move) => (
