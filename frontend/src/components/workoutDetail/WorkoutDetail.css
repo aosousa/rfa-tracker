@@ -1,0 +1,11 @@
+.detail {
+  @apply grid mx-2 font-semibold;
+}
+
+.detail-header {
+  @apply text-orange-500;
+}
+
+.detail-value {
+  @apply text-black dark:text-white;
+}

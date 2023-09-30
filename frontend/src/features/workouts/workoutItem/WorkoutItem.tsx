@@ -40,10 +40,10 @@ export const WorkoutItem = ({ workout }: WorkoutItemProps) => {
   return (
     <div className="workout-item">
       <div className="workout-item__grid">
-        <div className="flex flex-col mt-1">{workoutStartParsed}</div>
-        <div className="flex flex-col mt-1">{`${realDurationParsed} / ${inGameDurationParsed}`}</div>
-        <div className="sm:hidden md:flex flex-col mt-1">{`${workout.kcal_real} / ${workout.kcal_ingame} kcal`}</div>
-        <div className="flex ml-auto">
+        <p className="flex flex-col mt-1">{workoutStartParsed}</p>
+        <p className="flex flex-col mt-1">{`${realDurationParsed} / ${inGameDurationParsed}`}</p>
+        <p className="sm:hidden md:flex flex-col mt-1">{`${workout.kcal_real} / ${workout.kcal_ingame} kcal`}</p>
+        <p className="flex ml-auto">
           <NavLink to={`/workout/${workout.id}`}>
             <button type="button" title="Workout Details" className="workout-item__view-btn">
               <FontAwesomeIcon icon="eye" />
@@ -63,7 +63,7 @@ export const WorkoutItem = ({ workout }: WorkoutItemProps) => {
               <FontAwesomeIcon icon="trash" />
             </button>
           )}
-        </div>
+        </p>
       </div>
 
       {deleteWorkoutModalIsOpen && <DeleteWorkout workoutID={workout.id} setDeleteWorkoutModalIsOpen={(modalStatus: boolean) => setDeleteWorkoutModalIsOpen(modalStatus)} />}

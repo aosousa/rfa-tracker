@@ -31,23 +31,19 @@ export const WorkoutsList = () => {
       <div className="flex">
         <p className="workouts__title">Workouts</p>
         {auth !== '' && (
-          <div className="ml-auto mt-1">
-            <NavLink
-              to="/add-workout"
-              className="workouts__add-btn"
-            >
-              <button>Add Workout</button>
-            </NavLink>
-          </div>)}
+          <NavLink to="/add-workout" className="workouts__add-btn ml-auto mt-1">
+            <button>Add Workout</button>
+          </NavLink>
+        )}
       </div>
 
       <div className="workouts__list">
         <div className="workouts__list-table">
           <div className="workouts__list-table-headers">
-            <div className="flex flex-col">Date</div>
-            <div className="flex flex-col">Duration (tracked / in game)</div>
-            <div className="sm:hidden md:flex flex-col">Kcal burned (tracked / in game)</div>
-            <div className="flex flex-col ml-auto">Actions</div>
+            <p className="flex flex-col">Date</p>
+            <p className="flex flex-col">Duration (tracked / in game)</p>
+            <p className="sm:hidden md:flex flex-col">Kcal burned (tracked / in game)</p>
+            <p className="flex flex-col ml-auto">Actions</p>
           </div>
         </div>
         {workoutItems}

@@ -8,6 +8,7 @@ import './WorkoutDetails.css'
 
 // Components
 import DeleteWorkout from '../../../components/deleteWorkout/DeleteWorkout'
+import WorkoutDetail from '../../../components/workoutDetail/WorkoutDetail'
 
 // Features
 import { selectAllMoveCategories } from '../../moveCategories/moveCategoriesSlice'
@@ -42,11 +43,11 @@ export const WorkoutDetails = () => {
           color: moveCategory.color
         }}
       >
-        <div className="border-b border-white text-xl px-2 py-1 mb-1">{moveCategory.name}</div>
+        <p className="border-b border-white text-xl px-2 py-1 mb-1">{moveCategory.name}</p>
         {movesByCategory(moveCategory.id)?.map((workoutMove: WorkoutMove) => (
-          <div className="px-1 py-0.5" key={workoutMove.id}>
+          <p className="px-2 py-0.5" key={workoutMove.id}>
             {workoutMove.move.name} ({workoutMove.amount} {workoutMove.move.unit})
-          </div>
+          </p>
         ))}
       </div>
     </div>
@@ -67,7 +68,7 @@ export const WorkoutDetails = () => {
     <div className="workout-details">
       <div className="flex flex-col">
         <div className="flex">
-          <span className="workout-details__title">Workout {workout ? workout.id : ''}</span>
+          <p className="workout-details__title">Workout {workout ? workout.id : ''}</p>
           {auth !== '' && (
             <div className="flex ml-auto">
               <NavLink
@@ -86,53 +87,17 @@ export const WorkoutDetails = () => {
           )}
         </div>
         <div className="workout-details__info">
-          <div className="font-bold text-xl text-orange-500 border-b px-2 mb-2 pb-2">Workout Details</div>
+          <p className="font-bold text-xl text-orange-500 border-b px-1 mb-2 pb-2">Workout Details</p>
 
           <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            <div className="grid mx-2">
-              <div className="font-semibold">
-                <div className="text-orange-500">Start</div>
-                <div className="workout-details__info-value">{start}</div>
-              </div>
-            </div>
-
-            <div className="grid mx-2">
-              <div className="font-semibold">
-                <div className="text-orange-500">End</div>
-                <div className="workout-details__info-value">{end}</div>
-              </div>
-            </div>
-
-            <div className="grid mx-2">
-              <div className="font-semibold">
-                <div className="text-orange-500">Duration (tracked)</div>
-                <div className="workout-details__info-value">{trackedDuration}</div>
-              </div>
-            </div>
-
-            <div className="grid mx-2">
-              <div className="font-semibold">
-                <div className="text-orange-500">Duration (in game)</div>
-                <div className="workout-details__info-value">{ingameDuration}</div>
-              </div>
-            </div>
-
-            <div className="grid mx-2">
-              <div className="font-semibold">
-                <div className="text-orange-500">Kcal burned (tracked)</div>
-                <div className="workout-details__info-value">{workout?.kcal_real}</div>
-              </div>
-            </div>
-
-            <div className="grid mx-2">
-              <div className="font-semibold">
-                <div className="text-orange-500">Kcal burned (in game)</div>
-                <div className="workout-details__info-value">{workout?.kcal_ingame}</div>
-              </div>
-            </div>
+            <WorkoutDetail label="Start" value={start} />
+            <WorkoutDetail label="End" value={end} />
+            <WorkoutDetail label="Duration (tracked)" value={trackedDuration} />
+            <WorkoutDetail label="Duration (in game)" value={ingameDuration} />
+            <WorkoutDetail label="Kcal burned (tracked)" value={workout ? workout.kcal_real : 0} />
+            <WorkoutDetail label="Kcal burned (in game)" value={workout ? workout.kcal_ingame : 0} />
           </div>
-
-          <div className="font-bold text-xl text-orange-500 border-b px-2 mt-4 pb-2">Moves</div>
+          <p className="font-bold text-xl text-orange-500 border-b px-1 mt-4 pb-2">Moves</p>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">{moveCategoriesContent}</div>
         </div>
       </div>

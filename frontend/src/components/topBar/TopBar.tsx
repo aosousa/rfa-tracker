@@ -67,73 +67,77 @@ export const TopBar = () => {
   }, [authStatus])
 
   return (
-    <div className="top-bar">
-      <div className="top-bar__logo-div">
-        <div className="top-bar__logo-div-title">RFA Tracker</div>
-      </div>
+    <header className="top-bar">
+      <nav className="contents">
+        <ul className="contents">
+          <li className="top-bar__logo">
+            <p className="top-bar__logo-title">RFA Tracker</p>
+          </li>
 
-      <div className="top-bar__item">
-        <NavLink to="/" className={({ isActive }) => (isActive ? 'active-link' : 'inactive-link')}>
-          Workouts
-        </NavLink>
-      </div>
+          <li className="top-bar__item">
+            <NavLink to="/" className={({ isActive }) => (isActive ? 'active-link' : 'inactive-link')}>
+              Workouts
+            </NavLink>
+          </li>
 
-      {authData !== '' && (
-        <div className="top-bar__item">
-          <NavLink to="/add-workout" className={({ isActive }) => (isActive ? 'active-link' : 'inactive-link')}>
-            Add Workout
-          </NavLink>
-        </div>
-      )}
+          {authData !== '' && (
+            <li className="top-bar__item">
+              <NavLink to="/add-workout" className={({ isActive }) => (isActive ? 'active-link' : 'inactive-link')}>
+                Add Workout
+              </NavLink>
+            </li>
+          )}
 
-      <div className="top-bar__mode">
-        {theme === 'dark' ? (
-          <FontAwesomeIcon title="Light Mode" className="top-bar__sun" icon="sun" onClick={() => changeTheme('light')} />
-        ) : (
-          <FontAwesomeIcon title="Dark Mode" className="top-bar__moon" icon="moon" onClick={() => changeTheme('dark')} />
-        )}
+          <li className="top-bar__mode">
+            {theme === 'dark' ? (
+              <FontAwesomeIcon title="Light Mode" className="top-bar__sun" icon="sun" onClick={() => changeTheme('light')} />
+            ) : (
+              <FontAwesomeIcon title="Dark Mode" className="top-bar__moon" icon="moon" onClick={() => changeTheme('dark')} />
+            )}
 
-        {authData === '' && (
-          <button className="top-bar__mode-edit" onClick={() => setLoginModalIsOpen(true)}>
-            Edit Mode
-          </button>
-        )}
-        {authData !== '' && (
-          <button className="top-bar__mode-view" onClick={onLogoutButtonClicked}>
-            View Mode
-          </button>
-        )}
-      </div>
+            {authData === '' && (
+              <button className="top-bar__mode-edit" onClick={() => setLoginModalIsOpen(true)}>
+                Edit Mode
+              </button>
+            )}
+            {authData !== '' && (
+              <button className="top-bar__mode-view" onClick={onLogoutButtonClicked}>
+                View Mode
+              </button>
+            )}
+          </li>
 
-      {loginModalIsOpen && (
-        <Modal title="Login" closeModal={() => setLoginModalIsOpen(false)}>
-          <div className="flex flex-col mx-auto">
-            <div className="flex flex-col">
-              <label htmlFor="username" className="font-semibold">
-                Username
-              </label>
-              <input id="username" type="text" placeholder="Username" className="rfa-input" onChange={onUsernameChanged} />
-            </div>
+          {loginModalIsOpen && (
+            <Modal title="Login" closeModal={() => setLoginModalIsOpen(false)}>
+              <div className="flex flex-col mx-auto">
+                <div className="flex flex-col">
+                  <label htmlFor="username" className="font-semibold">
+                    Username
+                  </label>
+                  <input id="username" type="text" placeholder="Username" className="rfa-input" onChange={onUsernameChanged} />
+                </div>
 
-            <div className="flex flex-col mt-2">
-              <label htmlFor="password" className="font-semibold">
-                Password
-              </label>
-              <input id="password" type="password" placeholder="Password" className="rfa-input" onChange={onPasswordChanged} />
-            </div>
+                <div className="flex flex-col mt-2">
+                  <label htmlFor="password" className="font-semibold">
+                    Password
+                  </label>
+                  <input id="password" type="password" placeholder="Password" className="rfa-input" onChange={onPasswordChanged} />
+                </div>
 
-            <button
-              className="flex justify-center items-center bg-sky-500 hover:bg-sky-600 disabled:bg-sky-300 hover:shadow-md text-white font-bold rounded-md disabled:pointer-events-none select-none p-1 mt-4"
-              disabled={authStatus === 'loading' || username === '' || password === ''}
-              onClick={onLoginButtonClicked}
-            >
-              Login
-            </button>
+                <button
+                  className="flex justify-center items-center bg-sky-500 hover:bg-sky-600 disabled:bg-sky-300 hover:shadow-md text-white font-bold rounded-md disabled:pointer-events-none select-none p-1 mt-4"
+                  disabled={authStatus === 'loading' || username === '' || password === ''}
+                  onClick={onLoginButtonClicked}
+                >
+                  Login
+                </button>
 
-            {loginError && <div className="mt-1 text-center text-xs text-red-700">Failed to authenticate user.</div>}
-          </div>
-        </Modal>
-      )}
-    </div>
+                {loginError && <p className="mt-1 text-center text-xs text-red-700">Failed to authenticate user.</p>}
+              </div>
+            </Modal>
+          )}
+        </ul>
+      </nav>
+    </header>
   )
 }

@@ -32,9 +32,9 @@ export default function Pagination(props: PaginationProps) {
         {Array(pages)
           .fill(1)
           .map((el, i) => (
-            <div className={'text-black rounded-md cursor-pointer px-2 py-1 mr-2 ' + (currentPage === i ? 'bg-orange-500 text-white' : 'bg-white')} key={i} onClick={() => changePage(i)}>
+            <p className={'text-black rounded-md cursor-pointer px-2 py-1 mr-2 ' + (currentPage === i ? 'bg-orange-500 text-white' : 'bg-white')} key={i} onClick={() => changePage(i)}>
               {i + 1}
-            </div>
+            </p>
           ))}
       </div>
     </div>

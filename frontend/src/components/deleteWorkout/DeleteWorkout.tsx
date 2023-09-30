@@ -46,9 +46,9 @@ const DeleteWorkout = (props: DeleteWorkoutProps) => {
 
   return (
     <Modal title="Delete Workout" closeModal={() => props.setDeleteWorkoutModalIsOpen(false)}>
-      <div>Are you sure you want to delete this workout?</div>
+      <p>Are you sure you want to delete this workout?</p>
 
-      {deleteWorkoutError && <div className="mt-1 text-xs text-red-700">An error occurred while deleting the workout.</div>}
+      {deleteWorkoutError && <p className="mt-1 text-xs text-red-700">An error occurred while deleting the workout.</p>}
 
       <div className="ml-auto mt-1">
         <button
